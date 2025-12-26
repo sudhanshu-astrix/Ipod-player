@@ -1,0 +1,5 @@
+export const YOUTUBE_CONFIG = {
+    API_KEY: 'AIzaSyDa301n95QDwNtTozpFW-aDBrKCRWPSXLY',
+    CACHE_EXPIRY_DAYS: 30,
+    SEARCH_DELAY: 100
+};
