@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import Header from './components/Header';
-import MoodSphere from './components/MoodSphere';
 import IPod from './components/IPod';
 import ArtistsOverlay from './components/ArtistsOverlay';
 import { usePlayer } from './hooks/usePlayer';
@@ -40,9 +39,8 @@ const AppContent = () => {
     return (
         <div className="App">
             <Header />
-            <div className="container">
+            <div className="container ipod-only">
                 <main className="main-content">
-                    <MoodSphere />
                     <IPod />
                 </main>
             </div>

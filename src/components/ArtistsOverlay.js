@@ -6,7 +6,7 @@ import ArtistCardModal from './ArtistCardModal';
 
 const ArtistsOverlay = () => {
     const { showArtistsOverlay, setShowArtistsOverlay } = useApp();
-    const [selectedGenre, setSelectedGenre] = useState('all');
+    const [selectedGenre, setSelectedGenre] = useState(genres[0]?.id || 'rock');
     const [flippedCards, setFlippedCards] = useState(new Set());
     const [selectedArtist, setSelectedArtist] = useState(null);
     const [showModal, setShowModal] = useState(false);
@@ -42,9 +42,7 @@ const ArtistsOverlay = () => {
     const allArtists = getUniqueArtists();
     
     // Filter artists by selected genre
-    const filteredArtists = selectedGenre === 'all' 
-        ? allArtists 
-        : allArtists.filter(artist => artist.genre === selectedGenre);
+    const filteredArtists = allArtists.filter(artist => artist.genre === selectedGenre);
 
     // Handle card flip
     const handleCardClick = (artistName, e) => {
@@ -271,19 +269,13 @@ const ArtistsOverlay = () => {
                     
                     {/* Genre Filters */}
                     <div className="artists-filters">
-                        <button 
-                            className={`filter-btn ${selectedGenre === 'all' ? 'active' : ''}`}
-                            onClick={() => setSelectedGenre('all')}
-                            data-genre="all"
-                        >
-                            All
-                        </button>
                         {genres.map(genre => (
                             <button
                                 key={genre.id}
                                 className={`filter-btn ${selectedGenre === genre.id ? 'active' : ''}`}
                                 onClick={() => setSelectedGenre(genre.id)}
                                 data-genre={genre.id}
+                                style={{ '--filter-color': genre.color }}
                             >
                                 {genre.name}
                             </button>
@@ -327,7 +319,16 @@ const ArtistsOverlay = () => {
                                                 <div className="artist-deck-genre" style={{ color: artist.genreColor }}>
                                                     {artist.genreName}
                                                 </div>
-                                                <div className="artist-deck-flip-hint">Click to flip</div>
+                                                <button 
+                                                    className="artist-deck-view-more"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setSelectedArtist(artist);
+                                                        setShowModal(true);
+                                                    }}
+                                                >
+                                                    Click to View More
+                                                </button>
                                             </div>
                                         </div>
                                         

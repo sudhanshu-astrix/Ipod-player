@@ -15,7 +15,7 @@ export const usePlayer = () => {
         setCurrentPlaylist
     } = useApp();
 
-    const { playVideo, resumeVideo, pauseVideo, stopVideo, playerReady } = useYouTubePlayer();
+    const { playVideo, resumeVideo, pauseVideo, playerReady } = useYouTubePlayer();
 
     const playTrack = async (index) => {
         if (index < 0 || index >= currentPlaylist.length) return;

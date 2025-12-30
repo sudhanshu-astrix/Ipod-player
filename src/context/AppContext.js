@@ -24,6 +24,11 @@ export const AppProvider = ({ children }) => {
     const [showArtistsOverlay, setShowArtistsOverlay] = useState(false);
     const [showMiniPlayer, setShowMiniPlayer] = useState(false);
     const [showMiniPlayerContent, setShowMiniPlayerContent] = useState(false);
+    
+    // iPod screen view states: 'genres', 'playlist', 'nowPlaying'
+    const [ipodView, setIpodView] = useState('genres');
+    // Track if now playing is expanded (full screen) or minimized (bottom bar)
+    const [nowPlayingExpanded, setNowPlayingExpanded] = useState(false);
 
     useEffect(() => {
         document.body.classList.toggle('light-theme', theme === 'light');
@@ -55,7 +60,11 @@ export const AppProvider = ({ children }) => {
             showMiniPlayer,
             setShowMiniPlayer,
             showMiniPlayerContent,
-            setShowMiniPlayerContent
+            setShowMiniPlayerContent,
+            ipodView,
+            setIpodView,
+            nowPlayingExpanded,
+            setNowPlayingExpanded
         }}>
             {children}
         </AppContext.Provider>

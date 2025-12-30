@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import { useApp } from '../context/AppContext';
 import { usePlayer } from '../hooks/usePlayer';
 import { formatTime } from '../utils/formatTime';
+import { genres } from '../constants/genres';
+import { playlistData, ArtistData } from '../constants/playlistData';
 
 const IPod = () => {
     const {
@@ -9,57 +11,52 @@ const IPod = () => {
         currentTrackIndex,
         isPlaying,
         currentTime,
-        setCurrentTime
+        setCurrentTime,
+        currentGenre,
+        setCurrentGenre,
+        setCurrentPlaylist,
+        ipodView,
+        setIpodView,
+        nowPlayingExpanded,
+        setNowPlayingExpanded,
+        setShowMiniPlayer
     } = useApp();
 
     const { playTrack, togglePlayback, nextTrack, prevTrack, volumeUp, volumeDown } = usePlayer();
     const progressFillRef = useRef(null);
-    const currentProgressRef = useRef(null);
-    const totalDurationRef = useRef(null);
-    const trackNameRef = useRef(null);
-    const artistNameRef = useRef(null);
-    const albumArtRef = useRef(null);
-    const playlistRef = useRef(null);
-    const playlistCountRef = useRef(null);
     const intervalRef = useRef(null);
+    const playlistContainerRef = useRef(null);
 
     const currentTrack = currentPlaylist[currentTrackIndex];
 
-    useEffect(() => {
-        if (currentTrack) {
-            if (trackNameRef.current) trackNameRef.current.textContent = currentTrack.track;
-            if (artistNameRef.current) artistNameRef.current.textContent = currentTrack.artist;
-            
-            if (albumArtRef.current) {
-                const placeholder = albumArtRef.current.querySelector('.album-placeholder');
-                
-                // Always show album art (YouTube player is hidden)
-                if (currentTrack.albumArt && currentTrack.albumArt !== '') {
-                    albumArtRef.current.style.backgroundImage = `url("${currentTrack.albumArt}")`;
-                    albumArtRef.current.style.backgroundSize = 'cover';
-                    albumArtRef.current.style.backgroundPosition = 'center';
-                    if (placeholder) placeholder.style.display = 'none';
-                } else {
-                    albumArtRef.current.style.backgroundImage = 'none';
-                    if (placeholder) placeholder.style.display = 'flex';
-                }
-            }
-            
-            if (totalDurationRef.current) {
-                totalDurationRef.current.textContent = formatTime(currentTrack.duration);
-            }
-        } else {
-            if (trackNameRef.current) trackNameRef.current.textContent = 'No track selected';
-            if (artistNameRef.current) artistNameRef.current.textContent = 'Select a genre to begin';
-            if (albumArtRef.current) {
-                albumArtRef.current.style.backgroundImage = 'none';
-                const placeholder = albumArtRef.current.querySelector('.album-placeholder');
-                if (placeholder) placeholder.style.display = 'flex';
-            }
-            if (totalDurationRef.current) totalDurationRef.current.textContent = '0:00';
-        }
-    }, [currentTrack, isPlaying]);
+    // Handle genre selection
+    const handleGenreSelect = (genreId) => {
+        const genreInfo = genres.find(g => g.id === genreId);
+        setCurrentGenre(genreInfo);
+        
+        const tracks = playlistData[genreId] || [];
+        setCurrentPlaylist(tracks);
+        setIpodView('playlist');
+        setShowMiniPlayer(true);
+    };
 
+    // Handle track selection
+    const handleTrackSelect = (index) => {
+        playTrack(index);
+        setNowPlayingExpanded(true);
+    };
+
+    // Handle back navigation
+    const handleBack = () => {
+        if (nowPlayingExpanded) {
+            setNowPlayingExpanded(false);
+        } else if (ipodView === 'playlist') {
+            setIpodView('genres');
+            setCurrentGenre(null);
+        }
+    };
+
+    // Progress bar update
     useEffect(() => {
         if (isPlaying && currentTrack) {
             intervalRef.current = setInterval(() => {
@@ -86,66 +83,245 @@ const IPod = () => {
         };
     }, [isPlaying, currentTrack, nextTrack, setCurrentTime]);
 
+    // Update progress bar
     useEffect(() => {
-        if (currentTrack && progressFillRef.current && currentProgressRef.current) {
+        if (currentTrack && progressFillRef.current) {
             const progress = (currentTime / currentTrack.duration) * 100;
             progressFillRef.current.style.width = `${progress}%`;
-            currentProgressRef.current.textContent = formatTime(currentTime);
-        } else {
-            if (progressFillRef.current) progressFillRef.current.style.width = '0%';
-            if (currentProgressRef.current) currentProgressRef.current.textContent = '0:00';
         }
     }, [currentTime, currentTrack]);
 
+    // Scroll active track into view
     useEffect(() => {
-        if (playlistRef.current && currentTrackIndex >= 0) {
-            const items = playlistRef.current.querySelectorAll('.tracklist-item');
-            items.forEach((item, i) => {
-                item.classList.toggle('active', i === currentTrackIndex);
-            });
+        if (playlistContainerRef.current && currentTrackIndex >= 0) {
+            const activeItem = playlistContainerRef.current.querySelector('.ipod-track-item.active');
+            if (activeItem) {
+                activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
         }
     }, [currentTrackIndex]);
 
-    useEffect(() => {
-        if (playlistCountRef.current) {
-            playlistCountRef.current.textContent = `${currentPlaylist.length} track${currentPlaylist.length !== 1 ? 's' : ''}`;
-        }
-    }, [currentPlaylist.length]);
+    // Get artist info
+    const getArtistInfo = (artistName) => {
+        return ArtistData[artistName] || null;
+    };
 
-    const renderPlaylist = () => {
-        if (currentPlaylist.length === 0) {
-            return (
-                <div className="tracklist-empty">
-                    <div className="empty-icon">🎵</div>
-                    <p>Select a genre to start</p>
-                    <span className="empty-hint">Click any mood blob above</span>
-                </div>
-            );
-        }
-
-        return currentPlaylist.map((track, index) => (
-            <div
-                key={index}
-                className={`tracklist-item ${index === currentTrackIndex ? 'active' : ''}`}
-                data-index={index}
-                role="button"
-                tabIndex="0"
-                aria-label={`Play ${track.track} by ${track.artist}`}
-                onClick={() => playTrack(index)}
-                onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        playTrack(index);
-                    }
-                }}
-            >
-                <div className="tracklist-item-info">
-                    <div className="tracklist-item-track">{track.track}</div>
-                    <div className="tracklist-item-artist">{track.artist}</div>
-                </div>
-                <div className="tracklist-item-duration">{formatTime(track.duration)}</div>
+    // Render genre selection view
+    const renderGenresView = () => (
+        <div className="ipod-genres-view">
+            <div className="ipod-view-header">
+                <h2 className="ipod-view-title">Select Genre</h2>
             </div>
-        ));
+            <div className="ipod-genres-list">
+                {genres.map((genre) => (
+                    <button
+                        key={genre.id}
+                        className="ipod-genre-card"
+                        onClick={() => handleGenreSelect(genre.id)}
+                    >
+                        <span 
+                            className="ipod-genre-accent" 
+                            style={{ background: genre.color }}
+                        ></span>
+                        <span className="ipod-genre-name">{genre.name}</span>
+                        <span className="ipod-genre-count">{playlistData[genre.id]?.length || 0}</span>
+                        <svg className="ipod-genre-arrow" viewBox="0 0 24 24" width="16" height="16">
+                            <path fill="currentColor" d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                        </svg>
+                    </button>
+                ))}
+            </div>
+        </div>
+    );
+
+    // Render playlist view with bottom bar
+    const renderPlaylistView = () => (
+        <div className="ipod-playlist-view">
+            <div className="ipod-view-header">
+                <button className="ipod-back-btn" onClick={handleBack}>
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                        <path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                    </svg>
+                </button>
+                <h2 className="ipod-view-title" style={{ color: currentGenre?.color }}>
+                    {currentGenre?.name || 'Playlist'}
+                </h2>
+                <span className="ipod-track-count">{currentPlaylist.length} tracks</span>
+            </div>
+            
+            <div className="ipod-tracks-list" ref={playlistContainerRef}>
+                {currentPlaylist.map((track, index) => (
+                    <button
+                        key={index}
+                        className={`ipod-track-item ${index === currentTrackIndex ? 'active' : ''}`}
+                        onClick={() => handleTrackSelect(index)}
+                    >
+                        <div className="ipod-track-thumb">
+                            {track.albumArt ? (
+                                <img src={track.albumArt} alt={track.track} loading="lazy" />
+                            ) : (
+                                <div className="ipod-track-thumb-placeholder">♪</div>
+                            )}
+                            {index === currentTrackIndex && isPlaying && (
+                                <div className="ipod-track-playing-indicator">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            )}
+                        </div>
+                        <div className="ipod-track-info">
+                            <div className="ipod-track-name">{track.track}</div>
+                            <div className="ipod-track-artist">{track.artist}</div>
+                        </div>
+                        <div className="ipod-track-duration">{formatTime(track.duration)}</div>
+                    </button>
+                ))}
+            </div>
+
+            {/* Bottom Bar Player (minimized now playing) */}
+            {currentTrack && (
+                <div 
+                    className={`ipod-bottom-bar ${nowPlayingExpanded ? 'hidden' : ''}`}
+                    onClick={() => setNowPlayingExpanded(true)}
+                >
+                    <div className="ipod-bottom-bar-thumb">
+                        {currentTrack.albumArt ? (
+                            <img src={currentTrack.albumArt} alt={currentTrack.track} />
+                        ) : (
+                            <div className="ipod-bottom-bar-thumb-placeholder">♪</div>
+                        )}
+                    </div>
+                    <div className="ipod-bottom-bar-info">
+                        <div className="ipod-bottom-bar-track">{currentTrack.track}</div>
+                        <div className="ipod-bottom-bar-artist">{currentTrack.artist}</div>
+                    </div>
+                    <button 
+                        className="ipod-bottom-bar-play"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            togglePlayback();
+                        }}
+                    >
+                        {isPlaying ? (
+                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="currentColor" d="M6 4h4v16H6zm8 0h4v16h-4z"/>
+                            </svg>
+                        ) : (
+                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="currentColor" d="M8 5v14l11-7z"/>
+                            </svg>
+                        )}
+                    </button>
+                    <div className="ipod-bottom-bar-progress">
+                        <div 
+                            className="ipod-bottom-bar-progress-fill"
+                            style={{ width: `${(currentTime / currentTrack.duration) * 100}%` }}
+                        ></div>
+                    </div>
+                </div>
+            )}
+
+            {/* Full Screen Now Playing */}
+            {renderNowPlayingView()}
+        </div>
+    );
+
+    // Render full screen now playing view
+    const renderNowPlayingView = () => {
+        if (!currentTrack) return null;
+        
+        const artistInfo = getArtistInfo(currentTrack.artist);
+        const progress = currentTrack ? (currentTime / currentTrack.duration) * 100 : 0;
+
+        return (
+            <div className={`ipod-now-playing ${nowPlayingExpanded ? 'expanded' : ''}`}>
+                <div className="ipod-now-playing-header">
+                    <button className="ipod-np-close" onClick={() => setNowPlayingExpanded(false)}>
+                        <svg viewBox="0 0 24 24" width="24" height="24">
+                            <path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                        </svg>
+                    </button>
+                    <span className="ipod-np-genre" style={{ color: currentGenre?.color }}>
+                        {currentGenre?.name || 'Now Playing'}
+                    </span>
+                    <div className="ipod-np-spacer"></div>
+                </div>
+
+                <div className="ipod-np-artwork">
+                    {currentTrack.albumArt ? (
+                        <img 
+                            src={currentTrack.albumArt} 
+                            alt={currentTrack.track}
+                            className={isPlaying ? 'playing' : ''}
+                        />
+                    ) : (
+                        <div className="ipod-np-artwork-placeholder">
+                            <span>♪</span>
+                        </div>
+                    )}
+                </div>
+
+                <div className="ipod-np-track-info">
+                    <h3 className="ipod-np-track-name">{currentTrack.track}</h3>
+                    <p className="ipod-np-artist-name">{currentTrack.artist}</p>
+                    {artistInfo?.funFact && (
+                        <p className="ipod-np-funfact">{artistInfo.funFact}</p>
+                    )}
+                </div>
+
+                <div className="ipod-np-progress">
+                    <div className="ipod-np-progress-bar">
+                        <div 
+                            className="ipod-np-progress-fill" 
+                            ref={progressFillRef}
+                            style={{ width: `${progress}%` }}
+                        ></div>
+                    </div>
+                    <div className="ipod-np-time">
+                        <span>{formatTime(currentTime)}</span>
+                        <span>{formatTime(currentTrack.duration)}</span>
+                    </div>
+                </div>
+
+                <div className="ipod-np-controls">
+                    <button className="ipod-np-ctrl prev" onClick={prevTrack}>
+                        <svg viewBox="0 0 24 24" width="32" height="32">
+                            <path fill="currentColor" d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+                        </svg>
+                    </button>
+                    <button className="ipod-np-ctrl play" onClick={togglePlayback}>
+                        {isPlaying ? (
+                            <svg viewBox="0 0 24 24" width="48" height="48">
+                                <path fill="currentColor" d="M6 4h4v16H6zm8 0h4v16h-4z"/>
+                            </svg>
+                        ) : (
+                            <svg viewBox="0 0 24 24" width="48" height="48">
+                                <path fill="currentColor" d="M8 5v14l11-7z"/>
+                            </svg>
+                        )}
+                    </button>
+                    <button className="ipod-np-ctrl next" onClick={nextTrack}>
+                        <svg viewBox="0 0 24 24" width="32" height="32">
+                            <path fill="currentColor" d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+                        </svg>
+                    </button>
+                </div>
+
+                {currentTrack.spotifyLink && (
+                    <a 
+                        href={currentTrack.spotifyLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ipod-np-spotify-link"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <svg viewBox="0 0 24 24" width="16" height="16">
+                            <path fill="currentColor" d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+                        </svg>
+                        Open in Spotify
+                    </a>
+                )}
+            </div>
+        );
     };
 
     return (
@@ -155,43 +331,8 @@ const IPod = () => {
                 
                 <div className="ipod-screen">
                     <div className="ipod-screen-content">
-                        <div className="ipod-track-info">
-                            <div className="track-name" ref={trackNameRef} aria-live="polite" aria-atomic="true">
-                                No track selected
-                            </div>
-                            <div className="artist-name" ref={artistNameRef} aria-live="polite" aria-atomic="true">
-                                Select a genre to begin
-                            </div>
-                        </div>
-                        
-                        <div className="album-art-container">
-                            <div className="album-art-background" ref={albumArtRef} role="img" aria-label="Album artwork">
-                                {/* <div id="youtube-player" className="youtube-player-background"></div> */}
-                                <div className="album-placeholder">
-                                    <div className="music-icon" aria-hidden="true">♪</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div className="progress-container" role="progressbar" aria-valuenow={currentTime} aria-valuemin="0" aria-valuemax={currentTrack?.duration || 100} aria-label="Track progress">
-                            <div className="progress-time-left" ref={currentProgressRef} aria-hidden="true">0:00</div>
-                            <div className="progress-bar-wrapper">
-                                <div className="progress-bar">
-                                    <div className="progress-fill" ref={progressFillRef}></div>
-                                </div>
-                            </div>
-                            <div className="progress-time-right" ref={totalDurationRef} aria-hidden="true">0:00</div>
-                        </div>
-                        
-                        <div className="tracklist-container">
-                            <div className="tracklist-header">
-                                <span className="tracklist-title">Playlist</span>
-                                <span className="tracklist-count" ref={playlistCountRef}>0 tracks</span>
-                            </div>
-                            <div className="tracklist" ref={playlistRef}>
-                                {renderPlaylist()}
-                            </div>
-                        </div>
+                        {ipodView === 'genres' && renderGenresView()}
+                        {ipodView === 'playlist' && renderPlaylistView()}
                     </div>
                 </div>
                 
@@ -210,19 +351,18 @@ const IPod = () => {
                         
                         <button 
                             className="wheel-button prev-btn" 
-                            onClick={prevTrack}
-                            aria-label="Previous track" 
+                            onClick={ipodView === 'genres' ? null : (nowPlayingExpanded ? prevTrack : handleBack)}
+                            aria-label={nowPlayingExpanded ? "Previous track" : "Back"}
                             tabIndex="0"
                         >
                             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
                                 <path fill="currentColor" d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/>
-                                <path fill="currentColor" d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z" transform="translate(-5, 0)"/>
                             </svg>
                         </button>
                         
                         <button 
                             className="wheel-button center-btn" 
-                            onClick={togglePlayback}
+                            onClick={currentTrack ? togglePlayback : null}
                             aria-label="Play/Pause track" 
                             tabIndex="0"
                         >
@@ -236,13 +376,12 @@ const IPod = () => {
                         
                         <button 
                             className="wheel-button next-btn" 
-                            onClick={nextTrack}
+                            onClick={currentTrack ? nextTrack : null}
                             aria-label="Next track" 
                             tabIndex="0"
                         >
                             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
                                 <path fill="currentColor" d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>
-                                <path fill="currentColor" d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" transform="translate(5, 0)"/>
                             </svg>
                         </button>
                         

@@ -2179,7 +2179,7 @@ body.light-theme .moon-icon {
 /* Card front content */
 .artist-deck-photo {
     width: 100%;
-    height: 280px;
+    height: 260px;
     overflow: hidden;
     background: var(--bg-tertiary) !important;
     display: flex;
@@ -3112,5 +3112,1775 @@ body.light-theme .artists-overlay {
     .site-header-content {
         max-width: 100%;
         overflow-x: hidden;
+    }
+}
+
+/* ============================================
+   NEW iPod REDESIGN STYLES
+   ============================================ */
+
+/* Hide MoodSphere on mobile */
+@media (max-width: 768px) {
+    .mood-sphere-wrapper,
+    .mood-sphere-container {
+        display: none !important;
+    }
+    
+    .main-content {
+        justify-content: center;
+    }
+    
+    .ipod-section {
+        margin-left: 0 !important;
+        order: 1 !important;
+    }
+}
+
+/* iPod Screen Content Reset for New Views */
+.ipod-screen-content {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ============================================
+   GENRE SELECTION VIEW
+   ============================================ */
+.ipod-genres-view {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #1a1a2e 0%, #0a0a0f 100%);
+}
+
+.ipod-view-header {
+    padding: 16px 18px 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    flex-shrink: 0;
+}
+
+.ipod-view-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -0.02em;
+    flex: 1;
+}
+
+.ipod-back-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #fff;
+}
+
+.ipod-back-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.05);
+}
+
+.ipod-track-count {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.ipod-genres-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 0;
+}
+
+.ipod-genre-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.ipod-genre-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.ipod-genre-item:active {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(0.98);
+}
+
+.ipod-genre-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 0 8px currentColor;
+}
+
+.ipod-genre-name {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    letter-spacing: 0.02em;
+}
+
+.ipod-genre-count {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+    padding: 2px 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.ipod-genre-arrow {
+    color: rgba(255, 255, 255, 0.3);
+    flex-shrink: 0;
+}
+
+/* ============================================
+   PLAYLIST VIEW
+   ============================================ */
+.ipod-playlist-view {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #1a1a2e 0%, #0a0a0f 100%);
+    position: relative;
+}
+
+.ipod-tracks-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 0;
+    padding-bottom: 70px; /* Space for bottom bar */
+}
+
+.ipod-track-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.ipod-track-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.ipod-track-item:active {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.ipod-track-item.active {
+    background: rgba(99, 102, 241, 0.15);
+}
+
+.ipod-track-thumb {
+    width: 44px;
+    height: 44px;
+    border-radius: 6px;
+    overflow: hidden;
+    flex-shrink: 0;
+    position: relative;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.ipod-track-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ipod-track-thumb-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 18px;
+}
+
+.ipod-track-playing-indicator {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+}
+
+.ipod-track-playing-indicator span {
+    width: 3px;
+    height: 12px;
+    background: var(--accent-primary);
+    border-radius: 2px;
+    animation: soundBars 0.5s ease-in-out infinite alternate;
+}
+
+.ipod-track-playing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+    height: 18px;
+}
+
+.ipod-track-playing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes soundBars {
+    0% { transform: scaleY(0.4); }
+    100% { transform: scaleY(1); }
+}
+
+.ipod-track-info {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    text-align: left;
+}
+
+.ipod-track-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 2px;
+}
+
+.ipod-track-item.active .ipod-track-name {
+    color: var(--accent-primary);
+}
+
+.ipod-track-artist {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ipod-track-duration {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.4);
+    flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* ============================================
+   BOTTOM BAR PLAYER
+   ============================================ */
+.ipod-bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: rgba(30, 30, 46, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 20;
+}
+
+.ipod-bottom-bar.hidden {
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.ipod-bottom-bar:hover {
+    background: rgba(40, 40, 56, 0.95);
+}
+
+.ipod-bottom-bar-thumb {
+    width: 44px;
+    height: 44px;
+    border-radius: 6px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.ipod-bottom-bar-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ipod-bottom-bar-thumb-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 18px;
+}
+
+.ipod-bottom-bar-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.ipod-bottom-bar-track {
+    font-size: 13px;
+    font-weight: 500;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 2px;
+}
+
+.ipod-bottom-bar-artist {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ipod-bottom-bar-play {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--accent-primary);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    color: #fff;
+}
+
+.ipod-bottom-bar-play:hover {
+    transform: scale(1.1);
+    background: var(--accent-secondary);
+}
+
+.ipod-bottom-bar-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.ipod-bottom-bar-progress-fill {
+    height: 100%;
+    background: var(--accent-primary);
+    transition: width 0.3s linear;
+}
+
+/* ============================================
+   NOW PLAYING FULL SCREEN VIEW
+   ============================================ */
+.ipod-now-playing {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, #1e1e2e 0%, #0a0a12 100%);
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 30;
+    overflow: hidden;
+}
+
+.ipod-now-playing.expanded {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.ipod-now-playing-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    flex-shrink: 0;
+}
+
+.ipod-np-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #fff;
+    transition: all 0.2s ease;
+}
+
+.ipod-np-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.ipod-np-genre {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.ipod-np-spacer {
+    flex: 1;
+}
+
+.ipod-np-artwork {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    padding: 8px 0;
+}
+
+.ipod-np-artwork img {
+    max-width: 100%;
+    max-height: 140px;
+    width: auto;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    transition: transform 0.5s ease;
+}
+
+.ipod-np-artwork img.playing {
+    animation: albumPulse 2s ease-in-out infinite;
+}
+
+@keyframes albumPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+.ipod-np-artwork-placeholder {
+    width: 140px;
+    height: 140px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 48px;
+}
+
+.ipod-np-track-info {
+    text-align: center;
+    padding: 8px 0;
+    flex-shrink: 0;
+}
+
+.ipod-np-track-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    margin: 0 0 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ipod-np-artist-name {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0 0 6px;
+}
+
+.ipod-np-funfact {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0;
+    line-height: 1.4;
+    max-height: 28px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.ipod-np-progress {
+    padding: 8px 0;
+    flex-shrink: 0;
+}
+
+.ipod-np-progress-bar {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+
+.ipod-np-progress-fill {
+    height: 100%;
+    background: var(--accent-primary);
+    border-radius: 2px;
+    transition: width 0.3s linear;
+}
+
+.ipod-np-time {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.4);
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.ipod-np-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: 8px 0;
+    flex-shrink: 0;
+}
+
+.ipod-np-ctrl {
+    background: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ipod-np-ctrl:hover {
+    transform: scale(1.1);
+    color: var(--accent-primary);
+}
+
+.ipod-np-ctrl.play {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--accent-primary);
+}
+
+.ipod-np-ctrl.play:hover {
+    background: var(--accent-secondary);
+    color: #fff;
+    transform: scale(1.05);
+}
+
+.ipod-np-spotify-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: rgba(30, 215, 96, 0.1);
+    border: 1px solid rgba(30, 215, 96, 0.3);
+    border-radius: 20px;
+    color: #1ed760;
+    font-size: 11px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    margin-top: 8px;
+    flex-shrink: 0;
+}
+
+.ipod-np-spotify-link:hover {
+    background: rgba(30, 215, 96, 0.2);
+    transform: scale(1.02);
+}
+
+/* ============================================
+   MOBILE RESPONSIVE ADJUSTMENTS
+   ============================================ */
+@media (max-width: 480px) {
+    .ipod-container {
+        width: 100%;
+        max-width: 360px;
+        height: auto;
+        min-height: 580px;
+        border-radius: 32px;
+        padding: 24px 16px;
+    }
+    
+    .ipod-screen {
+        height: 280px;
+    }
+    
+    .ipod-hold-switch {
+        display: none;
+    }
+    
+    .ipod-genre-item {
+        padding: 12px 14px;
+    }
+    
+    .ipod-track-item {
+        padding: 8px 12px;
+    }
+    
+    .ipod-track-thumb {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .ipod-np-artwork img {
+        max-height: 120px;
+    }
+    
+    .ipod-np-artwork-placeholder {
+        width: 120px;
+        height: 120px;
+        font-size: 36px;
+    }
+    
+    .ipod-np-track-name {
+        font-size: 15px;
+    }
+    
+    .ipod-np-controls {
+        gap: 20px;
+    }
+    
+    .ipod-np-ctrl.play {
+        width: 48px;
+        height: 48px;
+    }
+}
+
+/* Fix for existing track info styles conflict */
+.ipod-genres-view .ipod-track-info,
+.ipod-playlist-view .ipod-track-info {
+    flex-shrink: 1;
+    padding: 0;
+    text-align: left;
+    z-index: auto;
+}
+
+/* ============================================
+   iPod ONLY LAYOUT - No Scroll, Fit to Screen
+   ============================================ */
+
+/* Make app fit to viewport height */
+html, body, #root, .App {
+    height: 100%;
+    overflow: hidden;
+}
+
+.App {
+    display: flex;
+    flex-direction: column;
+}
+
+.container.ipod-only {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    overflow: hidden;
+    min-height: 0;
+}
+
+.container.ipod-only .main-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    max-height: calc(100vh - 100px); /* Account for header */
+}
+
+.container.ipod-only .ipod-section {
+    margin: 0;
+    order: 1;
+    flex: none;
+}
+
+/* Remove MoodSphere entirely */
+.mood-sphere-wrapper,
+.mood-sphere-container,
+.mood-section {
+    display: none !important;
+}
+
+/* Ensure iPod container fits in viewport */
+.container.ipod-only .ipod-container {
+    max-height: calc(100vh - 120px);
+    height: auto;
+}
+
+/* Responsive adjustments for smaller heights */
+@media (max-height: 700px) {
+    .container.ipod-only .ipod-container {
+        height: calc(100vh - 100px);
+        max-height: 580px;
+    }
+    
+    .container.ipod-only .ipod-screen {
+        height: 250px;
+    }
+    
+    .ipod-wheel-container {
+        margin-top: auto;
+    }
+}
+
+@media (max-height: 600px) {
+    .container.ipod-only .ipod-container {
+        padding: 20px 20px;
+        border-radius: 32px;
+        gap: 16px;
+    }
+    
+    .container.ipod-only .ipod-screen {
+        height: 220px;
+    }
+    
+    .site-header {
+        padding: 1rem 0;
+    }
+}
+
+/* Mobile full screen optimization */
+@media (max-width: 480px) {
+    .site-header {
+        padding: 0.75rem 0;
+    }
+    
+    .site-header-content {
+        padding: 0 1rem;
+    }
+    
+    .container.ipod-only {
+        padding: 0.5rem;
+    }
+    
+    .container.ipod-only .ipod-container {
+        width: 100%;
+        max-width: 360px;
+        border-radius: 28px;
+        padding: 20px 16px;
+    }
+}
+
+/* ============================================
+   MOBILE iPod FIX - Prevent cutoff
+   ============================================ */
+
+@media (max-width: 480px) {
+    html, body, #root, .App {
+        height: auto;
+        min-height: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    
+    .container.ipod-only {
+        min-height: calc(100vh - 60px);
+        height: auto;
+        overflow: visible;
+        padding: 1rem;
+    }
+    
+    .container.ipod-only .main-content {
+        height: auto;
+        max-height: none;
+    }
+    
+    .container.ipod-only .ipod-container {
+        height: 580px;
+        max-height: none;
+        min-height: 580px;
+        flex-shrink: 0;
+    }
+    
+    .container.ipod-only .ipod-screen {
+        height: 280px;
+        min-height: 280px;
+    }
+}
+
+/* Very small screens (like iPhone SE) */
+@media (max-width: 380px) {
+    .container.ipod-only .ipod-container {
+        width: calc(100% - 16px);
+        height: 540px;
+        min-height: 540px;
+        padding: 16px 14px;
+        border-radius: 24px;
+        gap: 16px;
+    }
+    
+    .container.ipod-only .ipod-screen {
+        height: 260px;
+        min-height: 260px;
+        border-radius: 12px;
+    }
+    
+    .ipod-wheel {
+        width: 180px;
+        height: 180px;
+    }
+}
+
+/* Short mobile screens in landscape or small height */
+@media (max-width: 480px) and (max-height: 700px) {
+    .container.ipod-only .ipod-container {
+        height: auto;
+        min-height: auto;
+        max-height: calc(100vh - 80px);
+    }
+    
+    .container.ipod-only .ipod-screen {
+        height: 240px;
+        min-height: 200px;
+    }
+    
+    .ipod-wheel-container {
+        flex-shrink: 0;
+    }
+    
+    .ipod-wheel {
+        width: 160px;
+        height: 160px;
+    }
+}
+
+/* ============================================
+   GENRE CARDS GRID LAYOUT (Spotify Style)
+   ============================================ */
+
+.ipod-genres-grid {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    align-content: start;
+}
+
+.ipod-genre-card {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 0;
+    background: rgba(40, 40, 50, 0.8);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    height: 48px;
+    overflow: hidden;
+    position: relative;
+}
+
+.ipod-genre-card:hover {
+    background: rgba(55, 55, 65, 0.9);
+    transform: scale(1.02);
+}
+
+.ipod-genre-card:active {
+    transform: scale(0.98);
+}
+
+.ipod-genre-accent {
+    width: 6px;
+    height: 100%;
+    flex-shrink: 0;
+    border-radius: 6px 0 0 6px;
+}
+
+.ipod-genre-card .ipod-genre-name {
+    flex: 1;
+    font-size: 12px;
+    font-weight: 500;
+    color: #fff;
+    padding: 0 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 0.01em;
+}
+
+/* Hide old genre list styles when using grid */
+.ipod-genres-list {
+    display: none;
+}
+
+/* Adjust for smaller iPod screens */
+@media (max-width: 380px) {
+    .ipod-genres-grid {
+        padding: 8px;
+        gap: 8px;
+    }
+    
+    .ipod-genre-card {
+        height: 42px;
+    }
+    
+    .ipod-genre-card .ipod-genre-name {
+        font-size: 11px;
+        padding: 0 10px;
+    }
+    
+    .ipod-genre-accent {
+        width: 5px;
+    }
+}
+
+/* ============================================
+   GENRE LIST WITH CARD BOXES (Single Column)
+   ============================================ */
+
+/* Override previous grid styles */
+.ipod-genres-grid {
+    display: none !important;
+}
+
+/* Show list layout */
+.ipod-genres-list {
+    display: flex !important;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 12px;
+    gap: 8px;
+}
+
+/* Genre card in list format */
+.ipod-genres-list .ipod-genre-card {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 0;
+    background: rgba(40, 40, 50, 0.8);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    height: 52px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.ipod-genres-list .ipod-genre-card:hover {
+    background: rgba(55, 55, 65, 0.95);
+    transform: translateX(2px);
+}
+
+.ipod-genres-list .ipod-genre-card:active {
+    transform: scale(0.98);
+    background: rgba(60, 60, 70, 1);
+}
+
+.ipod-genres-list .ipod-genre-accent {
+    width: 5px;
+    height: 100%;
+    flex-shrink: 0;
+    border-radius: 8px 0 0 8px;
+}
+
+.ipod-genres-list .ipod-genre-name {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 500;
+    color: #fff;
+    padding: 0 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 0.02em;
+}
+
+.ipod-genres-list .ipod-genre-count {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    padding: 3px 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    margin-right: 8px;
+}
+
+.ipod-genres-list .ipod-genre-arrow {
+    color: rgba(255, 255, 255, 0.4);
+    flex-shrink: 0;
+    margin-right: 12px;
+}
+
+/* Smaller screens */
+@media (max-width: 380px) {
+    .ipod-genres-list {
+        padding: 6px 10px;
+        gap: 6px;
+    }
+    
+    .ipod-genres-list .ipod-genre-card {
+        height: 46px;
+        border-radius: 6px;
+    }
+    
+    .ipod-genres-list .ipod-genre-name {
+        font-size: 12px;
+        padding: 0 10px;
+    }
+    
+    .ipod-genres-list .ipod-genre-count {
+        font-size: 10px;
+        padding: 2px 6px;
+    }
+    
+    .ipod-genres-list .ipod-genre-accent {
+        width: 4px;
+    }
+}
+
+/* ============================================
+   MOBILE iPod WIDTH FIX - Make it wider
+   ============================================ */
+
+@media (max-width: 480px) {
+    .container.ipod-only .ipod-container {
+        width: calc(100% - 24px);
+        max-width: 380px;
+        min-width: 320px;
+    }
+}
+
+@media (max-width: 400px) {
+    .container.ipod-only .ipod-container {
+        width: calc(100% - 16px);
+        max-width: none;
+        min-width: 300px;
+        margin: 0 8px;
+    }
+    
+    .container.ipod-only {
+        padding: 0.5rem 0;
+    }
+}
+
+@media (max-width: 360px) {
+    .container.ipod-only .ipod-container {
+        width: calc(100% - 12px);
+        min-width: 280px;
+        padding: 18px 14px;
+        border-radius: 24px;
+        margin: 0 6px;
+    }
+    
+    .container.ipod-only .ipod-screen {
+        border-radius: 10px;
+    }
+}
+
+/* ============================================
+   NOW PLAYING VIEW - FIT TO SCREEN FIX
+   ============================================ */
+
+/* Override now playing to fit within iPod screen */
+.ipod-now-playing {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    overflow: hidden;
+    z-index: 30;
+}
+
+.ipod-now-playing.expanded {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.ipod-now-playing-header {
+    flex-shrink: 0;
+    margin-bottom: 8px;
+}
+
+.ipod-np-artwork {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    padding: 4px 0;
+    overflow: hidden;
+}
+
+.ipod-np-artwork img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+}
+
+.ipod-np-artwork-placeholder {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+}
+
+.ipod-np-track-info {
+    flex-shrink: 0;
+    padding: 6px 0;
+    text-align: center;
+}
+
+.ipod-np-track-name {
+    font-size: 14px;
+    margin: 0 0 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ipod-np-artist-name {
+    font-size: 12px;
+    margin: 0 0 4px;
+}
+
+.ipod-np-funfact {
+    font-size: 9px;
+    max-height: 24px;
+    -webkit-line-clamp: 2;
+    margin: 0;
+}
+
+.ipod-np-progress {
+    flex-shrink: 0;
+    padding: 4px 0;
+}
+
+.ipod-np-progress-bar {
+    height: 3px;
+    margin-bottom: 4px;
+}
+
+.ipod-np-time {
+    font-size: 9px;
+}
+
+.ipod-np-controls {
+    flex-shrink: 0;
+    padding: 6px 0;
+    gap: 20px;
+}
+
+.ipod-np-ctrl.prev svg,
+.ipod-np-ctrl.next svg {
+    width: 28px;
+    height: 28px;
+}
+
+.ipod-np-ctrl.play {
+    width: 48px;
+    height: 48px;
+}
+
+.ipod-np-ctrl.play svg {
+    width: 40px;
+    height: 40px;
+}
+
+.ipod-np-spotify-link {
+    flex-shrink: 0;
+    padding: 8px 12px;
+    font-size: 10px;
+    margin-top: 4px;
+}
+
+/* Mobile specific adjustments */
+@media (max-width: 480px) {
+    .ipod-now-playing {
+        padding: 10px;
+    }
+    
+    .ipod-np-artwork img {
+        max-height: 110px;
+        border-radius: 8px;
+    }
+    
+    .ipod-np-artwork-placeholder {
+        width: 90px;
+        height: 90px;
+        font-size: 32px;
+    }
+    
+    .ipod-np-track-name {
+        font-size: 13px;
+    }
+    
+    .ipod-np-artist-name {
+        font-size: 11px;
+    }
+    
+    .ipod-np-funfact {
+        display: none;
+    }
+    
+    .ipod-np-controls {
+        gap: 16px;
+    }
+    
+    .ipod-np-ctrl.play {
+        width: 44px;
+        height: 44px;
+    }
+    
+    .ipod-np-ctrl.play svg {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .ipod-np-ctrl.prev svg,
+    .ipod-np-ctrl.next svg {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .ipod-np-spotify-link {
+        padding: 6px 10px;
+        font-size: 9px;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 380px) {
+    .ipod-now-playing {
+        padding: 8px;
+    }
+    
+    .ipod-now-playing-header {
+        margin-bottom: 4px;
+    }
+    
+    .ipod-np-close {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .ipod-np-genre {
+        font-size: 10px;
+    }
+    
+    .ipod-np-artwork img {
+        max-height: 90px;
+    }
+    
+    .ipod-np-artwork-placeholder {
+        width: 80px;
+        height: 80px;
+        font-size: 28px;
+    }
+    
+    .ipod-np-track-info {
+        padding: 4px 0;
+    }
+    
+    .ipod-np-track-name {
+        font-size: 12px;
+    }
+    
+    .ipod-np-artist-name {
+        font-size: 10px;
+        margin-bottom: 0;
+    }
+    
+    .ipod-np-progress {
+        padding: 2px 0;
+    }
+    
+    .ipod-np-controls {
+        padding: 4px 0;
+        gap: 14px;
+    }
+    
+    .ipod-np-ctrl.play {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .ipod-np-ctrl.play svg {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .ipod-np-ctrl.prev svg,
+    .ipod-np-ctrl.next svg {
+        width: 22px;
+        height: 22px;
+    }
+    
+    .ipod-np-spotify-link {
+        padding: 5px 8px;
+        font-size: 8px;
+        margin-top: 2px;
+    }
+}
+
+/* Short screens - reduce album art size */
+@media (max-height: 700px) {
+    .ipod-np-artwork img {
+        max-height: 80px;
+    }
+    
+    .ipod-np-artwork-placeholder {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+/* ============================================
+   ARTISTS OVERLAY - FIT TO SCREEN
+   ============================================ */
+
+.artists-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.artists-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.artists-container {
+    width: 100%;
+    height: 100%;
+    max-width: 100vw;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-primary);
+    overflow: hidden;
+}
+
+.artists-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+.artists-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.artists-close {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+}
+
+.artists-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.artists-filters {
+    display: flex;
+    gap: 8px;
+    padding: 12px 24px;
+    overflow-x: auto;
+    flex-shrink: 0;
+    border-bottom: 1px solid var(--border-color);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.artists-filters::-webkit-scrollbar {
+    display: none;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.filter-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+.filter-btn.active {
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+    color: #fff;
+}
+
+.deck-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.deck-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    width: 100%;
+    max-height: calc(100vh - 200px);
+}
+
+.deck-stack {
+    position: relative;
+    width: 280px;
+    height: 380px;
+    max-height: 100%;
+}
+
+.artist-deck-card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    max-height: 380px;
+}
+
+.deck-hint {
+    flex-shrink: 0;
+    margin-top: 16px;
+    font-size: 12px;
+    color: var(--text-tertiary);
+    text-align: center;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .artists-header {
+        padding: 12px 16px;
+    }
+    
+    .artists-title {
+        font-size: 20px;
+    }
+    
+    .artists-close {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .artists-filters {
+        padding: 10px 16px;
+        gap: 6px;
+    }
+    
+    .filter-btn {
+        padding: 6px 12px;
+        font-size: 11px;
+    }
+    
+    .deck-wrapper {
+        padding: 16px;
+    }
+    
+    .deck-container {
+        max-height: calc(100vh - 180px);
+    }
+    
+    .deck-stack {
+        width: 240px;
+        height: 320px;
+    }
+    
+    .artist-deck-card {
+        max-height: 320px;
+    }
+    
+    .deck-hint {
+        margin-top: 12px;
+        font-size: 11px;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 400px) {
+    .artists-header {
+        padding: 10px 12px;
+    }
+    
+    .artists-title {
+        font-size: 18px;
+    }
+    
+    .artists-filters {
+        padding: 8px 12px;
+        gap: 4px;
+    }
+    
+    .filter-btn {
+        padding: 5px 10px;
+        font-size: 10px;
+        border-radius: 16px;
+    }
+    
+    .deck-wrapper {
+        padding: 12px;
+    }
+    
+    .deck-container {
+        max-height: calc(100vh - 160px);
+    }
+    
+    .deck-stack {
+        width: 200px;
+        height: 280px;
+    }
+    
+    .artist-deck-card {
+        max-height: 280px;
+        border-radius: 20px;
+    }
+    
+    .deck-hint {
+        margin-top: 8px;
+        font-size: 10px;
+    }
+}
+
+/* Short screens */
+@media (max-height: 600px) {
+    .deck-stack {
+        width: 180px;
+        height: 240px;
+    }
+    
+    .artist-deck-card {
+        max-height: 240px;
+    }
+    
+    .deck-hint {
+        display: none;
+    }
+}
+
+/* ============================================
+   ARTIST CARD - VIEW MORE BUTTON
+   ============================================ */
+
+.artist-deck-view-more {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 8px 16px;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 8px;
+}
+
+.artist-deck-view-more:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
+}
+
+.artist-deck-view-more:active {
+    transform: scale(0.95);
+}
+
+/* Hide old flip hint */
+.artist-deck-flip-hint {
+    display: none !important;
+}
+
+/* Mobile adjustments */
+@media (max-width: 400px) {
+    .artist-deck-view-more {
+        padding: 6px 12px;
+        font-size: 10px;
+        margin-top: 6px;
+    }
+}
+
+/* ============================================
+   ARTIST CARD INFO SECTION - FIX VISIBILITY
+   ============================================ */
+
+.artist-deck-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 16px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 60%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    z-index: 10;
+}
+
+.artist-deck-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 4px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.artist-deck-genre {
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 10px;
+}
+
+.artist-deck-view-more {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    border-radius: 20px;
+    padding: 8px 18px;
+    color: #fff !important;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: none;
+    letter-spacing: 0.02em;
+}
+
+.artist-deck-view-more:hover {
+    background: rgba(255, 255, 255, 0.25) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    transform: scale(1.05);
+}
+
+.artist-deck-view-more:active {
+    transform: scale(0.95);
+}
+
+/* Card front styling */
+.artist-deck-card-front {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    overflow: hidden;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.artist-deck-photo {
+    position: absolute;
+    inset: 0;
+}
+
+.artist-deck-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+    .artist-deck-info {
+        padding: 12px;
+    }
+    
+    .artist-deck-name {
+        font-size: 16px;
+    }
+    
+    .artist-deck-genre {
+        font-size: 11px;
+        margin-bottom: 8px;
+    }
+    
+    .artist-deck-view-more {
+        padding: 6px 14px;
+        font-size: 10px;
     }
 }
