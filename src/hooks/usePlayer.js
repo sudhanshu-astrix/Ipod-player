@@ -20,6 +20,8 @@ export const usePlayer = () => {
     const playTrack = async (index) => {
         if (index < 0 || index >= currentPlaylist.length) return;
         
+        // Reset progress bar immediately when changing tracks
+        setCurrentTime(0);
         setCurrentTrackIndex(index);
         const track = currentPlaylist[index];
         

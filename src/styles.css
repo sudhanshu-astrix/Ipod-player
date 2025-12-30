@@ -288,14 +288,7 @@ body.light-theme .moon-icon {
     transform: rotate(-90deg) scale(0.8);
 }
 
-/* Mini Player */
-.mini-player {
-    display: none;
-    align-items: center;
-    gap: 12px;
-    position: relative;
-}
-
+/* Mini Player - Base styles (see end of file for full mini-player styles) */
 .mini-player-toggle {
     position: relative;
     background: transparent;
@@ -407,28 +400,6 @@ body.light-theme .moon-icon {
         opacity: 0;
         transform: translateX(-50%) translateY(25px) scale(1.2);
     }
-}
-
-.mini-player-content {
-    display: none !important;
-    position: absolute;
-    top: calc(100% + 12px);
-    right: 0;
-    background: var(--glass-bg);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid var(--glass-border);
-    border-radius: 16px;
-    padding: 16px;
-    min-width: 280px;
-    box-shadow: var(--shadow-xl);
-    z-index: 1000;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.mini-player-content.show {
-    display: flex !important;
 }
 
 .mini-player-info {
@@ -3091,20 +3062,7 @@ body.light-theme .artists-overlay {
         min-height: 70px;
     }
     
-    /* Mini player mobile adjustments */
-    .mini-player-content {
-        min-width: 240px;
-        right: -10px;
-        max-width: calc(100vw - 2rem);
-    }
-    
-    .mini-player-track {
-        font-size: 12px;
-    }
-    
-    .mini-player-artist {
-        font-size: 10px;
-    }
+    /* Mini player mobile adjustments - moved to end of file */
     
     /* Prevent horizontal overflow */
     .main-content,
@@ -4882,5 +4840,338 @@ html, body, #root, .App {
     .artist-deck-view-more {
         padding: 6px 14px;
         font-size: 10px;
+    }
+}
+
+/* ============================================
+   MOBILE iPod FIXES
+   ============================================ */
+
+/* Remove iPod shadow on mobile for light theme */
+@media (max-width: 480px) {
+    body.light-theme .ipod-container {
+        box-shadow: none;
+    }
+    
+    body.light-theme .ipod-container:hover {
+        box-shadow: none;
+        transform: none;
+    }
+}
+
+/* Fix iPod top cutoff on mobile when playing */
+@media (max-width: 480px) {
+    .container.ipod-only {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding-top: 16px;
+        padding-bottom: 16px;
+        min-height: calc(100vh - 60px);
+        overflow-y: auto;
+    }
+    
+    .container.ipod-only .main-content {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        width: 100%;
+        padding-top: 0;
+    }
+    
+    .container.ipod-only .ipod-section {
+        flex-shrink: 0;
+        margin-top: 0;
+    }
+    
+    .container.ipod-only .ipod-container {
+        margin-top: 0;
+        margin-bottom: 16px;
+        position: relative;
+        top: 0;
+        transform: none;
+    }
+    
+    /* Ensure Now Playing doesn't affect container */
+    .ipod-now-playing {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 380px) {
+    .container.ipod-only {
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+}
+
+/* Ensure header doesn't affect layout */
+@media (max-width: 480px) {
+    .site-header {
+        position: sticky;
+        top: 0;
+        flex-shrink: 0;
+    }
+    
+    .App {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        height: auto;
+    }
+}
+
+/* ============================================
+   MINI PLAYER - UNIFIED STYLES
+   ============================================ */
+
+/* Mini-player is visible when rendered (controlled by React) */
+.mini-player {
+    display: flex !important;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    flex-shrink: 0;
+}
+
+/* Desktop: dropdown appears below toggle */
+.mini-player-content {
+    display: none !important;
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    background: var(--glass-bg);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 16px;
+    min-width: 280px;
+    box-shadow: var(--shadow-xl);
+    z-index: 1000;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mini-player-content.show {
+    display: flex !important;
+}
+
+/* Tablet and Mobile: bottom sheet style */
+@media (max-width: 768px) {
+    .site-header,
+    .site-header-content,
+    .site-nav {
+        overflow: visible !important;
+    }
+    
+    .mini-player {
+        z-index: 102;
+    }
+    
+    .mini-player-toggle {
+        padding: 6px;
+        min-width: 36px;
+        min-height: 36px;
+        z-index: 102;
+    }
+    
+    .mini-player-icon {
+        width: 18px;
+        height: 18px;
+    }
+    
+    /* Bottom sheet positioning - fully reset all positioning */
+    .mini-player-content {
+        position: fixed !important;
+        inset: unset !important; /* Reset all inset properties */
+        top: unset !important;
+        bottom: 80px !important; /* Position above bottom of screen */
+        left: 16px !important;
+        right: 16px !important;
+        transform: none !important;
+        width: auto !important;
+        min-width: auto !important;
+        max-width: none !important;
+        border-radius: 20px;
+        padding: 16px 20px;
+        z-index: 9999 !important;
+        margin: 0 !important;
+    }
+    
+    .mini-player-content.show {
+        animation: miniPlayerSlideUp 0.3s ease forwards;
+    }
+    
+    .mini-player-info {
+        margin-bottom: 8px;
+        text-align: center;
+    }
+    
+    .mini-player-track {
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .mini-player-artist {
+        font-size: 12px;
+    }
+    
+    .mini-player-controls {
+        gap: 20px;
+        justify-content: center;
+    }
+    
+    .mini-control-btn {
+        width: 40px;
+        height: 40px;
+        padding: 10px;
+    }
+    
+    .mini-control-btn.play-mini {
+        width: 48px;
+        height: 48px;
+    }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+    .mini-player-toggle {
+        padding: 5px;
+        min-width: 32px;
+        min-height: 32px;
+    }
+    
+    .mini-player-icon {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .mini-player-content {
+        bottom: 70px !important;
+        left: 12px !important;
+        right: 12px !important;
+        padding: 14px 16px;
+    }
+    
+    .mini-player-track {
+        font-size: 13px;
+    }
+    
+    .mini-player-artist {
+        font-size: 11px;
+    }
+    
+    .mini-control-btn {
+        width: 36px;
+        height: 36px;
+        padding: 8px;
+    }
+    
+    .mini-control-btn.play-mini {
+        width: 44px;
+        height: 44px;
+    }
+}
+
+/* Extra small mobile */
+@media (max-width: 380px) {
+    .mini-player-content {
+        bottom: 60px !important;
+        left: 8px !important;
+        right: 8px !important;
+        padding: 12px 14px;
+    }
+}
+
+@keyframes miniPlayerSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   iOS VOLUME TOAST
+   ============================================ */
+
+.ios-volume-toast {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 10000;
+    animation: toastFadeIn 0.3s ease, toastFadeOut 0.3s ease 2.2s forwards;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    white-space: nowrap;
+}
+
+.ios-volume-toast svg {
+    flex-shrink: 0;
+    opacity: 0.9;
+}
+
+.ios-volume-toast span {
+    opacity: 0.95;
+}
+
+@keyframes toastFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+@keyframes toastFadeOut {
+    from {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+}
+
+/* Light theme adjustment */
+body.light-theme .ios-volume-toast {
+    background: rgba(255, 255, 255, 0.95);
+    color: #1a1a1a;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Mobile positioning */
+@media (max-width: 480px) {
+    .ios-volume-toast {
+        bottom: 80px;
+        padding: 10px 16px;
+        font-size: 13px;
+        max-width: calc(100vw - 40px);
     }
 }

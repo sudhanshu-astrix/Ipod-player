@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useApp } from '../context/AppContext';
 import { usePlayer } from '../hooks/usePlayer';
 import { formatTime } from '../utils/formatTime';
@@ -26,8 +26,50 @@ const IPod = () => {
     const progressFillRef = useRef(null);
     const intervalRef = useRef(null);
     const playlistContainerRef = useRef(null);
+    const [showVolumeToast, setShowVolumeToast] = useState(false);
+    const toastTimeoutRef = useRef(null);
 
     const currentTrack = currentPlaylist[currentTrackIndex];
+
+    // Detect iOS device
+    const isIOS = useCallback(() => {
+        return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+               (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    }, []);
+
+    // Handle volume button press with iOS detection
+    const handleVolumeChange = useCallback((direction) => {
+        if (isIOS()) {
+            // Show toast message on iOS
+            setShowVolumeToast(true);
+            
+            // Clear existing timeout
+            if (toastTimeoutRef.current) {
+                clearTimeout(toastTimeoutRef.current);
+            }
+            
+            // Hide toast after 2.5 seconds
+            toastTimeoutRef.current = setTimeout(() => {
+                setShowVolumeToast(false);
+            }, 2500);
+        } else {
+            // On non-iOS devices, volume control works
+            if (direction === 'up') {
+                volumeUp();
+            } else {
+                volumeDown();
+            }
+        }
+    }, [isIOS, volumeUp, volumeDown]);
+
+    // Cleanup toast timeout on unmount
+    useEffect(() => {
+        return () => {
+            if (toastTimeoutRef.current) {
+                clearTimeout(toastTimeoutRef.current);
+            }
+        };
+    }, []);
 
     // Handle genre selection
     const handleGenreSelect = (genreId) => {
@@ -340,7 +382,7 @@ const IPod = () => {
                     <div className="ipod-wheel">
                         <button 
                             className="wheel-button volume-up-btn" 
-                            onClick={volumeUp}
+                            onClick={() => handleVolumeChange('up')}
                             aria-label="Volume up" 
                             tabIndex="0"
                         >
@@ -387,7 +429,7 @@ const IPod = () => {
                         
                         <button 
                             className="wheel-button volume-down-btn" 
-                            onClick={volumeDown}
+                            onClick={() => handleVolumeChange('down')}
                             aria-label="Volume down" 
                             tabIndex="0"
                         >
@@ -398,6 +440,16 @@ const IPod = () => {
                     </div>
                 </div>
             </div>
+            
+            {/* iOS Volume Toast */}
+            {showVolumeToast && (
+                <div className="ios-volume-toast">
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                        <path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
+                    </svg>
+                    <span>Use device volume buttons</span>
+                </div>
+            )}
         </div>
     );
 };
