@@ -15,16 +15,24 @@ export const AppProvider = ({ children }) => {
         return localStorage.getItem('theme') || 'dark';
     });
     
+    // Browsing state - changes when navigating playlists
     const [currentGenre, setCurrentGenre] = useState(null);
     const [currentPlaylist, setCurrentPlaylist] = useState([]);
     const [currentTrackIndex, setCurrentTrackIndex] = useState(-1);
+    
+    // Playing state - only changes when a track is explicitly played
+    const [playingTrack, setPlayingTrack] = useState(null);
+    const [playingGenre, setPlayingGenre] = useState(null);
+    const [playingPlaylist, setPlayingPlaylist] = useState([]);
+    const [playingTrackIndex, setPlayingTrackIndex] = useState(-1);
+    
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [volume, setVolume] = useState(100);
     const [showArtistsOverlay, setShowArtistsOverlay] = useState(false);
     const [showMiniPlayer, setShowMiniPlayer] = useState(false);
     const [showMiniPlayerContent, setShowMiniPlayerContent] = useState(false);
-    
+
     // iPod screen view states: 'genres', 'playlist', 'nowPlaying'
     const [ipodView, setIpodView] = useState('genres');
     // Track if now playing is expanded (full screen) or minimized (bottom bar)
@@ -43,12 +51,23 @@ export const AppProvider = ({ children }) => {
         <AppContext.Provider value={{
             theme,
             toggleTheme,
+            // Browsing state
             currentGenre,
             setCurrentGenre,
             currentPlaylist,
             setCurrentPlaylist,
             currentTrackIndex,
             setCurrentTrackIndex,
+            // Playing state
+            playingTrack,
+            setPlayingTrack,
+            playingGenre,
+            setPlayingGenre,
+            playingPlaylist,
+            setPlayingPlaylist,
+            playingTrackIndex,
+            setPlayingTrackIndex,
+            // Playback state
             isPlaying,
             setIsPlaying,
             currentTime,

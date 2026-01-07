@@ -6,13 +6,21 @@ export const usePlayer = () => {
         currentPlaylist,
         currentTrackIndex,
         setCurrentTrackIndex,
+        currentGenre,
         isPlaying,
         setIsPlaying,
         currentTime,
         setCurrentTime,
         volume,
         setVolume,
-        setCurrentPlaylist
+        setCurrentPlaylist,
+        // Playing state
+        setPlayingTrack,
+        setPlayingGenre,
+        setPlayingPlaylist,
+        setPlayingTrackIndex,
+        playingPlaylist,
+        playingTrackIndex
     } = useApp();
 
     const { playVideo, resumeVideo, pauseVideo, playerReady } = useYouTubePlayer();
@@ -25,6 +33,12 @@ export const usePlayer = () => {
         setCurrentTrackIndex(index);
         const track = currentPlaylist[index];
         
+        // Update playing state - this persists across genre changes
+        setPlayingTrack(track);
+        setPlayingGenre(currentGenre);
+        setPlayingPlaylist([...currentPlaylist]);
+        setPlayingTrackIndex(index);
+        
         // Check if we need to fetch YouTube ID
         if (track.youtubeId === 'sample') {
             const { YouTubeAPI } = await import('../utils/youtubeAPI');
@@ -33,6 +47,11 @@ export const usePlayer = () => {
                 const updatedPlaylist = [...currentPlaylist];
                 updatedPlaylist[index] = { ...track, youtubeId: videoId };
                 setCurrentPlaylist(updatedPlaylist);
+                
+                // Also update playing playlist with the new video ID
+                const updatedTrack = { ...track, youtubeId: videoId };
+                setPlayingTrack(updatedTrack);
+                setPlayingPlaylist(updatedPlaylist);
                 
                 if (playerReady) {
                     playVideo(videoId, track.duration);
@@ -54,21 +73,22 @@ export const usePlayer = () => {
     };
 
     const togglePlayback = () => {
-        if (currentPlaylist.length === 0) return;
-        
-        if (currentTrackIndex === -1) {
+        // If no track is playing yet and we have a current playlist, play first track
+        if (playingPlaylist.length === 0 && currentPlaylist.length > 0) {
             playTrack(0);
             return;
         }
+        
+        if (playingPlaylist.length === 0) return;
         
         if (isPlaying) {
             // Pause the YouTube player
             pauseVideo();
         } else {
-            // Resume playback
+            // Resume playback using the playing playlist
             if (playerReady) {
-                const track = currentPlaylist[currentTrackIndex];
-                if (track.youtubeId && track.youtubeId !== 'sample') {
+                const track = playingPlaylist[playingTrackIndex];
+                if (track && track.youtubeId && track.youtubeId !== 'sample') {
                     // Try to resume the video if it's already loaded (pass video ID to check)
                     const resumed = resumeVideo(track.youtubeId);
                     if (!resumed) {
@@ -87,21 +107,64 @@ export const usePlayer = () => {
     };
 
     const nextTrack = () => {
-        if (currentPlaylist.length === 0) return;
-        const nextIndex = (currentTrackIndex + 1) % currentPlaylist.length;
-        playTrack(nextIndex);
+        // Use playing playlist for next/prev navigation
+        if (playingPlaylist.length === 0) return;
+        const nextIndex = (playingTrackIndex + 1) % playingPlaylist.length;
+        playTrackFromPlayingList(nextIndex);
     };
 
     const prevTrack = () => {
-        if (currentPlaylist.length === 0) return;
+        // Use playing playlist for next/prev navigation
+        if (playingPlaylist.length === 0) return;
         
         if (currentTime > 3) {
-            playTrack(currentTrackIndex);
+            playTrackFromPlayingList(playingTrackIndex);
         } else {
-            const prevIndex = currentTrackIndex <= 0 
-                ? currentPlaylist.length - 1 
-                : currentTrackIndex - 1;
-            playTrack(prevIndex);
+            const prevIndex = playingTrackIndex <= 0 
+                ? playingPlaylist.length - 1 
+                : playingTrackIndex - 1;
+            playTrackFromPlayingList(prevIndex);
+        }
+    };
+    
+    // Play a track from the currently playing playlist (for next/prev)
+    const playTrackFromPlayingList = async (index) => {
+        if (index < 0 || index >= playingPlaylist.length) return;
+        
+        setCurrentTime(0);
+        const track = playingPlaylist[index];
+        
+        // Update playing state
+        setPlayingTrack(track);
+        setPlayingTrackIndex(index);
+        
+        // Check if we need to fetch YouTube ID
+        if (track.youtubeId === 'sample') {
+            const { YouTubeAPI } = await import('../utils/youtubeAPI');
+            const videoId = await YouTubeAPI.searchVideo(track.track, track.artist);
+            if (videoId) {
+                const updatedPlaylist = [...playingPlaylist];
+                updatedPlaylist[index] = { ...track, youtubeId: videoId };
+                setPlayingPlaylist(updatedPlaylist);
+                
+                const updatedTrack = { ...track, youtubeId: videoId };
+                setPlayingTrack(updatedTrack);
+                
+                if (playerReady) {
+                    playVideo(videoId, track.duration);
+                } else {
+                    setIsPlaying(true);
+                    setCurrentTime(0);
+                }
+                return;
+            }
+        }
+        
+        if (track.youtubeId && track.youtubeId !== 'sample' && playerReady) {
+            playVideo(track.youtubeId, track.duration);
+        } else {
+            setIsPlaying(true);
+            setCurrentTime(0);
         }
     };
 

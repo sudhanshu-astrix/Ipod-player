@@ -6,17 +6,18 @@ import ArtistsOverlay from './components/ArtistsOverlay';
 import { usePlayer } from './hooks/usePlayer';
 
 const AppContent = () => {
-    const { currentPlaylist, currentTrackIndex, setShowMiniPlayer } = useApp();
+    // Use playingTrack to determine if mini player should show
+    const { playingTrack, setShowMiniPlayer } = useApp();
     const { togglePlayback, nextTrack, prevTrack } = usePlayer();
 
     useEffect(() => {
         // Show mini player when a track is playing
-        if (currentPlaylist.length > 0 && currentTrackIndex >= 0) {
+        if (playingTrack) {
             setShowMiniPlayer(true);
         } else {
             setShowMiniPlayer(false);
         }
-    }, [currentPlaylist.length, currentTrackIndex, setShowMiniPlayer]);
+    }, [playingTrack, setShowMiniPlayer]);
 
     useEffect(() => {
         const handleKeyDown = (e) => {

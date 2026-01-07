@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useApp } from '../context/AppContext';
 import { genres } from '../constants/genres';
 import { playlistData } from '../constants/playlistData';
@@ -10,9 +10,23 @@ const ArtistsOverlay = () => {
     const [flippedCards, setFlippedCards] = useState(new Set());
     const [selectedArtist, setSelectedArtist] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [cardOrder, setCardOrder] = useState([]); // Track card order for stack
     const deckStackRef = useRef(null);
-    const dragState = useRef({ isDragging: false, startX: 0, startY: 0, currentX: 0, currentY: 0, hasMoved: false });
+    const activeCardRef = useRef(null);
+    const dragState = useRef({ 
+        isDragging: false, 
+        startX: 0, 
+        startY: 0, 
+        currentX: 0, 
+        currentY: 0, 
+        hasMoved: false,
+        velocity: { x: 0, y: 0 },
+        lastTime: 0,
+        lastX: 0,
+        lastY: 0
+    });
     const clickTimeoutRef = useRef(null);
+    const animationFrameRef = useRef(null);
 
     // Get unique artists with their genres
     const getUniqueArtists = () => {
@@ -43,6 +57,20 @@ const ArtistsOverlay = () => {
     
     // Filter artists by selected genre
     const filteredArtists = allArtists.filter(artist => artist.genre === selectedGenre);
+    
+    // Initialize card order when genre changes
+    useEffect(() => {
+        setCardOrder(filteredArtists.map((_, i) => i));
+        setFlippedCards(new Set());
+    }, [selectedGenre, filteredArtists.length]);
+    
+    // Get ordered artists based on card order
+    const getOrderedArtists = useCallback(() => {
+        if (cardOrder.length !== filteredArtists.length) {
+            return filteredArtists;
+        }
+        return cardOrder.map(index => filteredArtists[index]);
+    }, [cardOrder, filteredArtists]);
 
     // Handle card flip
     const handleCardClick = (artistName, e) => {
@@ -80,36 +108,84 @@ const ArtistsOverlay = () => {
         }, 200);
     };
 
-    // Handle drag start
-    const handleDragStart = (e, artistName) => {
-        const card = e.currentTarget;
-        const deckStack = deckStackRef.current;
-        if (!card || !deckStack || card !== deckStack.lastElementChild) return;
+    // Move top card to back of stack
+    const moveCardToBack = useCallback(() => {
+        if (cardOrder.length <= 1) return;
+        
+        setCardOrder(prev => {
+            const newOrder = [...prev];
+            const topCard = newOrder.pop(); // Remove last (top) card
+            newOrder.unshift(topCard); // Add to beginning (back)
+            return newOrder;
+        });
+    }, [cardOrder.length]);
+
+    // Handle drag start - works on entire top card
+    const handleDragStart = useCallback((e, artistName, isTopCard) => {
+        // Only allow dragging the top card
+        if (!isTopCard) return;
         
         // Don't start drag if card is flipped
         if (flippedCards.has(artistName)) return;
         
+        // Prevent default to stop text selection and scrolling
+        if (e.type === 'touchstart') {
+            // Don't prevent default here to allow click events
+        }
+        
+        const clientX = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
+        const clientY = e.clientY ?? e.touches?.[0]?.clientY ?? 0;
+        const now = Date.now();
+        
         dragState.current = {
             isDragging: true,
-            startX: e.clientX || e.touches?.[0]?.clientX || 0,
-            startY: e.clientY || e.touches?.[0]?.clientY || 0,
+            startX: clientX,
+            startY: clientY,
             currentX: 0,
             currentY: 0,
-            hasMoved: false
+            hasMoved: false,
+            velocity: { x: 0, y: 0 },
+            lastTime: now,
+            lastX: clientX,
+            lastY: clientY
         };
-        card.style.transition = 'none';
-        card.style.cursor = 'grabbing';
-    };
+        
+        activeCardRef.current = e.currentTarget;
+        if (activeCardRef.current) {
+            activeCardRef.current.style.transition = 'none';
+            activeCardRef.current.style.cursor = 'grabbing';
+            activeCardRef.current.style.zIndex = '100';
+        }
+    }, [flippedCards]);
 
-    // Handle drag move
-    const handleDragMove = (e) => {
-        if (!dragState.current.isDragging) return;
+    // Handle drag move with smooth animation frame
+    const handleDragMove = useCallback((e) => {
+        if (!dragState.current.isDragging || !activeCardRef.current) return;
         
-        const currentX = e.clientX || e.touches?.[0]?.clientX || 0;
-        const currentY = e.clientY || e.touches?.[0]?.clientY || 0;
+        // Prevent scrolling while dragging
+        if (e.cancelable) {
+            e.preventDefault();
+        }
         
-        dragState.current.currentX = currentX - dragState.current.startX;
-        dragState.current.currentY = currentY - dragState.current.startY;
+        const clientX = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
+        const clientY = e.clientY ?? e.touches?.[0]?.clientY ?? 0;
+        const now = Date.now();
+        
+        // Calculate velocity for momentum
+        const dt = now - dragState.current.lastTime;
+        if (dt > 0) {
+            dragState.current.velocity = {
+                x: (clientX - dragState.current.lastX) / dt * 16,
+                y: (clientY - dragState.current.lastY) / dt * 16
+            };
+        }
+        
+        dragState.current.lastTime = now;
+        dragState.current.lastX = clientX;
+        dragState.current.lastY = clientY;
+        
+        dragState.current.currentX = clientX - dragState.current.startX;
+        dragState.current.currentY = clientY - dragState.current.startY;
         
         // Mark as moved if moved more than 5px
         if (Math.abs(dragState.current.currentX) > 5 || Math.abs(dragState.current.currentY) > 5) {
@@ -120,56 +196,97 @@ const ArtistsOverlay = () => {
             }
         }
         
-        const deckStack = deckStackRef.current;
-        if (deckStack && deckStack.lastElementChild) {
-            const topCard = deckStack.lastElementChild;
-            const rotation = dragState.current.currentX * 0.1;
-            topCard.style.transform = `translateX(${dragState.current.currentX}px) translateY(${dragState.current.currentY}px) rotateZ(${rotation}deg)`;
+        // Cancel any pending animation frame
+        if (animationFrameRef.current) {
+            cancelAnimationFrame(animationFrameRef.current);
         }
-    };
+        
+        // Use requestAnimationFrame for smooth animation
+        animationFrameRef.current = requestAnimationFrame(() => {
+            if (activeCardRef.current) {
+                const rotation = dragState.current.currentX * 0.08;
+                const scale = 1 - Math.min(Math.abs(dragState.current.currentX) / 1000, 0.05);
+                activeCardRef.current.style.transform = `
+                    translateX(${dragState.current.currentX}px) 
+                    translateY(${dragState.current.currentY}px) 
+                    rotateZ(${rotation}deg)
+                    scale(${scale})
+                `;
+            }
+        });
+    }, []);
 
-    // Handle drag end
-    const handleDragEnd = () => {
+    // Handle drag end with momentum
+    const handleDragEnd = useCallback(() => {
         if (!dragState.current.isDragging) return;
         
-        const deckStack = deckStackRef.current;
-        if (deckStack && deckStack.lastElementChild) {
-            const topCard = deckStack.lastElementChild;
-            const threshold = 100;
-            
-            // If dragged far enough, move card to back
-            if (Math.abs(dragState.current.currentX) > threshold || Math.abs(dragState.current.currentY) > threshold) {
-                topCard.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-                topCard.style.transform = 'translateX(-500px) translateY(500px) rotateZ(-45deg)';
-                topCard.style.opacity = '0';
-                
-                setTimeout(() => {
-                    deckStack.insertBefore(topCard, deckStack.firstChild);
-                    topCard.style.transition = '';
-                    topCard.style.transform = '';
-                    topCard.style.opacity = '';
-                    topCard.style.cursor = '';
-                }, 500);
-            } else {
-                // Snap back
-                topCard.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-                topCard.style.transform = '';
-                topCard.style.cursor = '';
-                
-                setTimeout(() => {
-                    topCard.style.transition = '';
-                }, 300);
-            }
+        const card = activeCardRef.current;
+        if (!card) {
+            dragState.current = { 
+                isDragging: false, startX: 0, startY: 0, currentX: 0, currentY: 0, 
+                hasMoved: false, velocity: { x: 0, y: 0 }, lastTime: 0, lastX: 0, lastY: 0 
+            };
+            return;
         }
         
-        dragState.current = { isDragging: false, startX: 0, startY: 0, currentX: 0, currentY: 0, hasMoved: false };
-    };
+        // Calculate total movement including velocity for momentum
+        const totalX = dragState.current.currentX + dragState.current.velocity.x * 5;
+        const totalY = dragState.current.currentY + dragState.current.velocity.y * 5;
+        const threshold = 80;
+        
+        // If dragged far enough or has enough momentum, swipe away
+        if (Math.abs(totalX) > threshold || Math.abs(totalY) > threshold) {
+            // Determine swipe direction
+            const angle = Math.atan2(dragState.current.currentY, dragState.current.currentX);
+            const distance = 800;
+            const exitX = Math.cos(angle) * distance;
+            const exitY = Math.sin(angle) * distance;
+            const exitRotation = dragState.current.currentX * 0.15;
+            
+            card.style.transition = 'transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s ease';
+            card.style.transform = `translateX(${exitX}px) translateY(${exitY}px) rotateZ(${exitRotation}deg) scale(0.8)`;
+            card.style.opacity = '0';
+            
+            setTimeout(() => {
+                // Reset card styles
+                card.style.transition = '';
+                card.style.transform = '';
+                card.style.opacity = '';
+                card.style.cursor = '';
+                card.style.zIndex = '';
+                
+                // Move to back of stack via state
+                moveCardToBack();
+            }, 400);
+        } else {
+            // Snap back with spring animation
+            card.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            card.style.transform = '';
+            card.style.cursor = '';
+            
+            setTimeout(() => {
+                if (card) {
+                    card.style.transition = '';
+                    card.style.zIndex = '';
+                }
+            }, 400);
+        }
+        
+        activeCardRef.current = null;
+        dragState.current = { 
+            isDragging: false, startX: 0, startY: 0, currentX: 0, currentY: 0, 
+            hasMoved: false, velocity: { x: 0, y: 0 }, lastTime: 0, lastX: 0, lastY: 0 
+        };
+    }, [moveCardToBack]);
 
-    // Cleanup timeout on unmount
+    // Cleanup on unmount
     useEffect(() => {
         return () => {
             if (clickTimeoutRef.current) {
                 clearTimeout(clickTimeoutRef.current);
+            }
+            if (animationFrameRef.current) {
+                cancelAnimationFrame(animationFrameRef.current);
             }
         };
     }, []);
@@ -211,7 +328,7 @@ const ArtistsOverlay = () => {
             document.removeEventListener('touchmove', handleTouchMove);
             document.removeEventListener('touchend', handleTouchEnd);
         };
-    }, [showArtistsOverlay]);
+    }, [showArtistsOverlay, handleDragMove, handleDragEnd]);
 
     // Prevent body scroll when overlay is open
     useEffect(() => {
@@ -296,68 +413,76 @@ const ArtistsOverlay = () => {
                                 </div>
                             ) : (
                                 <div className="deck-stack" ref={deckStackRef}>
-                                    {filteredArtists.map((artist, index) => (
-                                    <div
-                                        key={artist.name}
-                                        className={`artist-deck-card ${flippedCards.has(artist.name) ? 'flipped' : ''}`}
-                                        style={{ '--card-index': index }}
-                                        onClick={(e) => handleCardClick(artist.name, e)}
-                                        onMouseDown={(e) => handleDragStart(e, artist.name)}
-                                        onTouchStart={(e) => handleDragStart(e, artist.name)}
-                                    >
-                                        {/* Front of card */}
-                                        <div className="artist-deck-card-front">
-                                            <div className="artist-deck-photo">
-                                                <img 
-                                                    src={artist.albumArt || 'https://via.placeholder.com/320x450/333/fff?text=Artist'} 
-                                                    alt={artist.name}
-                                                    loading="lazy"
-                                                />
-                                            </div>
-                                            <div className="artist-deck-info">
-                                                <div className="artist-deck-name">{artist.name}</div>
-                                                <div className="artist-deck-genre" style={{ color: artist.genreColor }}>
-                                                    {artist.genreName}
+                                    {getOrderedArtists().map((artist, index, arr) => {
+                                        const isTopCard = index === arr.length - 1;
+                                        return (
+                                            <div
+                                                key={artist.name}
+                                                className={`artist-deck-card ${flippedCards.has(artist.name) ? 'flipped' : ''} ${isTopCard ? 'top-card' : ''}`}
+                                                style={{ 
+                                                    '--card-index': index,
+                                                    cursor: isTopCard ? 'grab' : 'default'
+                                                }}
+                                                onClick={(e) => handleCardClick(artist.name, e)}
+                                                onMouseDown={(e) => handleDragStart(e, artist.name, isTopCard)}
+                                                onTouchStart={(e) => handleDragStart(e, artist.name, isTopCard)}
+                                            >
+                                                {/* Front of card */}
+                                                <div className="artist-deck-card-front">
+                                                    <div className="artist-deck-photo">
+                                                        <img 
+                                                            src={artist.albumArt || 'https://via.placeholder.com/320x450/333/fff?text=Artist'} 
+                                                            alt={artist.name}
+                                                            loading="lazy"
+                                                            draggable="false"
+                                                        />
+                                                    </div>
+                                                    <div className="artist-deck-info">
+                                                        <div className="artist-deck-name">{artist.name}</div>
+                                                        <div className="artist-deck-genre" style={{ color: artist.genreColor }}>
+                                                            {artist.genreName}
+                                                        </div>
+                                                        <button 
+                                                            className="artist-deck-view-more"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                setSelectedArtist(artist);
+                                                                setShowModal(true);
+                                                            }}
+                                                        >
+                                                            Click to View More
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                                <button 
-                                                    className="artist-deck-view-more"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        setSelectedArtist(artist);
-                                                        setShowModal(true);
-                                                    }}
-                                                >
-                                                    Click to View More
-                                                </button>
+                                                
+                                                {/* Back of card */}
+                                                <div className="artist-deck-card-back">
+                                                    <div className="artist-deck-back-photo">
+                                                        <img 
+                                                            src={artist.albumArt || 'https://via.placeholder.com/320x450/333/fff?text=Artist'} 
+                                                            alt={artist.name}
+                                                            loading="lazy"
+                                                            draggable="false"
+                                                        />
+                                                    </div>
+                                                    <div className="artist-deck-back-name">{artist.name}</div>
+                                                    <div className="artist-deck-back-funfact">
+                                                        {getFunFact(artist)}
+                                                    </div>
+                                                    <div className="artist-deck-back-youtube">
+                                                        <a 
+                                                            href={getYouTubeUrl(artist)}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            onClick={(e) => e.stopPropagation()}
+                                                        >
+                                                            Watch on YouTube
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        
-                                        {/* Back of card */}
-                                        <div className="artist-deck-card-back">
-                                            <div className="artist-deck-back-photo">
-                                                <img 
-                                                    src={artist.albumArt || 'https://via.placeholder.com/320x450/333/fff?text=Artist'} 
-                                                    alt={artist.name}
-                                                    loading="lazy"
-                                                />
-                                            </div>
-                                            <div className="artist-deck-back-name">{artist.name}</div>
-                                            <div className="artist-deck-back-funfact">
-                                                {getFunFact(artist)}
-                                            </div>
-                                            <div className="artist-deck-back-youtube">
-                                                <a 
-                                                    href={getYouTubeUrl(artist)}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    onClick={(e) => e.stopPropagation()}
-                                                >
-                                                    Watch on YouTube
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    ))}
+                                        );
+                                    })}
                                 </div>
                             )}
                         </div>

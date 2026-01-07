@@ -3,12 +3,13 @@ import { useApp } from '../context/AppContext';
 import { usePlayer } from '../hooks/usePlayer';
 
 const MiniPlayer = ({ showContent, setShowContent, contentRef }) => {
-    const { currentPlaylist, currentTrackIndex, isPlaying } = useApp();
+    // Use playingTrack instead of currentPlaylist[currentTrackIndex]
+    // This ensures the mini player shows the actually playing track
+    const { playingTrack, isPlaying } = useApp();
     const { togglePlayback, prevTrack, nextTrack } = usePlayer();
 
-    const currentTrack = currentPlaylist[currentTrackIndex];
-
-    if (!currentTrack) return null;
+    // Don't render if no track is playing
+    if (!playingTrack) return null;
 
     return (
         <div className="mini-player" style={{ display: 'flex' }}>
@@ -39,8 +40,8 @@ const MiniPlayer = ({ showContent, setShowContent, contentRef }) => {
                 className={`mini-player-content ${showContent ? 'show' : ''}`}
             >
                 <div className="mini-player-info">
-                    <div className="mini-player-track">{currentTrack.track}</div>
-                    <div className="mini-player-artist">{currentTrack.artist}</div>
+                    <div className="mini-player-track">{playingTrack.track}</div>
+                    <div className="mini-player-artist">{playingTrack.artist}</div>
                 </div>
                 <div className="mini-player-controls">
                     <button 
