@@ -4,6 +4,8 @@ import { usePlayer } from '../hooks/usePlayer';
 import { formatTime } from '../utils/formatTime';
 import { genres } from '../constants/genres';
 import { playlistData, ArtistData } from '../constants/playlistData';
+import { spotifyAuthService } from '../utils/spotifyAuth';
+import Toast from './Toast';
 
 const IPod = () => {
     const {
@@ -22,7 +24,9 @@ const IPod = () => {
         setShowMiniPlayer,
         // Playing state - persists across genre changes
         playingTrack,
+        setPlayingTrack,
         playingGenre,
+        setPlayingGenre,
         playingPlaylist,
         playingTrackIndex
     } = useApp();
@@ -33,9 +37,36 @@ const IPod = () => {
     const playlistContainerRef = useRef(null);
     const [showVolumeToast, setShowVolumeToast] = useState(false);
     const toastTimeoutRef = useRef(null);
+    
+    // Spotify integration state
+    const [isSpotifyAuthenticated, setIsSpotifyAuthenticated] = useState(false);
+    const [spotifyUser, setSpotifyUser] = useState(null);
+    const [toast, setToast] = useState(null);
+    const [isAddingTrack, setIsAddingTrack] = useState(false);
 
     // Use playingTrack for display in bottom bar and now playing view
     // This persists even when browsing different genres
+
+    // Restore iPod state after auth redirect
+    useEffect(() => {
+        const savedState = sessionStorage.getItem('ipodState');
+        if (savedState && window.location.search.includes('auth=success')) {
+            try {
+                const state = JSON.parse(savedState);
+                // Restore the state
+                if (state.ipodView) setIpodView(state.ipodView);
+                if (state.currentGenre) setCurrentGenre(state.currentGenre);
+                if (state.playingTrack) setPlayingTrack(state.playingTrack);
+                if (state.playingGenre) setPlayingGenre(state.playingGenre);
+                if (state.nowPlayingExpanded !== undefined) setNowPlayingExpanded(state.nowPlayingExpanded);
+                
+                // Clear the saved state
+                sessionStorage.removeItem('ipodState');
+            } catch (error) {
+                console.error('Failed to restore iPod state:', error);
+            }
+        }
+    }, []);
 
     // Detect iOS device
     const isIOS = useCallback(() => {
@@ -76,6 +107,136 @@ const IPod = () => {
             }
         };
     }, []);
+
+    // Check Spotify authentication status on mount
+    useEffect(() => {
+        checkSpotifyAuth();
+        
+        // Check for auth success/error in URL
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('auth') === 'success') {
+            // Wait a bit before checking auth to ensure cookies are set
+            setTimeout(async () => {
+                const status = await spotifyAuthService.checkAuthStatus();
+                if (status.authenticated) {
+                    setIsSpotifyAuthenticated(true);
+                    setSpotifyUser(status.user);
+                    setToast({
+                        message: 'Successfully connected to Spotify!',
+                        type: 'success'
+                    });
+                } else {
+                    setToast({
+                        message: 'Failed to connect. Please try again.',
+                        type: 'error'
+                    });
+                }
+            }, 300);
+            
+            // Clean up URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+        } else if (params.get('error') === 'auth_failed') {
+            setToast({
+                message: 'Failed to connect to Spotify. Please try again.',
+                type: 'error'
+            });
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+        
+        // Listen for disconnect events from Header
+        const handleDisconnect = (event) => {
+            setIsSpotifyAuthenticated(false);
+            setSpotifyUser(null);
+            setToast({
+                message: event.detail.message,
+                type: 'success'
+            });
+        };
+        
+        window.addEventListener('spotifyDisconnected', handleDisconnect);
+        
+        return () => {
+            window.removeEventListener('spotifyDisconnected', handleDisconnect);
+        };
+    }, []);
+
+    const checkSpotifyAuth = async () => {
+        try {
+            const status = await spotifyAuthService.checkAuthStatus();
+            setIsSpotifyAuthenticated(status.authenticated);
+            setSpotifyUser(status.user);
+        } catch (error) {
+            console.error('Failed to check auth status:', error);
+        }
+    };
+
+    const handleAddToSpotify = async () => {
+        if (!playingTrack) return;
+
+        // Check if authenticated
+        if (!isSpotifyAuthenticated) {
+            // Save current state before redirecting
+            const currentState = {
+                ipodView,
+                currentGenre,
+                playingTrack,
+                playingGenre,
+                nowPlayingExpanded
+            };
+            sessionStorage.setItem('ipodState', JSON.stringify(currentState));
+            
+            // Redirect to Spotify login
+            try {
+                await spotifyAuthService.login();
+            } catch (error) {
+                console.error('Failed to connect to Spotify:', error);
+                setToast({
+                    message: 'Failed to connect to Spotify. Please try again.',
+                    type: 'error'
+                });
+            }
+            return;
+        }
+
+        // Add track to playlist
+        setIsAddingTrack(true);
+        try {
+            const result = await spotifyAuthService.addTrackToPlaylist(
+                playingTrack.track,
+                playingTrack.artist,
+                playingTrack.spotifyLink
+            );
+
+            if (result.alreadyExists) {
+                setToast({
+                    message: result.message,
+                    type: 'info'
+                });
+            } else if (result.success) {
+                setToast({
+                    message: result.message,
+                    type: 'success'
+                });
+            }
+        } catch (error) {
+            console.error('Failed to add track:', error);
+            
+            if (error.message.includes('Authentication expired')) {
+                setIsSpotifyAuthenticated(false);
+                setToast({
+                    message: 'Session expired. Please log in again.',
+                    type: 'error'
+                });
+            } else {
+                setToast({
+                    message: error.message || 'Failed to add track to playlist',
+                    type: 'error'
+                });
+            }
+        } finally {
+            setIsAddingTrack(false);
+        }
+    };
 
     // Handle genre selection
     const handleGenreSelect = (genreId) => {
@@ -412,20 +573,47 @@ const IPod = () => {
                     </button>
                 </div>
 
-                {playingTrack.spotifyLink && (
-                    <a 
-                        href={playingTrack.spotifyLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="ipod-np-spotify-link"
-                        onClick={(e) => e.stopPropagation()}
+                <div className="ipod-np-spotify-actions">
+                    {playingTrack.spotifyLink && (
+                        <a 
+                            href={playingTrack.spotifyLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="ipod-np-spotify-link"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <svg viewBox="0 0 24 24" width="16" height="16">
+                                <path fill="currentColor" d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+                            </svg>
+                            Open in Spotify
+                        </a>
+                    )}
+                    <button 
+                        className="ipod-np-spotify-link ipod-np-spotify-add"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleAddToSpotify();
+                        }}
+                        disabled={isAddingTrack}
                     >
-                        <svg viewBox="0 0 24 24" width="16" height="16">
-                            <path fill="currentColor" d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
-                        </svg>
-                        Open in Spotify
-                    </a>
-                )}
+                        {isAddingTrack ? (
+                            <>
+                                <svg viewBox="0 0 24 24" width="16" height="16" className="spinner">
+                                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" fill="none" opacity="0.3"/>
+                                    <path fill="currentColor" d="M12 2 A10 10 0 0 1 22 12" opacity="0.8"/>
+                                </svg>
+                                Adding to Playlist...
+                            </>
+                        ) : (
+                            <>
+                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                    <path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                                </svg>
+                                {isSpotifyAuthenticated ? 'Add to Spotify Playlist' : 'Login & Add to Spotify'}
+                            </>
+                        )}
+                    </button>
+                </div>
             </div>
         );
     };
@@ -433,17 +621,18 @@ const IPod = () => {
     return (
         <div className="ipod-section">
             <div className="ipod-container">
-                <div className="ipod-hold-switch"></div>
-                
-                <div className="ipod-screen">
-                    <div className="ipod-screen-content">
-                        {ipodView === 'genres' && renderGenresView()}
-                        {ipodView === 'playlist' && renderPlaylistView()}
+                <div className="ipod">
+                    <div className="ipod-hold-switch"></div>
+                    
+                    <div className="ipod-screen">
+                        <div className="ipod-screen-content">
+                            {ipodView === 'genres' && renderGenresView()}
+                            {ipodView === 'playlist' && renderPlaylistView()}
+                        </div>
                     </div>
-                </div>
-                
-                <div className="ipod-wheel-container">
-                    <div className="ipod-wheel">
+                    
+                    <div className="ipod-wheel-container">
+                        <div className="ipod-wheel">
                         <button 
                             className="wheel-button volume-up-btn" 
                             onClick={() => handleVolumeChange('up')}
@@ -503,6 +692,7 @@ const IPod = () => {
                         </button>
                     </div>
                 </div>
+                </div>
             </div>
             
             {/* iOS Volume Toast */}
@@ -513,6 +703,15 @@ const IPod = () => {
                     </svg>
                     <span>Use device volume buttons</span>
                 </div>
+            )}
+            
+            {/* Toast Notifications */}
+            {toast && (
+                <Toast
+                    message={toast.message}
+                    type={toast.type}
+                    onClose={() => setToast(null)}
+                />
             )}
         </div>
     );

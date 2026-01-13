@@ -11,9 +11,9 @@ export const useApp = () => {
 };
 
 export const AppProvider = ({ children }) => {
-    const [theme, setTheme] = useState(() => {
-        return localStorage.getItem('theme') || 'dark';
-    });
+    // Initialize with default value, load from localStorage in useEffect
+    const [theme, setTheme] = useState('dark');
+    const [isClient, setIsClient] = useState(false);
     
     // Browsing state - changes when navigating playlists
     const [currentGenre, setCurrentGenre] = useState(null);
@@ -38,10 +38,22 @@ export const AppProvider = ({ children }) => {
     // Track if now playing is expanded (full screen) or minimized (bottom bar)
     const [nowPlayingExpanded, setNowPlayingExpanded] = useState(false);
 
+    // Load theme from localStorage on client side only
     useEffect(() => {
-        document.body.classList.toggle('light-theme', theme === 'light');
-        localStorage.setItem('theme', theme);
-    }, [theme]);
+        setIsClient(true);
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            setTheme(savedTheme);
+        }
+    }, []);
+
+    // Update theme and save to localStorage
+    useEffect(() => {
+        if (isClient) {
+            document.body.classList.toggle('light-theme', theme === 'light');
+            localStorage.setItem('theme', theme);
+        }
+    }, [theme, isClient]);
 
     const toggleTheme = () => {
         setTheme(prev => prev === 'dark' ? 'light' : 'dark');

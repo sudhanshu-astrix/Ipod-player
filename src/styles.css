@@ -1,115 +1,56 @@
-:root {
-    /* Modern Dark Theme Palette */
-    --bg-primary: #0a0a0f;
-    --bg-secondary: #121218;
-    --bg-tertiary: #1a1a22;
-    --bg-elevated: rgba(26, 26, 34, 0.8);
+/* ============================================
+   LOLLAPALOOZA INDIA '26 - NEW DESIGN SYSTEM
+   ============================================ */
+
+/* Load Anton font from local file */
+@font-face {
+    font-family: 'Anton';
+    src: url('/Fonts/Anton-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+   :root {
+    /* Main Colors */
+    --bg-primary: #FCFBF7;
+    --bg-secondary: #F5F4F0;
+    --bg-tertiary: #EEEDE9;
+    --bg-elevated: rgba(252, 251, 247, 0.95);
     
-    /* Accent Colors - Vibrant but refined */
-    --accent-primary: #6366f1;
-    --accent-secondary: #8b5cf6;
-    --accent-glow: rgba(99, 102, 241, 0.4);
+    /* Accent Colors */
+    --accent-primary: #883F32;
+    --accent-secondary: #6B3228;
+    --accent-tertiary: #A65544;
     
     /* Text Colors */
-    --text-primary: #ffffff;
-    --text-secondary: rgba(255, 255, 255, 0.7);
-    --text-tertiary: rgba(255, 255, 255, 0.5);
-    --text-muted: rgba(255, 255, 255, 0.4);
+    --text-primary: #1A1A1A;
+    --text-secondary: #4A4A4A;
+    --text-tertiary: #7A7A7A;
+    --text-muted: #9A9A9A;
+    --text-heading: #883F32;
+    --text-bg: #F0F0F0;
     
     /* Borders & Surfaces */
-    --border-color: rgba(255, 255, 255, 0.08);
-    --border-light: rgba(255, 255, 255, 0.04);
-    --surface: rgba(255, 255, 255, 0.03);
+    --border-color: rgba(0, 0, 0, 0.1);
+    --border-light: rgba(0, 0, 0, 0.05);
+    --surface: rgba(0, 0, 0, 0.02);
+    --surface-hover: rgba(0, 0, 0, 0.04);
     
-    /* Glassmorphism */
-    --glass-bg: rgba(18, 18, 24, 0.6);
-    --glass-border: rgba(255, 255, 255, 0.1);
+    /* Shadows */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+    --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.16);
     
-    /* Shadows - Subtle but present */
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-    --shadow-xl: 0 16px 64px rgba(0, 0, 0, 0.6);
-    --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.3);
-    
-    /* Genre Colors - More refined */
+    /* Genre Colors */
     --genre-rock: #ef4444;
-    --genre-hiphop: #f472b6;
-    --genre-rb: #3b82f6;
+    --genre-hiphop: #1A1A1A;
+    --genre-rb: #f472b6;
     --genre-electronic: #10b981;
-    --genre-indie: #a855f7;
-    --genre-fusion: #f59e0b;
-    --genre-alternative: #eab308;
-    --genre-dance: #06b6d4;
 }
 
-/* Light Theme */
-body.light-theme {
-    --bg-primary: #fafafa;
-    --bg-secondary: #ffffff;
-    --bg-tertiary: #f5f5f5;
-    --bg-elevated: rgba(255, 255, 255, 0.9);
-    
-    --accent-primary: #6366f1;
-    --accent-secondary: #8b5cf6;
-    --accent-glow: rgba(99, 102, 241, 0.2);
-    
-    --text-primary: #0f172a;
-    --text-secondary: rgba(15, 23, 42, 0.7);
-    --text-tertiary: rgba(15, 23, 42, 0.5);
-    --text-muted: rgba(15, 23, 42, 0.4);
-    
-    --border-color: rgba(0, 0, 0, 0.08);
-    --border-light: rgba(0, 0, 0, 0.04);
-    --surface: rgba(0, 0, 0, 0.03);
-    
-    --glass-bg: rgba(255, 255, 255, 0.8);
-    --glass-border: rgba(0, 0, 0, 0.1);
-    
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
-    --shadow-xl: 0 16px 64px rgba(0, 0, 0, 0.2);
-    --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.2);
-}
-
-body.light-theme {
-    background: var(--bg-primary);
-    background-image: 
-        radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.04) 0%, transparent 50%),
-        linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
-}
-
-body.light-theme::before {
-    background: 
-        radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.02) 0%, transparent 70%);
-}
-
-/* Light theme adjustments for dark elements */
-body.light-theme .ipod-screen {
-    background: #000000;
-    box-shadow: 
-        inset 0 0 60px rgba(0, 0, 0, 1),
-        inset 0 2px 4px rgba(255, 255, 255, 0.05),
-        0 4px 16px rgba(0, 0, 0, 0.3);
-}
-
-body.light-theme .ipod-screen-content {
-    background: #000000;
-}
-
-body.light-theme .tracklist-container {
-    background: rgba(0, 0, 0, 0.4);
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-body.light-theme .tracklist-empty p,
-body.light-theme .tracklist-empty .empty-hint,
-body.light-theme .tracklist-loading p {
-    color: rgba(255, 255, 255, 0.6);
-}
-
+/* Reset */
 * {
     margin: 0;
     padding: 0;
@@ -121,56 +62,61 @@ html {
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: "JetBrains Mono", monospace;
+    font-optical-sizing: auto;
     background: var(--bg-primary);
-    background-image: 
-        radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
-        linear-gradient(180deg, #0a0a0f 0%, #0f0f16 100%);
     color: var(--text-primary);
-    overflow-x: hidden;
-    min-height: 100vh;
+    overflow: hidden;
+    height: 100vh;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
     display: flex;
     flex-direction: column;
-    position: relative;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
 }
 
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.03) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
+.App {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
 }
 
-/* Site Header - Minimalist */
+.grotesk-regular {
+    font-family: "Host Grotesk", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.anton-regular {
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+/* ============================================
+   HEADER STYLES
+   ============================================ */
+
 .site-header {
     position: sticky;
+    width: 100vw;
+    height: 70px;
     top: 0;
     z-index: 100;
-    background: var(--glass-bg);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border-bottom: 1px solid var(--border-color);
-    padding: 1.75rem 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.02);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: var(--bg-primary);
+    
 }
 
 .site-header-content {
-    max-width: 1600px;
+    max-width: 1400px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     margin: 0 auto;
-    padding: 0 3rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -184,606 +130,406 @@ body::before {
 .site-logo {
     text-decoration: none;
     display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    transition: opacity 0.3s ease;
+    align-items: center;
 }
 
-.site-logo:hover {
-    opacity: 0.8;
+.logo-image {
+    height: 38px;
+    width: auto;
+    object-fit: contain;
 }
 
-.logo-text {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-}
-
-.logo-year {
-    font-size: 0.6875rem;
+/* Reach Out Button */
+.reach-out-btn {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.875rem;
     font-weight: 500;
-    color: var(--text-tertiary);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    padding: 0.625rem 1.5rem;
+    background: transparent;
+    border: 1.5px solid var(--text-primary);
+    border-radius: 50px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.reach-out-btn:hover {
+    background: var(--text-primary);
+    color: var(--bg-primary);
 }
 
 .site-nav {
     display: flex;
-    gap: 2.5rem;
+    gap: 1.5rem;
     align-items: center;
 }
 
-.nav-link {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    text-decoration: none;
-    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-}
-
-.nav-link:hover {
-    color: var(--text-primary);
-}
-
-.nav-link:focus-visible {
-    outline: 2px solid var(--accent-primary);
-    outline-offset: 4px;
-    border-radius: 4px;
-}
-
-/* Theme Toggle Button */
-.theme-toggle {
-    background: transparent;
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    padding: 8px 10px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-secondary);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    width: 40px;
-    height: 40px;
-}
-
-.theme-toggle:hover {
-    color: var(--text-primary);
-    background: var(--surface);
-    border-color: var(--border-light);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.theme-toggle:active {
-    transform: translateY(0);
-}
-
-.theme-icon {
-    position: absolute;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.sun-icon {
-    opacity: 0;
-    transform: rotate(90deg) scale(0.8);
-}
-
-.moon-icon {
-    opacity: 1;
-    transform: rotate(0deg) scale(1);
-}
-
-body.light-theme .sun-icon {
-    opacity: 1;
-    transform: rotate(0deg) scale(1);
-}
-
-body.light-theme .moon-icon {
-    opacity: 0;
-    transform: rotate(-90deg) scale(0.8);
-}
-
-/* Mini Player - Base styles (see end of file for full mini-player styles) */
-.mini-player-toggle {
-    position: relative;
-    background: transparent;
+/* Music Toggle Button */
+.music-toggle-btn {
+    background: none;
     border: none;
     cursor: pointer;
     padding: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--text-secondary);
-    transition: color 0.2s ease;
-    border-radius: 8px;
+    transition: opacity 0.2s ease;
 }
 
-.mini-player-toggle:hover {
-    color: var(--accent-primary);
-    background: var(--surface);
+.music-toggle-btn:hover {
+    opacity: 0.7;
 }
 
-.mini-player-icon {
-    width: 20px;
+/* Animated Music Waves */
+.music-waves-animated {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
     height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
-.mini-player-icon svg {
+.music-waves-animated span {
+    width: 3px;
+    background: var(--text-primary);
+    border-radius: 2px;
+    animation: musicWave 1s ease-in-out infinite;
+}
+
+.music-waves-animated span:nth-child(1) { 
+    height: 40%; 
+    animation-delay: 0s; 
+}
+.music-waves-animated span:nth-child(2) { 
+    height: 70%; 
+    animation-delay: 0.15s; 
+}
+.music-waves-animated span:nth-child(3) { 
+    height: 100%; 
+    animation-delay: 0.3s; 
+}
+.music-waves-animated span:nth-child(4) { 
+    height: 60%; 
+    animation-delay: 0.45s; 
+}
+.music-waves-animated span:nth-child(5) { 
+    height: 30%; 
+    animation-delay: 0.6s; 
+}
+
+@keyframes musicWave {
+    0%, 100% { 
+        transform: scaleY(0.5); 
+    }
+    50% { 
+        transform: scaleY(1); 
+    }
+}
+
+/* Music Waves Off Image */
+.music-waves-off {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.5;
+}
+
+/* Dashed Separator */
+.dashed-separator {
     width: 100%;
-    height: 100%;
-}
-
-.floating-notes {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    width: 60px;
-    height: 60px;
-}
-
-.floating-notes .note {
-    position: absolute;
-    font-size: 14px;
-    color: var(--accent-primary);
-    opacity: 0;
-    font-weight: bold;
-}
-
-.floating-notes .note:nth-child(1) {
-    animation: floatNote1 2s infinite;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.floating-notes .note:nth-child(2) {
-    animation: floatNote2 2s infinite 0.4s;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-}
-
-.floating-notes .note:nth-child(3) {
-    animation: floatNote3 2s infinite 0.8s;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-@keyframes floatNote1 {
-    0% {
-        opacity: 0;
-        transform: translateX(-50%) translateY(0) scale(0.5);
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        transform: translateX(-50%) translateY(-25px) scale(1.2);
-    }
-}
-
-@keyframes floatNote2 {
-    0% {
-        opacity: 0;
-        transform: translateY(-50%) translateX(0) scale(0.5);
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(-50%) translateX(25px) scale(1.2);
-    }
-}
-
-@keyframes floatNote3 {
-    0% {
-        opacity: 0;
-        transform: translateX(-50%) translateY(0) scale(0.5);
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        transform: translateX(-50%) translateY(25px) scale(1.2);
-    }
-}
-
-.mini-player-info {
-    text-align: center;
-}
-
-.mini-player-track {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 4px;
-}
-
-.mini-player-artist {
-    font-size: 12px;
-    color: var(--text-secondary);
-}
-
-.mini-player-controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
-}
-
-.mini-control-btn {
-    background: transparent;
+    height: 0;
     border: none;
-    cursor: pointer;
-    padding: 8px;
-    color: var(--text-secondary);
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
+    border-top: 2px dashed #777777;
+    margin: 0;
+    background: repeating-linear-gradient(
+        to right,
+        #777777 0,
+        #777777 12px,
+        transparent 12px,
+        transparent 18px
+    );
+    background-size: 18px 2px;
+    background-position: 0 0;
+    background-repeat: repeat-x;
+    border: none;
+    height: 2px;
 }
 
-.mini-control-btn:hover {
-    color: var(--accent-primary);
-    background: var(--surface);
-}
+/* ============================================
+   MAIN CONTAINER
+   ============================================ */
 
-.mini-control-btn:active {
-    transform: scale(0.9);
-}
-
-.mini-control-btn svg {
-    width: 100%;
-    height: 100%;
-}
-
-/* Main Container */
 .container {
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 5rem 3rem;
-    position: relative;
-    z-index: 1;
+    max-width: 1400px;
+    /* margin: 0 auto; */
+    padding: 1.5rem 0.5rem;
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
-/* Main Content - Centered Layout with Even Spacing */
+.container.ipod-only {
+    /* padding: 1rem 2rem; */
+    justify-content: center;
+}
+
 .main-content {
     display: flex;
     flex-direction: row;
     align-items: center;
-    min-height: calc(100vh - 250px);
-    width: 100%;
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 0 4rem;
-    gap: 0;
-}
-
-/* Equal spacing using flex pseudo-elements */
-.main-content::before {
-    content: '';
+    justify-content: space-between;
     flex: 1;
-    order: 1;
+    width: 100%;
+    gap: 2rem;
 }
 
-.mood-section {
-    flex: 0 0 auto;
-    order: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+/* Guide Section - Left */
+.guide-section {
+    height: 100%;
+    flex: 1;
+    width: 100%;
+    max-width: 300px;
+    margin-left: 1.5rem;
 }
 
+
+.guide-title {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 3rem;
+    font-weight: 700;
+    text-align: left;
+    color: var(--text-heading);
+    line-height: 1.1;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.guide-title span {
+    display: block;
+}
+
+.guide-subtitle {
+    padding: 0 2rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #000000;
+    line-height: 1.6;
+    /* margin-bottom: 1.5rem; */
+}
+
+.guide-subtitle.guide-subtitle-desktop {
+    padding: 0rem;
+}
+
+.guide-subtitle.guide-subtitle-mobile {
+    display: none;
+}
+
+.guide-arrow {
+    display: none;
+    margin-top: 1rem;
+}
+
+.guide-arrow img {
+    height: 35px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* iPod Section - Center */
 .ipod-section {
     flex: 0 0 auto;
-    order: 3;
-    margin-left: 8rem;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.main-content::after {
-    content: '';
+/* Event Section - Right */
+.event-section {
     flex: 1;
-    order: 4;
-}
-
-
-.mood-sphere-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    position: relative;
-}
-
-/* Mood Sphere - Modern Glass Design */
-.mood-sphere-container {
-    position: relative;
-    width: 500px;
-    height: 500px;
-    margin: 0 auto;
-    background: var(--glass-bg);
-    backdrop-filter: blur(40px) saturate(180%);
-    -webkit-backdrop-filter: blur(40px) saturate(180%);
-    border: 1px solid var(--glass-border);
-    border-radius: 50%;
-    box-shadow: 
-        var(--shadow-xl),
-        inset 0 2px 20px rgba(255, 255, 255, 0.05),
-        inset 0 -2px 20px rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.02);
-    overflow: hidden;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-sizing: border-box;
-    aspect-ratio: 1 / 1;
-}
-
-.mood-sphere-container:hover {
-    transform: scale(1.02);
-    box-shadow: 
-        var(--shadow-xl),
-        var(--shadow-glow),
-        inset 0 2px 20px rgba(255, 255, 255, 0.05),
-        inset 0 -2px 20px rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.03);
-}
-
-.gradient-blobs-container {
-    position: relative;
-    width: 100%;
     height: 100%;
-    overflow: hidden;
-}
-
-/* Center Circle - Refined */
-.sphere-center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100px;
-    height: 100px;
-    background: var(--bg-elevated);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid var(--glass-border);
-    border-radius: 50%;
-    box-shadow: 
-        var(--shadow-lg),
-        inset 0 2px 10px rgba(255, 255, 255, 0.1),
-        inset 0 -2px 10px rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.02);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.sphere-center:hover {
-    transform: translate(-50%, -50%) scale(1.1);
-    box-shadow: 
-        var(--shadow-xl),
-        var(--shadow-glow),
-        inset 0 2px 10px rgba(255, 255, 255, 0.15),
-        inset 0 -2px 10px rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.03);
-}
-
-.sphere-center:focus-visible {
-    outline: 2px solid var(--accent-primary);
-    outline-offset: 4px;
-    border-radius: 50%;
-}
-
-.sphere-center-content {
-    text-align: center;
-}
-
-.center-text {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--accent-primary);
-    font-family: 'JetBrains Mono', monospace;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-}
-
-/* Genre Blob - Enhanced */
-.genre-blob {
-    position: absolute;
-    cursor: pointer;
-    border: none;
-    background: transparent;
-    transform: translate(-50%, -50%);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1;
-    opacity: 0;
-    animation: fadeInScale 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
-}
-
-.genre-blob:active {
-    transform: translate(-50%, -50%) scale(0.95);
-    transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.genre-blob:focus-visible {
-    outline: 3px solid var(--accent-primary);
-    outline-offset: 4px;
-    border-radius: 50%;
-    z-index: 20;
-}
-
-@keyframes fadeInScale {
-    from {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0);
-    }
-    to {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-    }
-}
-
-.genre-blob:hover {
-    transform: translate(-50%, -50%) scale(1.15);
-    z-index: 2;
-    filter: brightness(1.2) drop-shadow(0 6px 20px rgba(0, 0, 0, 0.3));
-}
-
-.genre-blob.active {
-    transform: translate(-50%, -50%) scale(1.25);
-    z-index: 3;
-    filter: brightness(1.3) drop-shadow(0 8px 24px rgba(0, 0, 0, 0.4));
-    animation: pulseGlow 2s ease-in-out infinite;
-}
-
-@keyframes pulseGlow {
-    0%, 100% {
-        filter: brightness(1.3);
-    }
-    50% {
-        filter: brightness(1.5);
-    }
-}
-
-.gradient-blob-bg {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    filter: blur(50px);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.genre-blob:hover .gradient-blob-bg,
-.genre-blob.active .gradient-blob-bg {
-    filter: blur(60px);
-}
-
-.genre-blob-label {
-    position: relative;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text-primary);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    pointer-events: none;
-    text-shadow: 
-        0 2px 8px rgba(0, 0, 0, 0.8),
-        0 0 20px rgba(255, 255, 255, 0.3);
-}
-
-.genre-blob:hover .genre-blob-label {
-    font-size: 13px;
-    text-shadow: 
-        0 2px 10px rgba(0, 0, 0, 0.9),
-        0 0 25px rgba(255, 255, 255, 0.4);
-}
-
-.genre-blob.active .genre-blob-label {
-    font-size: 13px;
-    font-weight: 800;
-    text-shadow: 
-        0 3px 12px rgba(0, 0, 0, 1),
-        0 0 30px rgba(255, 255, 255, 0.5);
-}
-
-
-.ipod-container {
-    width: 360px;
-    height: 640px;
-    background: var(--bg-elevated);
-    backdrop-filter: blur(30px) saturate(180%);
-    -webkit-backdrop-filter: blur(30px) saturate(180%);
-    border: 1px solid var(--glass-border);
-    border-radius: 40px;
-    padding: 35px 25px;
-    box-shadow: 
-        var(--shadow-xl),
-        inset 0 2px 0 rgba(255, 255, 255, 0.1),
-        inset 0 -2px 0 rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.02);
-    position: relative;
     display: flex;
     flex-direction: column;
-    gap: 25px;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-sizing: border-box;
+    justify-content: flex-end;
+    max-width: 420px;
+    text-align: right;
+}
+
+.event-title {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    line-height: 1.1;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.event-title span {
+    display: block;
+}
+
+.event-description {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: black;
+    line-height: 1.6;
+}
+
+/* Mobile Event Title */
+.event-title-mobile {
+    display: none;
+    width: 100%;
+    text-align: right;
+    margin-top: 2.5rem;
+}
+
+.event-title-mobile h2 {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+.event-title-mobile h2 span {
+    display: block;
+}
+
+/* Discover Button */
+.discover-btn-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    margin-top: 1.5rem;
     flex-shrink: 0;
 }
 
-.ipod-container:hover {
-    transform: translateY(-4px);
-    box-shadow: 
-        var(--shadow-xl),
-        var(--shadow-glow),
-        inset 0 2px 0 rgba(255, 255, 255, 0.12),
-        inset 0 -2px 0 rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.03);
-}
-
-/* Hold Switch */
-.ipod-hold-switch {
-    position: absolute;
-    top: 90px;
-    left: -10px;
-    width: 18px;
-    height: 45px;
-    background: var(--bg-elevated);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--border-color);
-    border-right: none;
-    border-radius: 10px 0 0 10px;
-    box-shadow: var(--shadow-md);
+.discover-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    padding: 1rem 2rem;
+    background: #1a1a1a;
+    border: none;
+    border-radius: 50px;
+    color: #ffffff;
     cursor: pointer;
     transition: all 0.2s ease;
+    height: 52px;
 }
 
-.ipod-hold-switch:hover {
-    background: var(--bg-tertiary);
+.discover-btn:hover {
+    background: #2a2a2a;
 }
 
-.ipod-hold-switch::after {
+.discover-btn-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    background: #1a1a1a;
+    border: none;
+    border-radius: 50%;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-left: -2px;
+}
+
+.discover-btn-arrow:hover {
+    background: #2a2a2a;
+}
+
+.discover-btn-arrow svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+
+.site-footer {
+    font-family: "Host Grotesk", sans-serif;
+    padding: 1.5rem 2rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: #1a1a1a;
+    flex-shrink: 0;
+}
+
+.astrix-logo-img {
+    height: 18px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* ============================================
+   iPOD STYLES - Original Design
+   ============================================ */
+
+.ipod-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ipod {
+    width: 320px;
+    background: linear-gradient(145deg, #f5f5f5 0%, #e8e8e8 50%, #d9d9d9 100%);
+    border-radius: 45px;
+    padding: 25px 20px;
+    box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.25),
+        0 15px 30px rgba(0, 0, 0, 0.15),
+        inset 0 2px 0 rgba(255, 255, 255, 0.8),
+        inset 0 -3px 6px rgba(0, 0, 0, 0.08),
+        0 0 0 1px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+}
+
+.ipod::before {
     content: '';
     position: absolute;
-    top: 50%;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    border-radius: 40px;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 100%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* iPod Hold Switch */
+.ipod-hold-switch {
+    position: absolute;
+    top: 12px;
     left: 50%;
-    transform: translate(-50%, -50%);
-    width: 5px;
-    height: 22px;
-    background: var(--text-tertiary);
-    border-radius: 3px;
-    opacity: 0.5;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 4px;
+    background: linear-gradient(to bottom, #d0d0d0, #b8b8b8);
+    border-radius: 2px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
+    z-index: 2;
 }
 
 /* iPod Screen - Darker, More Premium */
@@ -804,6 +550,7 @@ body.light-theme .moon-icon {
     border: 1px solid rgba(0, 0, 0, 0.5);
     transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-sizing: border-box;
+    z-index: 1;
 }
 
 .ipod-screen-content {
@@ -813,472 +560,6 @@ body.light-theme .moon-icon {
     flex-direction: column;
     position: relative;
     background: #000000;
-    padding: 18px;
-}
-
-/* Track Info */
-.ipod-track-info {
-    flex-shrink: 0;
-    padding: 12px 8px;
-    text-align: center;
-    z-index: 10;
-}
-
-.track-name {
-    font-size: 17px;
-    font-weight: 600;
-    color: #ffffff;
-    margin-bottom: 4px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    animation: slideInText 0.3s ease-out;
-}
-
-.artist-name {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.6);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    animation: slideInText 0.4s ease-out;
-}
-
-@keyframes slideInText {
-    from {
-        opacity: 0;
-        transform: translateY(5px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Enhanced smooth scrolling */
-* {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
-}
-
-*::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-}
-
-*::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-*::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
-    transition: background 0.3s ease;
-}
-
-*::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-/* Album Art */
-.album-art-container {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 0;
-    margin: 10px 0;
-}
-
-.album-art-background {
-    width: 150px;
-    height: 150px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-color: #111111;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 
-        0 8px 24px rgba(0, 0, 0, 0.6),
-        0 0 0 1px rgba(255, 255, 255, 0.05),
-        inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    animation: fadeInAlbum 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.album-art-background:hover {
-    transform: scale(1.05);
-    box-shadow: 
-        0 12px 32px rgba(0, 0, 0, 0.8),
-        0 0 0 1px rgba(255, 255, 255, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.08);
-}
-
-@keyframes fadeInAlbum {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-.album-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
-}
-
-.music-icon {
-    font-size: 52px;
-    color: rgba(255, 255, 255, 0.15);
-    font-family: serif;
-}
-
-/* YouTube Player Background */
-.youtube-player-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    border-radius: 12px;
-    overflow: hidden;
-    pointer-events: none; /* Make it non-interactive */
-    opacity: 0.4; /* Slightly transparent background */
-    transition: opacity 0.3s ease;
-}
-
-.youtube-player-background iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 12px;
-    pointer-events: none !important; /* Ensure iframe is also non-interactive */
-}
-
-/* Ensure album art and placeholder are above the YouTube player */
-.album-art-background {
-    position: relative;
-}
-
-.album-placeholder {
-    position: relative;
-    z-index: 1;
-    background: linear-gradient(135deg, rgba(26, 26, 26, 0.7) 0%, rgba(10, 10, 10, 0.7) 100%);
-}
-
-/* When album art is present, it should be above the YouTube player */
-.album-art-background[style*="background-image"] {
-    position: relative;
-}
-
-.album-art-background[style*="background-image"]::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    pointer-events: none;
-}
-
-/* YouTube Player Embed */
-.youtube-player-embed {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
-    border-radius: 12px;
-    overflow: hidden;
-    display: none; /* Hidden by default, shown when video is playing */
-}
-
-.youtube-player-embed iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 12px;
-    pointer-events: auto;
-}
-
-/* Progress Bar */
-.progress-container {
-    flex-shrink: 0;
-    padding: 12px 8px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    z-index: 10;
-}
-
-.progress-time-left,
-.progress-time-right {
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.7);
-    font-family: 'JetBrains Mono', monospace;
-    min-width: 38px;
-    flex-shrink: 0;
-}
-
-.progress-time-left {
-    text-align: left;
-}
-
-.progress-time-right {
-    text-align: right;
-}
-
-.progress-bar-wrapper {
-    flex: 1;
-    height: 2px;
-}
-
-.progress-bar {
-    width: 100%;
-    height: 3px;
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 3px;
-    overflow: hidden;
-    position: relative;
-    cursor: pointer;
-    transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.progress-bar:hover {
-    height: 4px;
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-    width: 0%;
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 3px;
-    box-shadow: 0 0 12px rgba(99, 102, 241, 0.6), 
-                0 0 6px rgba(139, 92, 246, 0.4);
-    position: relative;
-    overflow: hidden;
-}
-
-.progress-fill::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    animation: shimmer 2s infinite;
-}
-
-@keyframes shimmer {
-    0% { left: -100%; }
-    100% { left: 100%; }
-}
-
-/* Tracklist */
-.tracklist-container {
-    flex-shrink: 0;
-    max-height: 100px;
-    background: rgba(0, 0, 0, 0.4);
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 12px 8px;
-    margin-top: 8px;
-    overflow: hidden;
-    z-index: 5;
-    border-radius: 0 0 14px 14px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-}
-
-.tracklist-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6px 0;
-    margin-bottom: 8px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.tracklist-title {
-    font-size: 10px;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.6);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-family: 'JetBrains Mono', monospace;
-}
-
-.tracklist-count {
-    font-size: 9px;
-    color: rgba(255, 255, 255, 0.4);
-    font-family: 'JetBrains Mono', monospace;
-}
-
-.tracklist {
-    max-height: 75px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.tracklist-item {
-    padding: 8px 10px;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-left: 2px solid transparent;
-    animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    opacity: 0;
-    animation-fill-mode: forwards;
-}
-
-.tracklist-item:hover {
-    background: rgba(255, 255, 255, 0.08);
-    transform: translateX(3px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.tracklist-item.active {
-    background: rgba(99, 102, 241, 0.2);
-    border-left-color: var(--accent-primary);
-    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3),
-                0 0 0 1px rgba(99, 102, 241, 0.1);
-}
-
-.tracklist-item:focus-visible {
-    outline: 2px solid var(--accent-primary);
-    outline-offset: 2px;
-    border-radius: 6px;
-}
-
-.tracklist-item-info {
-    flex: 1;
-    min-width: 0;
-}
-
-.tracklist-item-track {
-    font-size: 11px;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.95);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-bottom: 2px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-}
-
-.tracklist-item-artist {
-    font-size: 9px;
-    color: rgba(255, 255, 255, 0.5);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-}
-
-.tracklist-item-duration {
-    font-size: 9px;
-    color: rgba(255, 255, 255, 0.3);
-    font-family: 'JetBrains Mono', monospace;
-    margin-left: 8px;
-    flex-shrink: 0;
-}
-
-.tracklist-empty {
-    padding: 24px 8px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
-.tracklist-loading {
-    padding: 24px 8px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-}
-
-.tracklist-loading p {
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 11px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    margin: 0;
-}
-
-.loading-spinner {
-    width: 24px;
-    height: 24px;
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    border-top-color: var(--accent-primary);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-.tracklist-empty .empty-icon {
-    font-size: 28px;
-    opacity: 0.5;
-    margin-bottom: 4px;
-}
-
-.tracklist-empty p {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 11px;
-    font-weight: 500;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    margin: 0;
-}
-
-.tracklist-empty .empty-hint {
-    color: rgba(255, 255, 255, 0.3);
-    font-size: 9px;
-    font-family: 'JetBrains Mono', monospace;
-}
-
-.tracklist::-webkit-scrollbar {
-    width: 3px;
-}
-
-.tracklist::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 2px;
-}
-
-.tracklist::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 2px;
-}
-
-.tracklist::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.25);
 }
 
 /* iPod Click Wheel - Modern Refinement */
@@ -1287,35 +568,31 @@ body.light-theme .moon-icon {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 20px;
 }
 
 .ipod-wheel {
     position: relative;
-    width: 240px;
-    height: 240px;
+    width: 200px;
+    height: 200px;
     margin: 0 auto;
-    background: var(--bg-elevated);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid var(--glass-border);
+    background: linear-gradient(145deg, #f0f0f0 0%, #e0e0e0 50%, #d5d5d5 100%);
     border-radius: 50%;
     box-shadow: 
-        var(--shadow-lg),
-        inset 0 2px 0 rgba(255, 255, 255, 0.1),
-        inset 0 -2px 0 rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.02);
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        0 8px 24px rgba(0, 0, 0, 0.15),
+        inset 0 2px 0 rgba(255, 255, 255, 0.8),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.08),
+        0 0 0 1px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .ipod-wheel:hover {
     transform: scale(1.02);
     box-shadow: 
-        var(--shadow-xl),
-        var(--shadow-glow),
-        inset 0 2px 0 rgba(255, 255, 255, 0.12),
-        inset 0 -2px 0 rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.03);
+        0 12px 32px rgba(0, 0, 0, 0.2),
+        inset 0 2px 0 rgba(255, 255, 255, 0.8),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.08),
+        0 0 0 1px rgba(0, 0, 0, 0.05);
 }
 
 .wheel-button {
@@ -1327,32 +604,17 @@ body.light-theme .moon-icon {
     align-items: center;
     justify-content: center;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    color: var(--text-secondary);
+    color: #666666;
     z-index: 2;
     padding: 10px;
 }
 
 .wheel-button:hover {
-    color: var(--accent-primary);
-    /* transform: scale(1.2); */
-    filter: drop-shadow(0 2px 8px rgba(99, 102, 241, 0.4));
+    color: #333333;
 }
 
 .wheel-button:active {
-    /* transform: scale(0.9); */
-    color: var(--text-primary);
-    transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.wheel-button.center-btn:active {
-    transform: translate(-50%, -50%) scale(0.85);
-}
-
-.wheel-button:focus-visible {
-    outline: 3px solid var(--accent-primary);
-    outline-offset: 3px;
-    border-radius: 50%;
-    z-index: 10;
+    color: #000000;
 }
 
 .wheel-button svg {
@@ -1400,1779 +662,57 @@ body.light-theme .moon-icon {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 100px;
-    height: 100px;
-    background: var(--bg-elevated);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid var(--glass-border);
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(145deg, #fafafa 0%, #f0f0f0 50%, #e8e8e8 100%);
     border-radius: 50%;
-    box-shadow: var(--shadow-md),
-                0 0 0 1px rgba(255, 255, 255, 0.02);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        0 0 0 1px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .center-btn:hover {
-    box-shadow: var(--shadow-lg), 
-                var(--shadow-glow),
-                0 0 0 1px rgba(255, 255, 255, 0.03);
-    transform: translate(-50%, -50%) scale(1.08);
+    box-shadow: 
+        0 6px 16px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        0 0 0 1px rgba(0, 0, 0, 0.05);
+    transform: translate(-50%, -50%) scale(1.05);
 }
 
 .center-btn:active {
     transform: translate(-50%, -50%) scale(0.95);
-    transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .center-btn svg {
     width: 22px;
     height: 22px;
-    color: var(--text-primary);
+    color: #333333;
 }
 
-/* Animations */
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(5px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeInAlbum {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* Responsive Design */
-@media (max-width: 1200px) {
-    .main-content {
-        padding: 0 2rem;
-    }
-    
-    .ipod-section {
-        margin-left: 4rem;
-    }
-    
-    .mood-sphere-container {
-        width: 450px;
-        height: 450px;
-    }
-}
-
-/* Tablet and smaller desktop */
-@media (max-width: 1024px) {
-    .main-content {
-        padding: 0 2rem;
-    }
-    
-    .ipod-section {
-        margin-left: 3rem;
-    }
-    
-    .mood-sphere-container {
-        width: 400px;
-        height: 400px;
-    }
-}
-
-/* Mobile landscape and small tablets */
-@media (max-width: 900px) and (orientation: landscape) {
-    .main-content {
-        flex-direction: row;
-        gap: 2rem;
-        padding: 0 1.5rem;
-    }
-    
-    .mood-sphere-container {
-        width: 300px;
-        height: 300px;
-    }
-    
-    .ipod-container {
-        max-width: 280px;
-        min-height: 500px;
-    }
-    
-    .ipod-screen {
-        height: 220px;
-    }
-}
-
-@media (max-width: 768px) {
-    .container {
-        padding: 1rem 0.5rem;
-        overflow-x: hidden;
-        overflow-y: visible;
-        min-height: auto;
-    }
-    
-    .site-header {
-        padding: 1rem 0;
-    }
-    
-    .site-header-content {
-        padding: 0 1rem;
-        flex-wrap: wrap;
-        gap: 1rem;
-    }
-    
-    .site-logo {
-        flex-shrink: 0;
-    }
-    
-    .logo-text {
-        font-size: 1.125rem;
-    }
-    
-    .logo-year {
-        font-size: 0.625rem;
-    }
-    
-    .site-nav {
-        gap: 1rem;
-        flex-wrap: wrap;
-        justify-content: flex-end;
-    }
-    
-    .nav-link {
-        font-size: 0.8125rem;
-    }
-    
-    .theme-toggle {
-        width: 36px;
-        height: 36px;
-        padding: 6px 8px;
-    }
-    
-    .theme-icon {
-        width: 18px;
-        height: 18px;
-    }
-    
-    /* Stack main content vertically on mobile */
-    .main-content {
-        flex-direction: column;
-        padding: 0 1rem;
-        gap: 2rem;
-        min-height: auto;
-        align-items: center;
-        justify-content: flex-start;
-        overflow: visible;
-    }
-    
-    .main-content::before,
-    .main-content::after {
-        display: none;
-    }
-    
-    .mood-section {
-        order: 1;
-        width: 100%;
-        max-width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 2rem 0;
-        min-height: 400px;
-        flex-shrink: 0;
-    }
-    
-    .mood-sphere-wrapper {
-        width: 100%;
-        max-width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 0 1rem;
-        box-sizing: border-box;
-    }
-    
-    .ipod-section {
-        order: 2;
-        margin-left: 0;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        flex-shrink: 0;
-    }
-    
-    .mood-sphere-container {
-        /* width: calc(100vw - 2rem);
-        height: calc(100vw - 2rem); */
-        width: 350px;
-        height: 350px;
-        max-width: 350px;
-        max-height: 350px;
-        min-width: 280px;
-        min-height: 280px;
-        flex-shrink: 0;
-        position: relative;
-        visibility: visible;
-        display: block;
-        margin: 0 auto;
-        box-sizing: border-box;
-        border-radius: 50%;
-        aspect-ratio: 1 / 1;
-    }
-    
-    .gradient-blobs-container {
-        width: 100%;
-        height: 100%;
-        position: relative;
-        visibility: visible;
-    }
-    
-    .sphere-center {
-        width: 80px;
-        height: 80px;
-        position: absolute;
-        visibility: visible;
-    }
-    
-    .center-text {
-        font-size: 10px;
-    }
-    
-    .genre-blob {
-        visibility: visible;
-        display: block;
-    }
-    
-    .ipod-container {
-        width: 320px !important;
-        max-width: 320px !important;
-        min-width: 320px !important;
-        height: auto;
-        min-height: 580px;
-        padding: 25px 18px;
-        box-sizing: border-box;
-        flex-shrink: 0;
-    }
-    
-    .ipod-hold-switch {
-        top: 75px;
-        width: 15px;
-        height: 38px;
-    }
-    
-    .ipod-screen {
-        height: 260px;
-        width: 100%;
-        box-sizing: border-box;
-    }
-    
-    .ipod-screen-content {
-        padding: 14px;
-        width: 100%;
-        box-sizing: border-box;
-    }
-    
-    /* Prevent view changes from affecting iPod width */
-    .ipod-genres-view,
-    .ipod-playlist-view {
-        width: 100%;
-        box-sizing: border-box;
-        overflow: hidden;
-    }
-    
-    .track-name {
-        font-size: 15px;
-    }
-    
-    .artist-name {
-        font-size: 13px;
-    }
-    
-    .album-art-background {
-        width: 130px;
-        height: 130px;
-    }
-    
-    .progress-container {
-        padding: 10px 6px;
-        gap: 8px;
-    }
-    
-    .progress-time-left,
-    .progress-time-right {
-        font-size: 10px;
-        min-width: 32px;
-    }
-    
-    .tracklist-container {
-        max-height: 90px;
-        padding: 10px 6px;
-    }
-    
-    .tracklist {
-        max-height: 70px;
-    }
-    
-    .tracklist-item {
-        padding: 6px 8px;
-    }
-    
-    .tracklist-item-track {
-        font-size: 10px;
-    }
-    
-    .tracklist-item-artist {
-        font-size: 8px;
-    }
-    
-    .tracklist-item-duration {
-        font-size: 8px;
-    }
-    
-    .ipod-wheel {
-        width: 180px;
-        height: 180px;
-    }
-    
-    .wheel-button {
-        padding: 8px;
-    }
-    
-    .wheel-button svg {
-        width: 16px;
-        height: 16px;
-    }
-    
-    .prev-btn svg,
-    .next-btn svg {
-        width: 18px;
-        height: 18px;
-    }
-    
-    .center-btn {
-        width: 75px;
-        height: 75px;
-    }
-    
-    .center-btn svg {
-        width: 20px;
-        height: 20px;
-    }
-    
-    .volume-up-btn {
-        top: 15px;
-    }
-    
-    .volume-down-btn {
-        bottom: 15px;
-    }
-    
-    .prev-btn {
-        left: 15px;
-    }
-    
-    .next-btn {
-        right: 15px;
-    }
-    
-    /* Touch-friendly improvements */
-    .genre-blob {
-        min-width: 60px;
-        min-height: 60px;
-    }
-    
-    .genre-blob-label {
-        font-size: 11px;
-    }
-    
-    .wheel-button {
-        min-width: 44px;
-        min-height: 44px;
-        touch-action: manipulation;
-        -webkit-tap-highlight-color: transparent;
-    }
-    
-    .center-btn {
-        min-width: 75px;
-        min-height: 75px;
-    }
-    
-    .tracklist-item {
-        min-height: 44px;
-        touch-action: manipulation;
-    }
-    
-    .sphere-center {
-        min-width: 80px;
-        min-height: 80px;
-        touch-action: manipulation;
-    }
-}
-
-/* Artists Overlay */
-.artists-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(10, 10, 15, 0.95);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    z-index: 1000;
-    display: none;
-    opacity: 0;
-    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-}
-
-.artists-overlay.active {
-    display: block;
-    animation: fadeIn 0.3s ease forwards;
-}
-
-@keyframes fadeIn {
-    to {
-        opacity: 1;
-    }
-}
-
-.artists-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 1.5rem 1rem;
-    min-height: 100vh;
-}
-
-@media (max-width: 768px) {
-    .artists-container {
-        padding: 1rem 1rem;
-    }
-    
-    .artists-title {
-        font-size: 1.75rem;
-    }
-}
-
-.artists-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    /* margin-bottom: 1rem; */
-    /* border: 1px solid red; */
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.artists-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    letter-spacing: -0.02em;
-}
-
-.artists-close {
-    background: transparent;
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    padding: 10px;
-    cursor: pointer;
-    color: var(--text-secondary);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-    min-width: 44px;
-    min-height: 44px;
-}
-
-.artists-close:hover {
-    color: var(--text-primary);
-    background: var(--surface);
-    border-color: var(--border-light);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.artists-close:focus-visible {
-    outline: 2px solid var(--accent-primary);
-    outline-offset: 2px;
-}
-
-.artists-close svg {
-    width: 20px;
-    height: 20px;
-}
-
-/* Genre Filters */
-.artists-filters {
-    display: flex;
-    gap: 0.75rem;
-    /* margin-bottom: 1rem; */
-    flex-wrap: wrap;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--border-color);
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
-
-.artists-filters::-webkit-scrollbar {
-    display: none;
-}
-
-.filter-btn {
-    padding: 0.625rem 1.25rem;
-    background: var(--surface);
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    color: var(--text-secondary);
-    font-size: 0.875rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-    min-height: 44px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.filter-btn:hover {
-    background: var(--bg-tertiary);
-    border-color: var(--border-light);
-    color: var(--text-primary);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.filter-btn.active {
-    background: var(--accent-primary);
-    border-color: var(--accent-primary);
-    color: var(--text-primary);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3),
-                0 0 0 1px rgba(99, 102, 241, 0.2);
-    transform: translateY(-1px);
-}
-
-/* Card Deck Wrapper */
-.deck-wrapper {
-    position: relative;
-    width: 100%;
-    padding: 4rem 0;
-    min-height: 600px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.deck-container {
-    position: relative;
-    width: 100%;
-    max-width: 1200px;
-    height: 500px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    perspective: 1500px;
-    perspective-origin: center center;
-}
-
-.deck-stack {
-    position: relative;
-    width: 320px;
-    height: 450px;
-    transform-style: preserve-3d;
-}
-
-.deck-hint {
-    margin-top: 2rem;
-    font-size: 0.875rem;
-    color: var(--text-tertiary);
-    text-align: center;
-    letter-spacing: 0.05em;
-    opacity: 0.7;
-}
-
-/* Artist Card in Deck */
-.artist-deck-card {
-    position: absolute;
-    width: 320px;
-    height: 450px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-    backdrop-filter: blur(30px) saturate(180%);
-    -webkit-backdrop-filter: blur(30px) saturate(180%);
-    border: none;
-    border-radius: 28px;
-    padding: 0;
-    cursor: grab;
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    transform-style: preserve-3d;
-    box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.25),
-        0 2px 8px rgba(0, 0, 0, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1),
-        0 0 0 1px rgba(255, 255, 255, 0.02);
-    overflow: hidden;
-    user-select: none;
-    -webkit-user-select: none;
-    will-change: transform;
-    touch-action: pan-y pinch-zoom;
-}
-
-.artist-deck-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: 28px;
-    padding: 1.5px;
-    background: linear-gradient(135deg, rgba(255, 182, 193, 0.4) 0%, rgba(230, 230, 250, 0.3) 50%, rgba(255, 218, 185, 0.4) 100%);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.artist-deck-card:active {
-    cursor: grabbing;
-}
-
-@media (hover: none) and (pointer: coarse) {
-    .artist-deck-card {
-        cursor: pointer;
-    }
-    
-    .artist-deck-card:active {
-        cursor: pointer;
-        transform: scale(0.98);
-    }
-}
-
-.artist-deck-card.flipped {
-    transform: rotateY(180deg) scale(1.05);
-    box-shadow: 
-        0 25px 70px rgba(0, 0, 0, 0.4),
-        0 0 50px rgba(255, 182, 193, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-
-.artist-deck-card.flipped::before {
-    opacity: 1;
-}
-
-.artist-deck-card-front,
-.artist-deck-card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    border-radius: 24px;
-    overflow: hidden;
-}
-
-.artist-deck-card-back {
-    transform: rotateY(180deg);
-    background: var(--bg-elevated);
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-/* Stacked deck effect - cards behind */
-.artist-deck-card:not(:last-child) {
-    transform: translateX(0) translateY(0) scale(0.95) rotateZ(-2deg);
-    opacity: 0.9;
-    z-index: calc(var(--card-index, 0));
-}
-
-/* Top card */
-.artist-deck-card:last-child {
-    transform: translateX(0) translateY(0) scale(1) rotateZ(0deg);
-    opacity: 1;
-    z-index: 100;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 40px rgba(255, 182, 193, 0.2);
-    cursor: grab;
-}
-
-.artist-deck-card:last-child:hover {
-    transform: translateY(-25px) scale(1.08) rotateZ(0deg);
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4), 
-                0 0 60px rgba(255, 182, 193, 0.3),
-                0 0 0 1px rgba(255, 255, 255, 0.05);
-}
-
-/* Fan out on hover */
-.deck-stack:hover .artist-deck-card {
-    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-/* Top card - already handled by :last-child:hover */
-.deck-stack:hover .artist-deck-card:last-child {
-    transform: translateY(-25px) scale(1.08) rotateZ(0deg);
-}
-
-/* Cards behind - fan out to the left */
-.deck-stack:hover .artist-deck-card:nth-last-child(2) {
-    transform: translateX(-40px) translateY(-5px) scale(1.02) rotateZ(-6deg);
-    opacity: 0.95;
-}
-
-.deck-stack:hover .artist-deck-card:nth-last-child(3) {
-    transform: translateX(-80px) translateY(5px) scale(0.99) rotateZ(-10deg);
-    opacity: 0.9;
-}
-
-.deck-stack:hover .artist-deck-card:nth-last-child(4) {
-    transform: translateX(-120px) translateY(15px) scale(0.97) rotateZ(-12deg);
-    opacity: 0.85;
-}
-
-.deck-stack:hover .artist-deck-card:nth-last-child(5) {
-    transform: translateX(-160px) translateY(25px) scale(0.95) rotateZ(-14deg);
-    opacity: 0.8;
-}
-
-.deck-stack:hover .artist-deck-card:nth-last-child(n+6) {
-    transform: translateX(-200px) translateY(35px) scale(0.93) rotateZ(-16deg);
-    opacity: 0.7;
-}
-
-/* Card front content */
-.artist-deck-photo {
-    width: 100%;
-    height: 260px;
-    overflow: hidden;
-    background: var(--bg-tertiary) !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.artist-deck-photo::before,
-.artist-deck-photo::after {
-    display: none !important;
-    content: none !important;
-    background: none !important;
-}
-
-.artist-deck-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease;
-}
-
-.artist-deck-photo::after {
-    display: none;
-}
-
-.artist-deck-card:hover .artist-deck-photo img {
-    transform: scale(1.1);
-}
-
-.artist-deck-info {
-    padding: 1.5rem;
-    text-align: center;
-}
-
-.artist-deck-name {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.02em;
-}
-
-.artist-deck-genre {
-    font-size: 0.75rem;
-    color: var(--text-tertiary);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 1rem;
-}
-
-.artist-deck-flip-hint {
-    font-size: 0.6875rem;
-    color: var(--text-tertiary);
-    opacity: 0.6;
-    margin-top: 1rem;
-    font-style: italic;
-}
-
-/* Card back content */
-.artist-deck-back-photo {
-    width: 100%;
-    height: 150px;
-    border-radius: 12px;
-    overflow: hidden;
-    background: var(--bg-tertiary);
-    margin-bottom: 1rem;
-}
-
-.artist-deck-back-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.artist-deck-back-name {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 1rem;
-    text-align: center;
-}
-
-.artist-deck-back-funfact {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-    padding: 1rem;
-    background: var(--surface);
-    border-radius: 12px;
-    max-height: 150px;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
-.artist-deck-back-youtube {
-    margin-top: auto;
-    padding-top: 1rem;
-}
-
-.artist-deck-back-youtube a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    color: var(--accent-primary);
-    text-decoration: none;
-    font-size: 0.875rem;
-    font-weight: 600;
-    padding: 12px 20px;
-    background: var(--surface);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-    min-height: 44px;
-}
-
-.artist-deck-back-youtube a:hover {
-    background: rgba(255, 182, 193, 0.15);
-    border-color: rgba(255, 182, 193, 0.4);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 182, 193, 0.3);
-}
-
-/* Artist Card Modal */
-.artist-card-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(10, 10, 15, 0.7);
-    backdrop-filter: blur(10px) saturate(180%);
-    -webkit-backdrop-filter: blur(10px) saturate(180%);
-    z-index: 2000;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    opacity: 0;
-    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.artist-card-modal.active {
-    display: flex;
-    animation: fadeIn 0.3s ease forwards;
-}
-
-.artist-card {
-    background: var(--bg-elevated);
-    backdrop-filter: blur(30px) saturate(180%);
-    -webkit-backdrop-filter: blur(30px) saturate(180%);
-    border: 1px solid var(--glass-border);
-    border-radius: 20px;
-    box-shadow: var(--shadow-xl), 
-                var(--shadow-glow),
-                0 0 0 1px rgba(255, 255, 255, 0.02);
-    width: 320px;
-    height: 448px;
-    aspect-ratio: 5 / 7;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transform: scale(0.9);
-    animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-@keyframes scaleIn {
-    to {
-        transform: scale(1);
-    }
-}
-
-.artist-card-controls {
-    display: flex;
-    gap: 6px;
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--border-color);
-    background: var(--surface);
-    flex-shrink: 0;
-}
-
-.window-control {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    position: relative;
-}
-
-.window-control.minimize {
-    background: #fbbf24;
-}
-
-.window-control.minimize:hover {
-    background: #f59e0b;
-    transform: scale(1.1);
-}
-
-.window-control.maximize {
-    background: #10b981;
-}
-
-.window-control.maximize:hover {
-    background: #059669;
-    transform: scale(1.1);
-}
-
-.window-control.close {
-    background: #ef4444;
-}
-
-.window-control.close:hover {
-    background: #dc2626;
-    transform: scale(1.1);
-}
-
-.window-control.close:active {
-    background: #b91c1c;
-}
-
-.artist-card-content {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    min-height: 0;
-    padding: 1rem;
-    gap: 0.875rem;
-    overflow-y: auto;
-}
-
-/* Top Section: Photo + Name */
-.artist-card-top {
-    display: flex;
-    flex-direction: row;
-    gap: 0.875rem;
-    align-items: flex-start;
-    flex-shrink: 0;
-}
-
-.artist-card-photo {
-    flex: 0 0 100px;
-    width: 100px;
-    height: 100px;
-    background: var(--bg-tertiary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    border-radius: 8px;
-}
-
-.artist-card-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.artist-card-name {
-    flex: 1;
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    letter-spacing: -0.01em;
-    line-height: 1.2;
-    display: flex;
-    align-items: center;
-    min-height: 100px;
-    text-transform: uppercase;
-    word-break: break-word;
-}
-
-/* Middle Section: Fun Fact */
-.artist-card-funfact {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    line-height: 1.4;
-    padding: 0.875rem;
-    background: var(--surface);
-    border-radius: 8px;
-    position: relative;
-    flex-shrink: 0;
-    max-height: 120px;
-    overflow-y: auto;
-}
-
-.artist-card-funfact::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0.5rem;
-    bottom: 0.5rem;
-    width: 2px;
-    background: linear-gradient(to bottom, var(--accent-primary), transparent);
-    border-radius: 2px;
-}
-
-/* Bottom Section: YouTube Link */
-.artist-card-youtube {
-    flex-shrink: 0;
-}
-
-.artist-card-youtube a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    color: var(--accent-primary);
-    text-decoration: none;
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 10px 16px;
-    background: var(--surface);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    transition: all 0.3s ease;
-    width: 100%;
-}
-
-.artist-card-youtube a:hover {
-    background: rgba(99, 102, 241, 0.1);
-    border-color: var(--accent-primary);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3),
-                0 0 0 1px rgba(99, 102, 241, 0.2);
-}
-
-/* Light theme adjustments */
-body.light-theme .artist-card-modal {
-    background: rgba(250, 250, 250, 0.8);
-}
-
-body.light-theme .artists-overlay {
-    background: rgba(250, 250, 250, 0.95);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .artists-container {
-        padding: 1.5rem 1rem;
-        min-height: 100vh;
-    }
-    
-    .artists-header {
-        /* margin-bottom: 1rem; */
-        padding-bottom: 1rem;
-        flex-wrap: wrap;
-        gap: 1rem;
-    }
-    
-    .artists-title {
-        font-size: 1.5rem;
-        flex: 1;
-        min-width: 0;
-    }
-    
-    .artists-close {
-        width: 40px;
-        height: 40px;
-        padding: 8px;
-        flex-shrink: 0;
-    }
-    
-    .artists-close svg {
-        width: 18px;
-        height: 18px;
-    }
-    
-    /* Filter buttons - horizontal scroll on mobile */
-    .artists-filters {
-        padding-bottom: 1rem;
-        overflow-x: auto;
-        overflow-y: hidden;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-        padding-right: 1rem;
-    }
-    
-    .artists-filters::-webkit-scrollbar {
-        display: none;
-    }
-    
-    .artists-filters {
-        display: flex;
-        gap: 0.5rem;
-        flex-wrap: nowrap;
-        white-space: nowrap;
-    }
-    
-    .filter-btn {
-        padding: 0.5rem 1rem;
-        font-size: 0.8125rem;
-        white-space: nowrap;
-        flex-shrink: 0;
-        min-height: 40px;
-        touch-action: manipulation;
-    }
-    
-    .deck-wrapper {
-        padding: 1.5rem 0;
-        min-height: 400px;
-    }
-    
-    .deck-container {
-        height: 350px;
-        max-width: 100%;
-        padding: 0 1rem;
-    }
-    
-    .deck-stack {
-        width: 260px;
-        height: 360px;
-        max-width: calc(100vw - 2rem);
-    }
-    
-    .artist-deck-card {
-        width: 260px;
-        height: 360px;
-        max-width: calc(100vw - 2rem);
-        touch-action: pan-y pinch-zoom;
-    }
-    
-    .artist-deck-photo {
-        height: 200px;
-    }
-    
-    .artist-deck-info {
-        padding: 1.25rem;
-    }
-    
-    .artist-deck-name {
-        font-size: 1.125rem;
-        margin-bottom: 0.375rem;
-    }
-    
-    .artist-deck-genre {
-        font-size: 0.6875rem;
-        margin-bottom: 0.75rem;
-    }
-    
-    .artist-deck-flip-hint {
-        font-size: 0.625rem;
-        margin-top: 0.75rem;
-    }
-    
-    .deck-hint {
-        font-size: 0.6875rem;
-        margin-top: 1rem;
-        padding: 0 1rem;
-        line-height: 1.4;
-    }
-    
-    /* Card back mobile optimizations */
-    .artist-deck-card-back {
-        padding: 1.5rem;
-    }
-    
-    .artist-deck-back-photo {
-        height: 120px;
-        margin-bottom: 0.75rem;
-    }
-    
-    .artist-deck-back-name {
-        font-size: 1.125rem;
-        margin-bottom: 0.75rem;
-    }
-    
-    .artist-deck-back-funfact {
-        font-size: 0.8125rem;
-        padding: 0.875rem;
-        max-height: 120px;
-    }
-    
-    .artist-deck-back-youtube {
-        margin-top: 0.75rem;
-    }
-    
-    .artist-deck-back-youtube a {
-        padding: 10px 16px;
-        font-size: 0.8125rem;
-        min-height: 44px;
-    }
-    
-    /* Reduce fan-out on mobile */
-    .deck-stack:hover .artist-deck-card:nth-last-child(2) {
-        transform: translateX(-15px) translateY(-5px) scale(1.02) rotateZ(-3deg);
-    }
-    
-    .deck-stack:hover .artist-deck-card:nth-last-child(3) {
-        transform: translateX(-30px) translateY(5px) scale(0.99) rotateZ(-5deg);
-    }
-    
-    .deck-stack:hover .artist-deck-card:nth-last-child(n+4) {
-        transform: translateX(-45px) translateY(15px) scale(0.97) rotateZ(-7deg);
-    }
-    
-    /* Artist card modal */
-    .artist-card-modal {
-        padding: 1rem;
-    }
-    
-    .artist-card {
-        width: 90vw;
-        max-width: 300px;
-        height: auto;
-        aspect-ratio: 5 / 7;
-    }
-    
-    .artist-card-content {
-        padding: 0.875rem;
-        gap: 0.75rem;
-    }
-    
-    .artist-card-top {
-        flex-direction: column;
-        gap: 0.75rem;
-        align-items: center;
-        text-align: center;
-    }
-    
-    .artist-card-photo {
-        flex: 0 0 90px;
-        width: 90px;
-        height: 90px;
-    }
-    
-    .artist-card-name {
-        font-size: 1rem;
-        min-height: auto;
-        justify-content: center;
-    }
-    
-    .artist-card-funfact {
-        padding: 0.875rem;
-        font-size: 0.75rem;
-        max-height: 100px;
-    }
-    
-    .artist-card-youtube a {
-        padding: 8px 12px;
-        font-size: 0.6875rem;
-        min-height: 40px;
-        touch-action: manipulation;
-    }
-}
-
-/* Extra small phones */
-@media (max-width: 480px) {
-    .artists-container {
-        padding: 1rem 0.75rem;
-    }
-    
-    .artists-header {
-        /* margin-bottom: 1rem; */
-        padding-bottom: 0.75rem;
-    }
-    
-    .artists-title {
-        font-size: 1.25rem;
-    }
-    
-    .artists-close {
-        width: 36px;
-        height: 36px;
-        padding: 6px;
-    }
-    
-    .artists-filters {
-        margin-bottom: 1rem;
-        padding-bottom: 0.75rem;
-        gap: 0.375rem;
-    }
-    
-    .filter-btn {
-        padding: 0.4375rem 0.875rem;
-        font-size: 0.75rem;
-        min-height: 36px;
-    }
-    
-    .deck-wrapper {
-        padding: 1rem 0;
-        min-height: 350px;
-    }
-    
-    .deck-container {
-        height: 300px;
-        padding: 0 0.5rem;
-    }
-    
-    .deck-stack {
-        width: 240px;
-        height: 320px;
-        max-width: calc(100vw - 1rem);
-    }
-    
-    .artist-deck-card {
-        width: 240px;
-        height: 320px;
-        max-width: calc(100vw - 1rem);
-    }
-    
-    .artist-deck-photo {
-        height: 180px;
-    }
-    
-    .artist-deck-info {
-        padding: 1rem;
-    }
-    
-    .artist-deck-name {
-        font-size: 1rem;
-    }
-    
-    .artist-deck-genre {
-        font-size: 0.625rem;
-    }
-    
-    .deck-hint {
-        font-size: 0.625rem;
-        margin-top: 0.75rem;
-        padding: 0 0.75rem;
-    }
-    
-    /* Card back extra small optimizations */
-    .artist-deck-card-back {
-        padding: 1.25rem;
-    }
-    
-    .artist-deck-back-photo {
-        height: 100px;
-        margin-bottom: 0.625rem;
-    }
-    
-    .artist-deck-back-name {
-        font-size: 1rem;
-        margin-bottom: 0.625rem;
-    }
-    
-    .artist-deck-back-funfact {
-        font-size: 0.75rem;
-        padding: 0.75rem;
-        max-height: 100px;
-    }
-    
-    .artist-deck-back-youtube {
-        margin-top: 0.625rem;
-    }
-    
-    .artist-deck-back-youtube a {
-        padding: 8px 14px;
-        font-size: 0.75rem;
-        min-height: 40px;
-    }
-    
-    .artist-card {
-        width: 95vw;
-        max-width: 280px;
-    }
-    
-    .artist-card-content {
-        padding: 0.75rem;
-        gap: 0.625rem;
-    }
-    
-    .artist-card-photo {
-        width: 80px;
-        height: 80px;
-        flex: 0 0 80px;
-    }
-    
-    .artist-card-name {
-        font-size: 0.9375rem;
-    }
-    
-    .artist-card-funfact {
-        padding: 0.75rem;
-        font-size: 0.6875rem;
-        max-height: 90px;
-    }
-    
-    .artist-card-youtube a {
-        padding: 6px 10px;
-        font-size: 0.625rem;
-        min-height: 36px;
-    }
-}
-
-@media (max-width: 480px) {
-    .container {
-        padding: 1.5rem 0.75rem;
-    }
-    
-    .site-header {
-        padding: 0.875rem 0;
-    }
-    
-    .site-header-content {
-        padding: 0 0.75rem;
-    }
-    
-    .logo-text {
-        font-size: 1rem;
-    }
-    
-    .logo-year {
-        font-size: 0.5625rem;
-    }
-    
-    .site-nav {
-        gap: 0.75rem;
-    }
-    
-    .nav-link {
-        font-size: 0.75rem;
-    }
-    
-    .theme-toggle {
-        width: 32px;
-        height: 32px;
-        padding: 5px 7px;
-    }
-    
-    .theme-icon {
-        width: 16px;
-        height: 16px;
-    }
-    
-    .main-content {
-        gap: 2rem;
-        padding: 0 0.5rem;
-        min-height: auto;
-    }
-    
-    .mood-section {
-        min-height: 350px;
-        padding: 1.5rem 0;
-    }
-    
-    .mood-sphere-wrapper {
-        padding: 0 0.5rem;
-    }
-    
-    .mood-sphere-container {
-        width: calc(100vw - 1rem);
-        height: calc(100vw - 1rem);
-        max-width: 300px;
-        max-height: 300px;
-        min-width: 260px;
-        min-height: 260px;
-        position: relative;
-        visibility: visible;
-        display: block;
-        margin: 0 auto;
-        box-sizing: border-box;
-        border-radius: 50%;
-        aspect-ratio: 1 / 1;
-    }
-    
-    .gradient-blobs-container {
-        width: 100%;
-        height: 100%;
-        position: relative;
-        visibility: visible;
-    }
-    
-    .sphere-center {
-        width: 70px;
-        height: 70px;
-        position: absolute;
-        visibility: visible;
-    }
-    
-    .center-text {
-        font-size: 9px;
-    }
-    
-    .genre-blob {
-        visibility: visible;
-        display: block;
-    }
-    
-    .ipod-container {
-        max-width: 280px;
-        min-height: 540px;
-        padding: 20px 15px;
-    }
-    
-    .ipod-hold-switch {
-        top: 65px;
-        width: 12px;
-        height: 32px;
-    }
-    
-    .ipod-screen {
-        height: 240px;
-    }
-    
-    .ipod-screen-content {
-        padding: 12px;
-    }
-    
-    .track-name {
-        font-size: 14px;
-    }
-    
-    .artist-name {
-        font-size: 12px;
-    }
-    
-    .album-art-background {
-        width: 110px;
-        height: 110px;
-    }
-    
-    .progress-container {
-        padding: 8px 5px;
-        gap: 6px;
-    }
-    
-    .progress-time-left,
-    .progress-time-right {
-        font-size: 9px;
-        min-width: 28px;
-    }
-    
-    .tracklist-container {
-        max-height: 80px;
-        padding: 8px 5px;
-    }
-    
-    .tracklist {
-        max-height: 60px;
-    }
-    
-    .ipod-wheel {
-        width: 160px;
-        height: 160px;
-    }
-    
-    .wheel-button {
-        padding: 6px;
-    }
-    
-    .wheel-button svg {
-        width: 14px;
-        height: 14px;
-    }
-    
-    .prev-btn svg,
-    .next-btn svg {
-        width: 16px;
-        height: 16px;
-    }
-    
-    .center-btn {
-        width: 65px;
-        height: 65px;
-    }
-    
-    .center-btn svg {
-        width: 18px;
-        height: 18px;
-    }
-    
-    .volume-up-btn {
-        top: 12px;
-    }
-    
-    .volume-down-btn {
-        bottom: 12px;
-    }
-    
-    .prev-btn {
-        left: 12px;
-    }
-    
-    .next-btn {
-        right: 12px;
-    }
-    
-    /* Touch-friendly improvements for small screens */
-    .genre-blob {
-        min-width: 55px;
-        min-height: 55px;
-    }
-    
-    .genre-blob-label {
-        font-size: 10px;
-    }
-    
-    .wheel-button {
-        min-width: 40px;
-        min-height: 40px;
-    }
-    
-    .center-btn {
-        min-width: 65px;
-        min-height: 65px;
-    }
-    
-    .sphere-center {
-        min-width: 70px;
-        min-height: 70px;
-    }
-    
-    /* Mini player mobile adjustments - moved to end of file */
-    
-    /* Prevent horizontal overflow */
-    .main-content,
-    .container {
-        max-width: 100%;
-        overflow-x: hidden;
-    }
-    
-    /* Keep header overflow visible for mini-player dropdown */
-    .site-header-content {
-        max-width: 100%;
-        overflow: visible !important;
-    }
-}
-
-/* ============================================
-   NEW iPod REDESIGN STYLES
-   ============================================ */
-
-/* Hide MoodSphere on mobile */
-@media (max-width: 768px) {
-    .mood-sphere-wrapper,
-    .mood-sphere-container {
-        display: none !important;
-    }
-    
-    .main-content {
-        justify-content: center;
-    }
-    
-    .ipod-section {
-        margin-left: 0 !important;
-        order: 1 !important;
-    }
-}
-
-/* iPod Screen Content Reset for New Views */
-.ipod-screen-content {
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-/* ============================================
-   GENRE SELECTION VIEW
-   ============================================ */
+/* iPod Genre View */
 .ipod-genres-view {
-    height: 100%;
-    width: 100%;
     display: flex;
     flex-direction: column;
-    background: linear-gradient(180deg, #1a1a2e 0%, #0a0a0f 100%);
-    box-sizing: border-box;
+    height: 100%;
 }
 
 .ipod-view-header {
-    padding: 16px 18px 12px;
     display: flex;
     align-items: center;
     gap: 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     flex-shrink: 0;
 }
 
 .ipod-view-title {
-    font-size: 16px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.8125rem;
     font-weight: 600;
-    color: #fff;
-    letter-spacing: -0.02em;
+    color: #FFFFFF;
     flex: 1;
-}
-
-.ipod-back-btn {
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    border-radius: 8px;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    color: #fff;
-}
-
-.ipod-back-btn:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: scale(1.05);
-}
-
-.ipod-track-count {
-        font-size: 12px;
-    color: rgba(255, 255, 255, 0.5);
 }
 
 .ipod-genres-list {
@@ -3181,50 +721,51 @@ body.light-theme .artists-overlay {
     padding: 8px 0;
 }
 
-.ipod-genre-item {
-    width: 100%;
+.ipod-genres-list.has-bottom-bar {
+    padding-bottom: 60px;
+}
+
+.ipod-genre-card {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 14px 18px;
+    padding: 14px 16px;
     background: transparent;
     border: none;
+    width: 100%;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background 0.2s ease;
     text-align: left;
+    border-left: 3px solid transparent;
 }
 
-.ipod-genre-item:hover {
+.ipod-genre-card:hover {
     background: rgba(255, 255, 255, 0.05);
 }
 
-.ipod-genre-item:active {
-    background: rgba(255, 255, 255, 0.1);
-    transform: scale(0.98);
-}
-
-.ipod-genre-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
+.ipod-genre-accent {
+    width: 4px;
+    height: 28px;
+    border-radius: 2px;
     flex-shrink: 0;
-    box-shadow: 0 0 8px currentColor;
 }
 
 .ipod-genre-name {
-    flex: 1;
-    font-size: 14px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.8125rem;
     font-weight: 500;
-    color: #fff;
-    letter-spacing: 0.02em;
+    color: #FFFFFF;
+    flex: 1;
+    text-transform: uppercase;
 }
 
 .ipod-genre-count {
-    font-size: 12px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.6875rem;
     color: rgba(255, 255, 255, 0.4);
-    padding: 2px 8px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 3px 10px;
+    border-radius: 12px;
 }
 
 .ipod-genre-arrow {
@@ -3232,36 +773,46 @@ body.light-theme .artists-overlay {
     flex-shrink: 0;
 }
 
-/* ============================================
-   PLAYLIST VIEW
-   ============================================ */
-.ipod-playlist-view {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    background: linear-gradient(180deg, #1a1a2e 0%, #0a0a0f 100%);
-    position: relative;
-    box-sizing: border-box;
+/* iPod Track Count */
+.ipod-track-count {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.625rem;
+    color: rgba(255, 255, 255, 0.4);
 }
 
+/* iPod Back Button */
+.ipod-back-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s ease;
+}
+
+.ipod-back-btn:hover {
+    color: #FFFFFF;
+}
+
+/* iPod Tracks List */
 .ipod-tracks-list {
     flex: 1;
     overflow-y: auto;
     padding: 8px 0;
-    padding-bottom: 70px; /* Space for bottom bar */
 }
 
 .ipod-track-item {
-    width: 100%;
     display: flex;
     align-items: center;
     gap: 12px;
     padding: 10px 16px;
-    background: transparent;
+    background: none;
     border: none;
+    width: 100%;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background 0.2s ease;
     text-align: left;
 }
 
@@ -3269,12 +820,8 @@ body.light-theme .artists-overlay {
     background: rgba(255, 255, 255, 0.05);
 }
 
-.ipod-track-item:active {
-    background: rgba(255, 255, 255, 0.1);
-}
-
 .ipod-track-item.active {
-    background: rgba(99, 102, 241, 0.15);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .ipod-track-thumb {
@@ -3282,9 +829,8 @@ body.light-theme .artists-overlay {
     height: 44px;
     border-radius: 6px;
     overflow: hidden;
-    flex-shrink: 0;
     position: relative;
-    background: rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
 }
 
 .ipod-track-thumb img {
@@ -3296,120 +842,95 @@ body.light-theme .artists-overlay {
 .ipod-track-thumb-placeholder {
     width: 100%;
     height: 100%;
+    background: rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: rgba(255, 255, 255, 0.3);
-    font-size: 18px;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 1.25rem;
 }
 
 .ipod-track-playing-indicator {
     position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
-    align-items: center;
-    justify-content: center;
     gap: 2px;
 }
 
 .ipod-track-playing-indicator span {
     width: 3px;
-    height: 12px;
-    background: var(--accent-primary);
-    border-radius: 2px;
-    animation: soundBars 0.5s ease-in-out infinite alternate;
+    height: 10px;
+    background: #FFFFFF;
+    border-radius: 1px;
+    animation: soundwave 0.6s ease-in-out infinite;
 }
 
-.ipod-track-playing-indicator span:nth-child(2) {
-    animation-delay: 0.2s;
-    height: 18px;
-}
-
-.ipod-track-playing-indicator span:nth-child(3) {
-    animation-delay: 0.4s;
-}
-
-@keyframes soundBars {
-    0% { transform: scaleY(0.4); }
-    100% { transform: scaleY(1); }
-}
+.ipod-track-playing-indicator span:nth-child(1) { animation-delay: 0s; }
+.ipod-track-playing-indicator span:nth-child(2) { animation-delay: 0.1s; }
+.ipod-track-playing-indicator span:nth-child(3) { animation-delay: 0.2s; }
 
 .ipod-track-info {
     flex: 1;
     min-width: 0;
-    padding: 0;
-    text-align: left;
 }
 
 .ipod-track-name {
-    font-size: 13px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem;
     font-weight: 500;
-    color: #fff;
-    white-space: nowrap;
+    color: #FFFFFF;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-bottom: 2px;
-}
-
-.ipod-track-item.active .ipod-track-name {
-    color: var(--accent-primary);
+    white-space: nowrap;
+    margin-bottom: 3px;
 }
 
 .ipod-track-artist {
-    font-size: 11px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.625rem;
     color: rgba(255, 255, 255, 0.5);
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .ipod-track-duration {
-    font-size: 11px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.625rem;
     color: rgba(255, 255, 255, 0.4);
     flex-shrink: 0;
-    font-family: 'JetBrains Mono', monospace;
 }
 
-/* ============================================
-   BOTTOM BAR PLAYER
-   ============================================ */
+/* iPod Bottom Bar (Mini Player) */
 .ipod-bottom-bar {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 60px;
-    background: rgba(30, 30, 46, 0.95);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 8px 12px;
+    gap: 10px;
+    padding: 10px 14px;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     cursor: pointer;
-    transition: all 0.3s ease;
-    z-index: 20;
+    z-index: 5;
 }
 
 .ipod-bottom-bar.hidden {
-    transform: translateY(100%);
-    opacity: 0;
-    pointer-events: none;
-}
-
-.ipod-bottom-bar:hover {
-    background: rgba(40, 40, 56, 0.95);
+    display: none;
 }
 
 .ipod-bottom-bar-thumb {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     border-radius: 6px;
     overflow: hidden;
     flex-shrink: 0;
-    background: rgba(255, 255, 255, 0.05);
 }
 
 .ipod-bottom-bar-thumb img {
@@ -3421,11 +942,11 @@ body.light-theme .artists-overlay {
 .ipod-bottom-bar-thumb-placeholder {
     width: 100%;
     height: 100%;
+    background: rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: rgba(255, 255, 255, 0.3);
-    font-size: 18px;
+    color: rgba(255, 255, 255, 0.4);
 }
 
 .ipod-bottom-bar-info {
@@ -3434,41 +955,34 @@ body.light-theme .artists-overlay {
 }
 
 .ipod-bottom-bar-track {
-    font-size: 13px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem;
     font-weight: 500;
-    color: #fff;
-    white-space: nowrap;
+    color: #FFFFFF;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-bottom: 2px;
+    white-space: nowrap;
 }
 
 .ipod-bottom-bar-artist {
-    font-size: 11px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.625rem;
     color: rgba(255, 255, 255, 0.5);
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .ipod-bottom-bar-play {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: var(--accent-primary);
+    background: none;
     border: none;
+    color: #FFFFFF;
+    cursor: pointer;
+    padding: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
     flex-shrink: 0;
-    color: #fff;
-}
-
-.ipod-bottom-bar-play:hover {
-    transform: scale(1.1);
-    background: var(--accent-secondary);
 }
 
 .ipod-bottom-bar-progress {
@@ -3476,167 +990,160 @@ body.light-theme .artists-overlay {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 3px;
-    background: rgba(255, 255, 255, 0.1);
+    height: 2px;
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .ipod-bottom-bar-progress-fill {
     height: 100%;
-    background: var(--accent-primary);
+    background: #FFFFFF;
     transition: width 0.3s linear;
 }
 
-/* ============================================
-   NOW PLAYING FULL SCREEN VIEW
-   ============================================ */
+/* iPod Now Playing Full View */
 .ipod-now-playing {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, #1e1e2e 0%, #0a0a12 100%);
+    background: #000000;
     display: flex;
     flex-direction: column;
-    padding: 16px;
-    transform: translateY(100%);
     opacity: 0;
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 30;
-    overflow: hidden;
+    visibility: hidden;
+    transform: translateY(100%);
+    transition: all 0.3s ease;
+    z-index: 10;
+    overflow-y: auto;
 }
 
 .ipod-now-playing.expanded {
-    transform: translateY(0);
     opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
 .ipod-now-playing-header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     flex-shrink: 0;
 }
 
 .ipod-np-close {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
+    background: none;
     border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    color: rgba(255, 255, 255, 0.6);
     cursor: pointer;
-    color: #fff;
-    transition: all 0.2s ease;
+    padding: 0;
+    display: flex;
 }
 
 .ipod-np-close:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.1);
+    color: #FFFFFF;
 }
 
 .ipod-np-genre {
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.6875rem;
+    font-weight: 500;
     text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .ipod-np-spacer {
-    flex: 1;
+    width: 24px;
 }
 
 .ipod-np-artwork {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 0;
-    padding: 8px 0;
+    width: 120px;
+    height: 120px;
+    margin: 12px auto;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    flex-shrink: 0;
 }
 
 .ipod-np-artwork img {
-    max-width: 100%;
-    max-height: 140px;
-    width: auto;
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-    transition: transform 0.5s ease;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
 }
 
 .ipod-np-artwork img.playing {
-    animation: albumPulse 2s ease-in-out infinite;
+    animation: pulse 2s ease-in-out infinite;
 }
 
-@keyframes albumPulse {
+@keyframes pulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.02); }
 }
 
 .ipod-np-artwork-placeholder {
-    width: 140px;
-    height: 140px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.05);
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.ipod-np-artwork-placeholder span {
+    font-size: 3rem;
     color: rgba(255, 255, 255, 0.3);
-    font-size: 48px;
 }
 
 .ipod-np-track-info {
     text-align: center;
-    padding: 8px 0;
+    padding: 0 20px;
     flex-shrink: 0;
 }
 
 .ipod-np-track-name {
-    font-size: 16px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.9375rem;
     font-weight: 600;
-    color: #fff;
-    margin: 0 0 4px;
-    white-space: nowrap;
+    color: #FFFFFF;
+    margin-bottom: 6px;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .ipod-np-artist-name {
-    font-size: 13px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.8125rem;
     color: rgba(255, 255, 255, 0.6);
-    margin: 0 0 6px;
+    margin-bottom: 8px;
 }
 
 .ipod-np-funfact {
-        font-size: 10px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.625rem;
     color: rgba(255, 255, 255, 0.4);
-    margin: 0;
     line-height: 1.4;
-    max-height: 28px;
+    max-height: 36px;
     overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
 }
 
 .ipod-np-progress {
-    padding: 8px 0;
+    padding: 8px 20px;
     flex-shrink: 0;
 }
 
 .ipod-np-progress-bar {
-    height: 4px;
-    background: rgba(255, 255, 255, 0.1);
+    height: 3px;
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 2px;
     overflow: hidden;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
 .ipod-np-progress-fill {
     height: 100%;
-    background: var(--accent-primary);
+    background: #FFFFFF;
     border-radius: 2px;
     transition: width 0.3s linear;
 }
@@ -3644,945 +1151,372 @@ body.light-theme .artists-overlay {
 .ipod-np-time {
     display: flex;
     justify-content: space-between;
-    font-size: 10px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.625rem;
     color: rgba(255, 255, 255, 0.4);
-    font-family: 'JetBrains Mono', monospace;
 }
 
 .ipod-np-controls {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 24px;
-    padding: 8px 0;
+    gap: 20px;
+    padding: 0 20px 8px;
     flex-shrink: 0;
 }
 
 .ipod-np-ctrl {
-    background: transparent;
+    background: none;
     border: none;
-    color: #fff;
+    color: rgba(255, 255, 255, 0.7);
     cursor: pointer;
-    transition: all 0.2s ease;
+    padding: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.2s ease;
 }
 
 .ipod-np-ctrl:hover {
-    transform: scale(1.1);
-    color: var(--accent-primary);
+    color: #FFFFFF;
 }
 
 .ipod-np-ctrl.play {
-    width: 56px;
-    height: 56px;
+    width: 44px;
+    height: 44px;
+    background: #FFFFFF;
+    color: #000000;
     border-radius: 50%;
-    background: var(--accent-primary);
 }
 
 .ipod-np-ctrl.play:hover {
-    background: var(--accent-secondary);
-    color: #fff;
     transform: scale(1.05);
+}
+
+/* Spotify Button in iPod */
+.ipod-np-spotify-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    padding: 0 20px;
+    margin-top: auto;
+    padding-bottom: 10px;
 }
 
 .ipod-np-spotify-link {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: #1DB954;
+    border: none;
+    border-radius: 20px;
+    color: #FFFFFF;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.625rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.ipod-np-spotify-link:hover {
+    background: #1ed760;
+    transform: translateY(-1px);
+}
+
+.ipod-np-spotify-add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: rgba(29, 185, 84, 0.15);
+    border: 1px solid rgba(29, 185, 84, 0.3);
+    border-radius: 20px;
+    color: #1DB954;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.625rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ipod-np-spotify-add:hover {
+    background: rgba(29, 185, 84, 0.25);
+}
+
+/* iPod Playlist View Wrapper */
+.ipod-playlist-view {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+}
+
+/* Volume Toast */
+.ipod-volume-toast {
+    position: absolute;
+    bottom: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 16px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 20px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.625rem;
+    color: #FFFFFF;
+    white-space: nowrap;
+    z-index: 20;
+}
+
+/* Tracklist */
+.tracklist-container {
+    flex: 1;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.tracklist-empty,
+.tracklist-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+}
+
+.tracklist-empty p,
+.tracklist-loading p {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.empty-hint {
+    font-size: 0.75rem !important;
+    color: rgba(255, 255, 255, 0.3) !important;
+    margin-top: 0.5rem;
+}
+
+/* ============================================
+   SPOTIFY MENU STYLES
+   ============================================ */
+
+.spotify-menu-container {
+    position: relative;
+}
+
+.spotify-status-btn {
+    display: flex;
+    align-items: center;
     gap: 8px;
-    padding: 10px 16px;
+    padding: 8px 12px;
     background: rgba(30, 215, 96, 0.1);
     border: 1px solid rgba(30, 215, 96, 0.3);
     border-radius: 20px;
     color: #1ed760;
-    font-size: 11px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem;
     font-weight: 500;
-    text-decoration: none;
+    cursor: pointer;
     transition: all 0.2s ease;
-    margin-top: 8px;
-    flex-shrink: 0;
 }
 
-.ipod-np-spotify-link:hover {
+.spotify-status-btn:hover {
     background: rgba(30, 215, 96, 0.2);
-    transform: scale(1.02);
 }
 
-/* ============================================
-   MOBILE RESPONSIVE ADJUSTMENTS
-   ============================================ */
-@media (max-width: 480px) {
-    .ipod-container {
-        /* Use fixed width to prevent shrinking */
-        width: 340px !important;
-        max-width: 340px !important;
-        min-width: 340px !important;
-        height: auto;
-        min-height: 580px;
-        border-radius: 32px;
-        padding: 24px 16px;
-        box-sizing: border-box;
-        flex-shrink: 0;
-    }
-    
-    .ipod-screen {
-        height: 280px;
-        width: 100%;
-        box-sizing: border-box;
-    }
-    
-    .ipod-hold-switch {
-        display: none;
-    }
-    
-    .ipod-genre-item {
-        padding: 12px 14px;
-    }
-    
-    /* Ensure views don't affect container width */
-    .ipod-screen-content,
-    .ipod-genres-view,
-    .ipod-playlist-view {
-        width: 100% !important;
-        box-sizing: border-box;
-    }
-    
-    .ipod-track-item {
-        padding: 8px 12px;
-    }
-    
-    .ipod-track-thumb {
-        width: 40px;
-        height: 40px;
-    }
-    
-    .ipod-np-artwork img {
-        max-height: 120px;
-    }
-    
-    .ipod-np-artwork-placeholder {
-        width: 120px;
-        height: 120px;
-        font-size: 36px;
-    }
-    
-    .ipod-np-track-name {
-        font-size: 15px;
-    }
-    
-    .ipod-np-controls {
-        gap: 20px;
-    }
-    
-    .ipod-np-ctrl.play {
-        width: 48px;
-        height: 48px;
-    }
-}
-
-/* Fix for existing track info styles conflict */
-.ipod-genres-view .ipod-track-info,
-.ipod-playlist-view .ipod-track-info {
-    flex-shrink: 1;
-    padding: 0;
-    text-align: left;
-    z-index: auto;
-}
-
-/* ============================================
-   iPod ONLY LAYOUT - No Scroll, Fit to Screen
-   ============================================ */
-
-/* Make app fit to viewport height */
-html, body, #root, .App {
-    height: 100%;
-    overflow: hidden;
-}
-
-.App {
-    display: flex;
-    flex-direction: column;
-}
-
-.container.ipod-only {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    overflow: hidden;
-    min-height: 0;
-}
-
-.container.ipod-only .main-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    max-height: calc(100vh - 100px); /* Account for header */
-}
-
-.container.ipod-only .ipod-section {
-    margin: 0;
-    order: 1;
-    flex: none;
-}
-
-/* Remove MoodSphere entirely */
-.mood-sphere-wrapper,
-.mood-sphere-container,
-.mood-section {
-    display: none !important;
-}
-
-/* Ensure iPod container fits in viewport */
-.container.ipod-only .ipod-container {
-    max-height: calc(100vh - 120px);
-    height: auto;
-}
-
-/* Responsive adjustments for smaller heights */
-@media (max-height: 700px) {
-    .container.ipod-only .ipod-container {
-        height: calc(100vh - 100px);
-        max-height: 580px;
-    }
-    
-    .container.ipod-only .ipod-screen {
-        height: 250px;
-    }
-    
-    .ipod-wheel-container {
-        margin-top: auto;
-    }
-}
-
-@media (max-height: 600px) {
-    .container.ipod-only .ipod-container {
-        padding: 20px 20px;
-        border-radius: 32px;
-        gap: 16px;
-    }
-    
-    .container.ipod-only .ipod-screen {
-        height: 220px;
-    }
-    
-    .site-header {
-        padding: 1rem 0;
-    }
-}
-
-/* Mobile full screen optimization */
-@media (max-width: 480px) {
-    .site-header {
-        padding: 0.75rem 0;
-    }
-    
-    .site-header-content {
-        padding: 0 1rem;
-    }
-    
-    .container.ipod-only {
-        padding: 0.5rem;
-    }
-    
-    /* Width is set in MOBILE iPod WIDTH FIX section */
-}
-
-/* ============================================
-   MOBILE iPod FIX - Prevent cutoff
-   ============================================ */
-
-@media (max-width: 480px) {
-    html, body, #root, .App {
-        height: auto;
-        min-height: 100%;
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
-    
-    .container.ipod-only {
-        min-height: calc(100vh - 60px);
-        height: auto;
-        overflow: visible;
-        padding: 1rem;
-    }
-    
-    .container.ipod-only .main-content {
-        height: auto;
-        max-height: none;
-    }
-    
-    .container.ipod-only .ipod-container {
-        /* Fixed width to prevent shrinking when changing views */
-        width: 340px !important;
-        max-width: 340px !important;
-        min-width: 340px !important;
-        height: 580px;
-        max-height: none;
-        min-height: 580px;
-        flex-shrink: 0;
-        box-sizing: border-box;
-    }
-    
-    .container.ipod-only .ipod-screen {
-        height: 280px;
-        min-height: 280px;
-        width: 100%;
-        box-sizing: border-box;
-    }
-}
-
-/* Very small screens (like iPhone SE) */
-@media (max-width: 380px) {
-    .container.ipod-only .ipod-container {
-        width: 300px !important;
-        max-width: 300px !important;
-        min-width: 300px !important;
-        height: 540px;
-        min-height: 540px;
-        padding: 16px 14px;
-        border-radius: 24px;
-        gap: 16px;
-        margin: 0 auto;
-    }
-    
-    .container.ipod-only .ipod-screen {
-        height: 260px;
-        min-height: 260px;
-        border-radius: 12px;
-    }
-    
-    .ipod-wheel {
-        width: 180px;
-        height: 180px;
-    }
-}
-
-/* Short mobile screens in landscape or small height */
-@media (max-width: 480px) and (max-height: 700px) {
-    .container.ipod-only .ipod-container {
-        height: auto;
-        min-height: auto;
-        max-height: calc(100vh - 80px);
-    }
-    
-    .container.ipod-only .ipod-screen {
-        height: 240px;
-        min-height: 200px;
-    }
-    
-    .ipod-wheel-container {
-        flex-shrink: 0;
-    }
-    
-    .ipod-wheel {
-        width: 160px;
-        height: 160px;
-    }
-}
-
-/* ============================================
-   GENRE CARDS GRID LAYOUT (Spotify Style)
-   ============================================ */
-
-.ipod-genres-grid {
-    flex: 1;
-    overflow-y: auto;
-    padding: 12px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    align-content: start;
-}
-
-.ipod-genre-card {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    padding: 0;
-    background: rgba(40, 40, 50, 0.8);
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-align: left;
-    height: 48px;
-    overflow: hidden;
-    position: relative;
-}
-
-.ipod-genre-card:hover {
-    background: rgba(55, 55, 65, 0.9);
-    transform: scale(1.02);
-}
-
-.ipod-genre-card:active {
-    transform: scale(0.98);
-}
-
-.ipod-genre-accent {
-    width: 6px;
-    height: 100%;
-    flex-shrink: 0;
-    border-radius: 6px 0 0 6px;
-}
-
-.ipod-genre-card .ipod-genre-name {
-    flex: 1;
-    font-size: 12px;
-    font-weight: 500;
-    color: #fff;
-    padding: 0 12px;
-    white-space: nowrap;
+.spotify-user-name {
+    max-width: 100px;
     overflow: hidden;
     text-overflow: ellipsis;
-    letter-spacing: 0.01em;
-}
-
-/* Hide old genre list styles when using grid */
-.ipod-genres-list {
-    display: none;
-}
-
-/* Adjust for smaller iPod screens */
-@media (max-width: 380px) {
-    .ipod-genres-grid {
-        padding: 8px;
-        gap: 8px;
-    }
-    
-    .ipod-genre-card {
-        height: 42px;
-    }
-    
-    .ipod-genre-card .ipod-genre-name {
-        font-size: 11px;
-        padding: 0 10px;
-    }
-    
-    .ipod-genre-accent {
-        width: 5px;
-    }
-}
-
-/* ============================================
-   GENRE LIST WITH CARD BOXES (Single Column)
-   ============================================ */
-
-/* Override previous grid styles */
-.ipod-genres-grid {
-    display: none !important;
-}
-
-/* Show list layout */
-.ipod-genres-list {
-    display: flex !important;
-    flex-direction: column;
-    flex: 1;
-    overflow-y: auto;
-    padding: 8px 12px;
-    gap: 8px;
-}
-
-/* Genre card in list format */
-.ipod-genres-list .ipod-genre-card {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    padding: 0;
-    background: rgba(40, 40, 50, 0.8);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-align: left;
-    height: 52px;
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-    flex-shrink: 0;
-}
-
-.ipod-genres-list .ipod-genre-card:hover {
-    background: rgba(55, 55, 65, 0.95);
-    transform: translateX(2px);
-}
-
-.ipod-genres-list .ipod-genre-card:active {
-    transform: scale(0.98);
-    background: rgba(60, 60, 70, 1);
-}
-
-.ipod-genres-list .ipod-genre-accent {
-    width: 5px;
-    height: 100%;
-    flex-shrink: 0;
-    border-radius: 8px 0 0 8px;
-}
-
-.ipod-genres-list .ipod-genre-name {
-    flex: 1;
-    font-size: 13px;
-    font-weight: 500;
-    color: #fff;
-    padding: 0 12px;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    letter-spacing: 0.02em;
 }
 
-.ipod-genres-list .ipod-genre-count {
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.5);
-    padding: 3px 8px;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 10px;
-    margin-right: 8px;
+.dropdown-arrow {
+    transition: transform 0.2s ease;
 }
 
-.ipod-genres-list .ipod-genre-arrow {
-    color: rgba(255, 255, 255, 0.4);
-    flex-shrink: 0;
-    margin-right: 12px;
-}
-
-/* Smaller screens */
-@media (max-width: 380px) {
-    .ipod-genres-list {
-        padding: 6px 10px;
-        gap: 6px;
-    }
-    
-    .ipod-genres-list .ipod-genre-card {
-        height: 46px;
-        border-radius: 6px;
-    }
-    
-    .ipod-genres-list .ipod-genre-name {
-        font-size: 12px;
-        padding: 0 10px;
-    }
-    
-    .ipod-genres-list .ipod-genre-count {
-        font-size: 10px;
-        padding: 2px 6px;
-    }
-    
-    .ipod-genres-list .ipod-genre-accent {
-        width: 4px;
-    }
-}
-
-/* ============================================
-   MOBILE iPod WIDTH FIX - Make it wider and consistent
-   ============================================ */
-
-@media (max-width: 480px) {
-    .container.ipod-only .ipod-container {
-        width: 340px !important;
-        max-width: 340px !important;
-        min-width: 340px !important;
-        box-sizing: border-box;
-        flex-shrink: 0;
-    }
-    
-    /* Ensure genres view doesn't affect container width */
-    .ipod-genres-view,
-    .ipod-playlist-view {
-        width: 100% !important;
-        box-sizing: border-box;
-        overflow: hidden;
-    }
-    
-    /* Prevent scrollbar from affecting width */
-    .ipod-genres-list,
-    .ipod-tracks-list {
-        overflow-y: auto;
-        overflow-x: hidden;
-        scrollbar-width: none; /* Hide scrollbar Firefox */
-        -ms-overflow-style: none; /* Hide scrollbar IE/Edge */
-        -webkit-overflow-scrolling: touch;
-    }
-    
-    /* Hide scrollbar but keep functionality */
-    .ipod-genres-list::-webkit-scrollbar,
-    .ipod-tracks-list::-webkit-scrollbar {
-        display: none; /* Hide scrollbar Chrome/Safari */
-        width: 0;
-    }
-}
-
-@media (max-width: 400px) {
-    .container.ipod-only .ipod-container {
-        width: 320px !important;
-        max-width: 320px !important;
-        min-width: 320px !important;
-        margin: 0 auto;
-    }
-    
-    .container.ipod-only {
-        padding: 0.5rem 0;
-    }
-}
-
-@media (max-width: 360px) {
-    .container.ipod-only .ipod-container {
-        width: 300px !important;
-        max-width: 300px !important;
-        min-width: 300px !important;
-        padding: 18px 14px;
-        border-radius: 24px;
-        margin: 0 auto;
-    }
-    
-    .container.ipod-only .ipod-screen {
-        border-radius: 10px;
-    }
-}
-
-/* ============================================
-   NOW PLAYING VIEW - FIT TO SCREEN FIX
-   ============================================ */
-
-/* Override now playing to fit within iPod screen */
-.ipod-now-playing {
+.spotify-dropdown {
     position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    padding: 12px;
-    overflow: hidden;
-    z-index: 30;
-}
-
-.ipod-now-playing.expanded {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-.ipod-now-playing-header {
-    flex-shrink: 0;
-    margin-bottom: 8px;
-}
-
-.ipod-np-artwork {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 0;
-    padding: 4px 0;
-    overflow: hidden;
-}
-
-.ipod-np-artwork img {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    border-radius: 10px;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
-}
-
-.ipod-np-artwork-placeholder {
-    width: 100px;
-    height: 100px;
-    border-radius: 10px;
-}
-
-.ipod-np-track-info {
-    flex-shrink: 0;
-    padding: 6px 0;
-    text-align: center;
-}
-
-.ipod-np-track-name {
-    font-size: 14px;
-    margin: 0 0 2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.ipod-np-artist-name {
-    font-size: 12px;
-    margin: 0 0 4px;
-}
-
-.ipod-np-funfact {
-    font-size: 9px;
-    max-height: 24px;
-    -webkit-line-clamp: 2;
-    margin: 0;
-}
-
-.ipod-np-progress {
-    flex-shrink: 0;
-    padding: 4px 0;
-}
-
-.ipod-np-progress-bar {
-    height: 3px;
-    margin-bottom: 4px;
-}
-
-.ipod-np-time {
-    font-size: 9px;
-}
-
-.ipod-np-controls {
-    flex-shrink: 0;
-    padding: 6px 0;
-    gap: 20px;
-}
-
-.ipod-np-ctrl.prev svg,
-.ipod-np-ctrl.next svg {
-    width: 28px;
-    height: 28px;
-}
-
-.ipod-np-ctrl.play {
-    width: 48px;
-    height: 48px;
-}
-
-.ipod-np-ctrl.play svg {
-    width: 40px;
-    height: 40px;
-}
-
-.ipod-np-spotify-link {
-    flex-shrink: 0;
-    padding: 8px 12px;
-    font-size: 10px;
-    margin-top: 4px;
-}
-
-/* Mobile specific adjustments */
-@media (max-width: 480px) {
-    .ipod-now-playing {
-        padding: 10px;
-    }
-    
-    .ipod-np-artwork img {
-        max-height: 110px;
-        border-radius: 8px;
-    }
-    
-    .ipod-np-artwork-placeholder {
-        width: 90px;
-        height: 90px;
-        font-size: 32px;
-    }
-    
-    .ipod-np-track-name {
-        font-size: 13px;
-    }
-    
-    .ipod-np-artist-name {
-        font-size: 11px;
-    }
-    
-    .ipod-np-funfact {
-        display: none;
-    }
-    
-    .ipod-np-controls {
-        gap: 16px;
-    }
-    
-    .ipod-np-ctrl.play {
-        width: 44px;
-        height: 44px;
-    }
-    
-    .ipod-np-ctrl.play svg {
-        width: 36px;
-        height: 36px;
-    }
-    
-    .ipod-np-ctrl.prev svg,
-    .ipod-np-ctrl.next svg {
-        width: 24px;
-        height: 24px;
-    }
-    
-    .ipod-np-spotify-link {
-        padding: 6px 10px;
-        font-size: 9px;
-    }
-}
-
-/* Very small screens */
-@media (max-width: 380px) {
-    .ipod-now-playing {
-        padding: 8px;
-    }
-    
-    .ipod-now-playing-header {
-        margin-bottom: 4px;
-    }
-    
-    .ipod-np-close {
-        width: 28px;
-        height: 28px;
-    }
-    
-    .ipod-np-genre {
-        font-size: 10px;
-    }
-    
-    .ipod-np-artwork img {
-        max-height: 90px;
-    }
-    
-    .ipod-np-artwork-placeholder {
-        width: 80px;
-        height: 80px;
-        font-size: 28px;
-    }
-    
-    .ipod-np-track-info {
-        padding: 4px 0;
-    }
-    
-    .ipod-np-track-name {
-        font-size: 12px;
-    }
-    
-    .ipod-np-artist-name {
-        font-size: 10px;
-        margin-bottom: 0;
-    }
-    
-    .ipod-np-progress {
-        padding: 2px 0;
-    }
-    
-    .ipod-np-controls {
-        padding: 4px 0;
-        gap: 14px;
-    }
-    
-    .ipod-np-ctrl.play {
-        width: 40px;
-        height: 40px;
-    }
-    
-    .ipod-np-ctrl.play svg {
-        width: 32px;
-        height: 32px;
-    }
-    
-    .ipod-np-ctrl.prev svg,
-    .ipod-np-ctrl.next svg {
-        width: 22px;
-        height: 22px;
-    }
-    
-    .ipod-np-spotify-link {
-        padding: 5px 8px;
-        font-size: 8px;
-        margin-top: 2px;
-    }
-}
-
-/* Short screens - reduce album art size */
-@media (max-height: 700px) {
-    .ipod-np-artwork img {
-        max-height: 80px;
-    }
-    
-    .ipod-np-artwork-placeholder {
-        width: 70px;
-        height: 70px;
-    }
-}
-
-/* ============================================
-   ARTISTS OVERLAY - FIT TO SCREEN
-   ============================================ */
-
-.artists-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 200;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-}
-
-.artists-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.artists-container {
-    width: 100%;
-    height: 100%;
-    max-width: 100vw;
-    max-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 240px;
     background: var(--bg-primary);
-    overflow: hidden;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
 }
 
-.artists-header {
+.spotify-dropdown-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 16px 24px;
-    border-bottom: 1px solid var(--border-color);
-    flex-shrink: 0;
+    gap: 12px;
+    padding-bottom: 12px;
 }
 
-.artists-title {
-    font-size: 24px;
+.spotify-dropdown-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.spotify-dropdown-name {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.875rem;
     font-weight: 600;
     color: var(--text-primary);
 }
 
-.artists-close {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
+.spotify-dropdown-email {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.spotify-dropdown-divider {
+    height: 1px;
+    background: var(--border-color);
+    margin-bottom: 12px;
+}
+
+.spotify-disconnect-btn {
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 12px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 8px;
+    color: #ef4444;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.8125rem;
+    font-weight: 500;
     cursor: pointer;
-    color: var(--text-primary);
     transition: all 0.2s ease;
 }
 
-.artists-close:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.1);
+.spotify-disconnect-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
 }
 
+/* ============================================
+   ARTISTS OVERLAY
+   ============================================ */
+
+.artists-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg-primary);
+    z-index: 1000;
+    display: none;
+    opacity: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    transition: opacity 0.3s ease;
+}
+
+.artists-overlay.active {
+    display: block;
+    animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+.artists-container {
+    width: 100vw;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Artists Header */
+.artists-header {
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+.back-to-player {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.back-to-player:hover {
+    opacity: 0.7;
+}
+
+.reach-out-btn-overlay {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.625rem 1.5rem;
+    background: transparent;
+    border: 1.5px solid var(--text-primary);
+    border-radius: 50px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.reach-out-btn-overlay:hover {
+    background: var(--text-primary);
+    color: var(--bg-primary);
+}
+
+.dashed-separator-overlay {
+    width: 100%;
+    height: 2px;
+    border: none;
+    background: repeating-linear-gradient(
+        to right,
+        #777777 0,
+        #777777 12px,
+        transparent 12px,
+        transparent 18px
+    );
+    background-size: 18px 2px;
+    background-repeat: repeat-x;
+    margin-bottom: 1rem;
+}
+
+/* Genre Filters */
 .artists-filters {
     display: flex;
-    gap: 8px;
-    padding: 12px 24px;
+    gap: 0.75rem;
+    flex-wrap: nowrap;
+    padding: 0.75rem 1rem;
+    justify-content: center;
     overflow-x: auto;
-    flex-shrink: 0;
-    border-bottom: 1px solid var(--border-color);
+    -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
@@ -4591,14 +1525,22 @@ html, body, #root, .App {
     display: none;
 }
 
+/* Mobile: allow scroll from start */
+@media (max-width: 768px) {
+    .artists-filters {
+        justify-content: flex-start;
+    }
+}
+
 .filter-btn {
-    padding: 8px 16px;
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-secondary);
-    font-size: 12px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.8125rem;
     font-weight: 500;
+    padding: 0.5rem 1.25rem;
+    background: transparent;
+    border: 1.5px solid var(--border-color);
+    border-radius: 50px;
+    color: var(--text-secondary);
     cursor: pointer;
     transition: all 0.2s ease;
     white-space: nowrap;
@@ -4606,594 +1548,119 @@ html, body, #root, .App {
 }
 
 .filter-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--text-primary);
     color: var(--text-primary);
 }
 
 .filter-btn.active {
-    background: var(--accent-primary);
-    border-color: var(--accent-primary);
-    color: #fff;
+    background: var(--text-primary);
+    border-color: var(--text-primary);
+    color: var(--bg-primary);
 }
 
+/* Background Artist Text */
+.artist-bg-text {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Anton', sans-serif;
+    font-size: 15vw;
+    font-weight: 400;
+    color: var(--text-bg);
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    text-align: center;
+    width: 100%;
+    max-width: 100vw;
+    padding: 0 1rem;
+    pointer-events: none;
+    z-index: -1;
+    user-select: none;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 0.9;
+}
+
+/* Deck Wrapper */
 .deck-wrapper {
+    position: relative;
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
-    min-height: 0;
-    overflow: hidden;
+    min-height: 450px;
+    z-index: 1;
+    padding: 0 1rem;
 }
 
 .deck-container {
-    flex: 1;
+    position: relative;
+    width: 100%;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 0;
-    width: 100%;
-    max-height: calc(100vh - 200px);
 }
 
-.deck-stack {
-    position: relative;
-    width: 280px;
-    height: 380px;
-    max-height: 100%;
+.no-artists {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-secondary);
 }
 
-.artist-deck-card {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    max-height: 380px;
+.no-artists-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
 }
 
 .deck-hint {
-    flex-shrink: 0;
-    margin-top: 16px;
-    font-size: 12px;
-    color: var(--text-tertiary);
+    margin-top: 1rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem;
+    color: #999999;
     text-align: center;
 }
 
-/* Mobile adjustments */
-@media (max-width: 768px) {
-    .artists-header {
-        padding: 12px 16px;
-    }
-    
-    .artists-title {
-        font-size: 20px;
-    }
-    
-    .artists-close {
-        width: 36px;
-        height: 36px;
-    }
-    
-    .artists-filters {
-        padding: 10px 16px;
-        gap: 6px;
-    }
-    
-    .filter-btn {
-        padding: 6px 12px;
-        font-size: 11px;
-    }
-    
-    .deck-wrapper {
-        padding: 16px;
-    }
-    
-    .deck-container {
-        max-height: calc(100vh - 180px);
-    }
-    
-    .deck-stack {
-        width: 240px;
-        height: 320px;
-    }
-    
-    .artist-deck-card {
-        max-height: 320px;
-    }
-    
-    .deck-hint {
-        margin-top: 12px;
-        font-size: 11px;
-    }
-}
-
-/* Very small screens */
-@media (max-width: 400px) {
-    .artists-header {
-        padding: 10px 12px;
-    }
-    
-    .artists-title {
-        font-size: 18px;
-    }
-    
-    .artists-filters {
-        padding: 8px 12px;
-        gap: 4px;
-    }
-    
-    .filter-btn {
-        padding: 5px 10px;
-        font-size: 10px;
-        border-radius: 16px;
-    }
-    
-    .deck-wrapper {
-        padding: 12px;
-    }
-    
-    .deck-container {
-        max-height: calc(100vh - 160px);
-    }
-    
-    .deck-stack {
-        width: 200px;
-        height: 280px;
-    }
-    
-    .artist-deck-card {
-        max-height: 280px;
-        border-radius: 20px;
-    }
-    
-    .deck-hint {
-        margin-top: 8px;
-        font-size: 10px;
-    }
-}
-
-/* Short screens */
-@media (max-height: 600px) {
-    .deck-stack {
-        width: 180px;
-        height: 240px;
-    }
-    
-    .artist-deck-card {
-        max-height: 240px;
-    }
-    
-    .deck-hint {
-        display: none;
-    }
-}
-
-/* ============================================
-   ARTIST CARD - VIEW MORE BUTTON
-   ============================================ */
-
-.artist-deck-view-more {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    padding: 8px 16px;
-    color: #fff;
-    font-size: 11px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    margin-top: 8px;
-}
-
-.artist-deck-view-more:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.4);
-    transform: scale(1.05);
-}
-
-.artist-deck-view-more:active {
-    transform: scale(0.95);
-}
-
-/* Hide old flip hint */
-.artist-deck-flip-hint {
-    display: none !important;
-}
-
-/* Mobile adjustments */
-@media (max-width: 400px) {
-    .artist-deck-view-more {
-        padding: 6px 12px;
-        font-size: 10px;
-        margin-top: 6px;
-    }
-}
-
-/* ============================================
-   ARTIST CARD INFO SECTION - FIX VISIBILITY
-   ============================================ */
-
-.artist-deck-info {
-    position: absolute;
-    bottom: 0;
+/* Mobile Artist Info Popup */
+.mobile-artist-popup-overlay {
+    position: fixed;
+    top: 0;
     left: 0;
     right: 0;
-    padding: 16px;
-    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 60%, transparent 100%);
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    z-index: 10;
-}
-
-.artist-deck-name {
-    font-size: 18px;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 4px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-}
-
-.artist-deck-genre {
-    font-size: 12px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 10px;
-}
-
-.artist-deck-view-more {
-    display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.15) !important;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.25) !important;
-    border-radius: 20px;
-    padding: 8px 18px;
-    color: #fff !important;
-    font-size: 11px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-transform: none;
-    letter-spacing: 0.02em;
+    z-index: 10000;
+    animation: fadeIn 0.3s ease;
+    padding: 1rem;
 }
 
-.artist-deck-view-more:hover {
-    background: rgba(255, 255, 255, 0.25) !important;
-    border-color: rgba(255, 255, 255, 0.4) !important;
-    transform: scale(1.05);
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-.artist-deck-view-more:active {
-    transform: scale(0.95);
-}
-
-/* Card front styling */
-.artist-deck-card-front {
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    overflow: hidden;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-}
-
-.artist-deck-photo {
-    position: absolute;
-    inset: 0;
-}
-
-.artist-deck-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Mobile adjustments */
-@media (max-width: 480px) {
-    .artist-deck-info {
-        padding: 12px;
-    }
-    
-    .artist-deck-name {
-        font-size: 16px;
-    }
-    
-    .artist-deck-genre {
-        font-size: 11px;
-        margin-bottom: 8px;
-    }
-    
-    .artist-deck-view-more {
-        padding: 6px 14px;
-        font-size: 10px;
-    }
-}
-
-/* ============================================
-   MOBILE iPod FIXES
-   ============================================ */
-
-/* Remove iPod shadow on mobile for light theme */
-@media (max-width: 480px) {
-    body.light-theme .ipod-container {
-        box-shadow: none;
-    }
-    
-    body.light-theme .ipod-container:hover {
-        box-shadow: none;
-        transform: none;
-    }
-}
-
-/* Fix iPod top cutoff on mobile when playing */
-@media (max-width: 480px) {
-    .container.ipod-only {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding-top: 16px;
-        padding-bottom: 16px;
-        min-height: calc(100vh - 60px);
-        overflow-y: auto;
-    }
-    
-    .container.ipod-only .main-content {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        padding-top: 0;
-    }
-    
-    .container.ipod-only .ipod-section {
-        flex-shrink: 0;
-        margin-top: 0;
-    }
-    
-    .container.ipod-only .ipod-container {
-        margin-top: 0;
-        margin-bottom: 16px;
-        position: relative;
-        top: 0;
-        transform: none;
-    }
-    
-    /* Ensure Now Playing doesn't affect container */
-    .ipod-now-playing {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-    }
-}
-
-/* Extra small screens */
-@media (max-width: 380px) {
-    .container.ipod-only {
-        padding-top: 12px;
-        padding-bottom: 12px;
-    }
-}
-
-/* Ensure header doesn't affect layout */
-@media (max-width: 480px) {
-    .site-header {
-        position: sticky;
-        top: 0;
-        flex-shrink: 0;
-    }
-    
-    .App {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        height: auto;
-    }
-}
-
-/* ============================================
-   MINI PLAYER - UNIFIED STYLES
-   ============================================ */
-
-/* Mini-player is visible when rendered (controlled by React) */
-.mini-player {
-    display: flex !important;
-    align-items: center;
-    gap: 12px;
-    position: relative;
-    flex-shrink: 0;
-}
-
-/* Desktop: dropdown appears below toggle */
-.mini-player-content {
-    display: none !important;
-    position: absolute;
-    top: calc(100% + 12px);
-    right: 0;
-    background: var(--glass-bg);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid var(--glass-border);
+.mobile-artist-popup {
+    background: #E2E2E2;
     border-radius: 16px;
-    padding: 16px;
-    min-width: 280px;
-    box-shadow: var(--shadow-xl);
-    z-index: 1000;
-    flex-direction: column;
-    gap: 12px;
+    padding: 2rem 1.5rem;
+    width: 100%;
+    max-width: 340px;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.mini-player-content.show {
-    display: flex !important;
-}
-
-/* Tablet and Mobile: bottom sheet style */
-@media (max-width: 768px) {
-    .site-header,
-    .site-header-content,
-    .site-nav {
-        overflow: visible !important;
-        overflow-x: visible !important;
-    }
-    
-    /* Ensure mini-player is visible and clickable on mobile */
-    .mini-player {
-        display: flex !important;
-        align-items: center;
-        position: relative;
-        z-index: 102;
-        flex-shrink: 0;
-    }
-    
-    .mini-player-toggle {
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        padding: 8px;
-        min-width: 40px;
-        min-height: 40px;
-        z-index: 102;
-        background: var(--surface);
-        border-radius: 10px;
-        border: 1px solid var(--border-color);
-        cursor: pointer;
-        -webkit-tap-highlight-color: transparent;
-    }
-    
-    .mini-player-toggle:active {
-        transform: scale(0.95);
-        background: var(--surface-hover);
-    }
-    
-    .mini-player-icon {
-        width: 20px;
-        height: 20px;
-    }
-    
-    /* Bottom sheet positioning - fully reset all positioning */
-    .mini-player-content {
-        position: fixed !important;
-        inset: unset !important; /* Reset all inset properties */
-        top: unset !important;
-        bottom: -200px;
-        left: 16px !important;
-        right: 16px !important;
-        transform: none !important;
-        width: auto !important;
-        min-width: auto !important;
-        max-width: none !important;
-        border-radius: 20px;
-        padding: 16px 20px;
-        z-index: 9999 !important;
-        margin: 0 !important;
-        background: var(--glass-bg);
-        backdrop-filter: blur(24px) saturate(180%);
-        -webkit-backdrop-filter: blur(24px) saturate(180%);
-        border: 1px solid var(--glass-border);
-        box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.3);
-    }
-    
-    .mini-player-content.show {
-        display: flex !important;
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 12px;
-        animation: miniPlayerSlideUp 0.3s ease forwards;
-    }
-    
-    .mini-player-info {
-        margin-bottom: 8px;
-        text-align: center;
-    }
-    
-    .mini-player-track {
-        font-size: 14px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    
-    .mini-player-artist {
-        font-size: 12px;
-    }
-    
-    .mini-player-controls {
-        gap: 20px;
-        justify-content: center;
-    }
-    
-    .mini-control-btn {
-        width: 40px;
-        height: 40px;
-        padding: 10px;
-    }
-    
-    .mini-control-btn.play-mini {
-        width: 48px;
-        height: 48px;
-    }
-}
-
-/* Small mobile */
-@media (max-width: 480px) {
-    .mini-player-toggle {
-        padding: 6px;
-        min-width: 36px;
-        min-height: 36px;
-    }
-    
-    .mini-player-icon {
-        width: 18px;
-        height: 18px;
-    }
-    
-    .mini-player-content {
-        bottom: -115px !important;
-        left: 12px !important;
-        right: 12px !important;
-        padding: 14px;
-    }
-    
-    .mini-player-track {
-        font-size: 13px;
-    }
-    
-    .mini-player-artist {
-        font-size: 11px;
-    }
-    
-    .mini-control-btn {
-        width: 36px;
-        height: 36px;
-        padding: 8px;
-    }
-    
-    .mini-control-btn.play-mini {
-        width: 44px;
-        height: 44px;
-    }
-}
-
-/* Extra small mobile */
-@media (max-width: 380px) {
-    .mini-player-content {
-        bottom: -70px !important;
-        left: 8px !important;
-        right: 8px !important;
-        padding: 12px 14px;
-    }
-}
-
-@keyframes miniPlayerSlideUp {
+@keyframes slideUp {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(100%);
     }
     to {
         opacity: 1;
@@ -5201,173 +1668,1232 @@ html, body, #root, .App {
     }
 }
 
-/* ============================================
-   iOS VOLUME TOAST
-   ============================================ */
-
-.ios-volume-toast {
-    position: fixed;
-    bottom: 100px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    color: #fff;
-    padding: 12px 20px;
-    border-radius: 30px;
+.mobile-popup-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: rgba(136, 63, 50, 0.1);
+    border-radius: 50%;
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 14px;
-    font-weight: 500;
-    z-index: 10000;
-    animation: toastFadeIn 0.3s ease, toastFadeOut 0.3s ease 2.2s forwards;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    white-space: nowrap;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    color: #883F32;
 }
 
-.ios-volume-toast svg {
-    flex-shrink: 0;
-    opacity: 0.9;
+.mobile-popup-close:hover {
+    background: rgba(136, 63, 50, 0.2);
 }
 
-.ios-volume-toast span {
-    opacity: 0.95;
-}
-
-@keyframes toastFadeIn {
-    from {
-        opacity: 0;
-        transform: translateX(-50%) translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-    }
-}
-
-@keyframes toastFadeOut {
-    from {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-    }
-    to {
-        opacity: 0;
-        transform: translateX(-50%) translateY(20px);
-    }
-}
-
-/* Light theme adjustment */
-body.light-theme .ios-volume-toast {
-    background: rgba(255, 255, 255, 0.95);
-    color: #1a1a1a;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-}
-
-/* Mobile positioning */
-@media (max-width: 480px) {
-    .ios-volume-toast {
-        bottom: 80px;
-        padding: 10px 16px;
-        font-size: 13px;
-        max-width: calc(100vw - 40px);
-    }
-}
-
-/* ============================================
-   GENRES VIEW BOTTOM BAR SUPPORT
-   ============================================ */
-
-/* Add padding to genres list when bottom bar is visible */
-.ipod-genres-view {
-    position: relative;
-    height: 100%;
-    width: 100% !important;
+.mobile-popup-content {
     display: flex;
     flex-direction: column;
-    box-sizing: border-box;
+    align-items: center;
+    text-align: center;
+}
+
+.mobile-popup-content .card-back-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
     overflow: hidden;
+    margin-bottom: 1.25rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
-.ipod-genres-list.has-bottom-bar {
-    padding-bottom: 80px;
-}
-
-/* Ensure proper positioning context for genres view bottom bar */
-.ipod-genres-view .ipod-bottom-bar {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+.mobile-popup-content .card-back-photo img {
     width: 100%;
-    box-sizing: border-box;
+    height: 100%;
+    object-fit: cover;
 }
 
-.ipod-genres-view .ipod-now-playing {
-    position: absolute;
-    inset: 0;
+.mobile-popup-content .card-back-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 400;
+    color: #883F32;
+    margin-bottom: 1rem;
 }
 
-/* ============================================
-   HIDE SCROLLBARS TO PREVENT WIDTH CHANGES
-   ============================================ */
-.ipod-genres-list,
-.ipod-tracks-list {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE/Edge */
+.mobile-popup-content .card-back-funfact {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.85rem;
+    color: #555555;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
 }
 
-.ipod-genres-list::-webkit-scrollbar,
-.ipod-tracks-list::-webkit-scrollbar {
-    display: none; /* Chrome/Safari */
-    width: 0;
-    height: 0;
+.mobile-popup-content .card-back-youtube {
+    display: inline-block;
+    background: #883F32;
+    color: #fff;
+    padding: 0.85rem 1.75rem;
+    border-radius: 25px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
 }
 
-/* ============================================
-   ENHANCED CARD DECK INTERACTIONS
-   ============================================ */
+.mobile-popup-content .card-back-youtube:hover {
+    background: #6b312a;
+    transform: scale(1.05);
+}
 
-/* Top card specific styling */
-.artist-deck-card.top-card {
+/* Hide popup on desktop */
+@media (min-width: 769px) {
+    .mobile-artist-popup-overlay {
+        display: none;
+    }
+}
+
+/* Desktop Carousel */
+.carousel-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.carousel-side {
+    display: flex;
+    gap: 1rem;
+}
+
+.carousel-side-card {
+    width: 180px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    background: #E2E2E2;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 
+        0 4px 16px rgba(0, 0, 0, 0.1),
+        0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.carousel-side-card:hover {
+    transform: translateY(-5px);
+}
+
+.carousel-side-card img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+.carousel-side-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem;
+    background: #E2E2E2;
+}
+
+.carousel-side-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #883F32;
+    text-transform: uppercase;
+    line-height: 1.1;
+}
+
+.carousel-side-arrow {
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+
+/* CD Case Container */
+.cd-case-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cd-case {
+    width: 340px;
+    height: 440px;
+    position: relative;
     cursor: grab;
-    touch-action: none; /* Allow full drag control on top card */
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease;
 }
 
-.artist-deck-card.top-card:active {
+.cd-case:active {
     cursor: grabbing;
 }
 
-/* Prevent image dragging */
-.artist-deck-card img {
-    -webkit-user-drag: none;
+.cd-case.flipped {
+    transform: rotateY(180deg);
+}
+
+.cd-case-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 8px;
+}
+
+.cd-case-front {
+    display: flex;
+    flex-direction: column;
+    background: #E2E2E2;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.15),
+        0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cd-case-spine {
+    display: none;
+}
+
+.cd-case-cover {
+    width: 100%;
+    height: 70%;
+    background: #FFFFFF;
+    overflow: hidden;
+}
+
+.cd-case-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cd-case-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    transform: rotateY(180deg);
+    background: #E2E2E2;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-lg);
+    cursor: pointer;
+}
+
+.cd-case-back-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    overflow: hidden;
+}
+
+.cd-case-back-content .card-back-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
+}
+
+.cd-case-back-content .card-back-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cd-case-back-content .card-back-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 400;
+    color: #883F32;
+    margin-bottom: 0.75rem;
+    text-align: center;
+}
+
+.cd-case-back-content .card-back-funfact {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.8rem;
+    color: #555555;
+    line-height: 1.6;
+    text-align: center;
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    padding: 0 0.5rem;
+}
+
+.cd-case-back-content .card-back-youtube {
+    display: inline-block;
+    background: #883F32;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.cd-case-back-content .card-back-youtube:hover {
+    background: #6b312a;
+    transform: scale(1.05);
+}
+
+.cd-case-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 30%;
+    padding: 1rem 1.25rem;
+    background: #E2E2E2;
+}
+
+.cd-artist-name {
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.75rem;
+    color: #883F32;
+    text-transform: uppercase;
+    line-height: 1.1;
+    flex: 1;
+}
+
+.cd-view-more {
+    width: 48px;
+    height: 48px;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+}
+.cd-view-more img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.cd-view-more:hover {
+   transform: scale(0.90);
+}
+
+/* Mobile Stack View */
+.deck-stack {
+    position: relative;
+    width: 360px;
+    height: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cd-case-mobile {
+    position: absolute;
+    width: 340px;
+    height: 440px;
+    cursor: grab;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    transition: all 0.4s ease;
     user-select: none;
-    pointer-events: none;
 }
 
-/* Smooth will-change hint for better performance */
-.artist-deck-card {
-    will-change: transform, opacity;
-    transform-origin: center center;
+.cd-case-mobile:active {
+    cursor: grabbing;
 }
 
-/* Disable hover effects while dragging */
-.artist-deck-card[style*="grabbing"] {
-    transition: none !important;
+.cd-case-mobile.flipped {
+    transform: rotateY(180deg) scale(1.02);
 }
 
-/* Cards behind the top card - disable interactions but keep hover fan-out working */
-.artist-deck-card:not(.top-card):not(:hover) {
-    pointer-events: none;
+.cd-case-mobile-front,
+.cd-case-mobile-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 8px;
 }
 
-/* Swipe indicator hint */
-.deck-hint {
+.cd-case-mobile-front {
+    display: flex;
+    flex-direction: column;
+    background: #E2E2E2;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.15),
+        0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.cd-case-mobile-front .cd-case-cover {
+    width: 100%;
+    height: 70%;
+    overflow: hidden;
+}
+
+.cd-case-mobile-front .cd-case-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cd-case-mobile-front .cd-case-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    background: #E2E2E2;
+    height: 30%;
+}
+
+.cd-case-artist-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 400;
+    color: #883F32;
+    line-height: 1.1;
+    margin: 0;
+    flex: 1;
+    text-transform: uppercase;
+}
+
+.cd-case-arrow {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+}
+
+.cd-case-arrow img {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+}
+
+.cd-case-arrow:hover {
+    transform: scale(1.05);
+}
+
+.cd-case-mobile-back {
+    transform: rotateY(180deg);
+    background: #E2E2E2;
+    border-radius: 8px;
+    padding: 1.25rem;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.cd-case-mobile-back .card-back-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cd-case-mobile-back .card-back-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cd-case-mobile-back .card-back-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #883F32;
+    margin-bottom: 0.75rem;
+    text-align: center;
+}
+
+.cd-case-mobile-back .card-back-funfact {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem;
+    color: #555555;
+    line-height: 1.5;
+    text-align: center;
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    padding: 0 0.5rem;
+}
+
+.cd-case-mobile-back .card-back-youtube {
+    display: inline-block;
+    background: #883F32;
+    color: #fff;
+    padding: 0.6rem 1.2rem;
+    border-radius: 25px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.cd-case-mobile-back .card-back-youtube:hover {
+    background: #6b312a;
+    transform: scale(1.05);
+}
+
+/* Stack Effect - Cards behind */
+.cd-case-mobile:not(:last-child) {
+    transform: translateX(-10px) translateY(10px) scale(0.96) rotateZ(-3deg);
     opacity: 0.7;
-    transition: opacity 0.3s ease;
+    z-index: calc(var(--card-index, 0));
 }
 
-.deck-wrapper:has(.artist-deck-card[style*="translate"]) .deck-hint {
-    opacity: 0;
+.cd-case-mobile:nth-last-child(2) {
+    transform: translateX(-6px) translateY(6px) scale(0.98) rotateZ(-2deg);
+    opacity: 0.85;
 }
+
+.cd-case-mobile:last-child {
+    transform: none;
+    opacity: 1;
+    z-index: 100;
+}
+
+.cd-case-mobile:last-child:hover {
+    transform: translateY(-5px);
+}
+
+/* Mobile Artist Info */
+.mobile-artist-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 340px;
+    margin-top: -8px;
+    padding: 1rem 1.25rem;
+    background: #E5E5E5;
+    border-radius: 0 0 8px 8px;
+    position: relative;
+    z-index: 90;
+}
+
+.mobile-artist-name {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.mobile-view-more {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid #1a1a1a;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #1a1a1a;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.mobile-view-more:hover {
+    background: #1a1a1a;
+    color: #ffffff;
+}
+
+/* Overlay Footer */
+.overlay-footer {
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: auto;
+}
+
+.overlay-event-title {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 3rem;
+    font-weight: 700;
+    flex-wrap: wrap;
+    color: var(--text-heading);
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+}
+
+.overlay-event-title span {
+    display: block;
+}
+
+.overlay-powered-by {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Host Grotesk', sans-serif;
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: #000000;
+}
+
+.overlay-powered-by .astrix-logo-img {
+    height: 18px;
+    width: auto;
+}
+
+/* Desktop/Mobile visibility */
+.desktop-only {
+    display: flex;
+}
+
+.mobile-only {
+    display: none;
+}
+
+/* Background text visibility */
+.artist-bg-text.desktop-only {
+    display: block;
+}
+
+.artist-bg-text.mobile-only {
+    display: none;
+}
+
+/* ============================================
+   TOAST NOTIFICATIONS
+   ============================================ */
+
+.toast {
+    position: fixed;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 24px;
+    background: var(--text-primary);
+    color: var(--bg-primary);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 50px;
+    box-shadow: var(--shadow-lg);
+    z-index: 10000;
+    animation: toastIn 0.3s ease;
+}
+
+@keyframes toastIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+.toast.success {
+    background: #1DB954;
+}
+
+.toast.error {
+    background: #ef4444;
+}
+
+/* ============================================
+   MINI PLAYER
+   ============================================ */
+
+.mini-player-container {
+    position: relative;
+}
+
+.mini-player-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mini-player-toggle:hover {
+    background: var(--surface-hover);
+}
+
+.mini-player-art {
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.mini-player-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mini-player-info {
+    max-width: 120px;
+}
+
+.mini-player-track {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.mini-player-artist {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.625rem;
+    color: var(--text-tertiary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.mini-player-content {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 320px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: var(--shadow-xl);
+    z-index: 1000;
+}
+
+/* ============================================
+   ARTIST CARD MODAL
+   ============================================ */
+
+.artist-card-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.artist-card-modal-content {
+    background: var(--bg-primary);
+    border-radius: 24px;
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-xl);
+}
+
+.artist-card-modal-header {
+    position: relative;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.artist-card-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+}
+
+.artist-card-modal-close:hover {
+    background: var(--surface);
+    color: var(--text-primary);
+}
+
+.artist-card-modal-body {
+    padding: 1.5rem;
+}
+
+.artist-card-modal-art {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.artist-card-modal-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.artist-card-modal-name {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.artist-card-modal-genre {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+}
+
+.artist-card-modal-fact {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    padding: 1rem;
+    background: var(--surface);
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.artist-card-modal-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.artist-card-modal-btn {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: 50px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    text-align: center;
+}
+
+.artist-card-modal-btn.primary {
+    background: var(--text-primary);
+    border: none;
+    color: var(--bg-primary);
+}
+
+.artist-card-modal-btn.primary:hover {
+    transform: translateY(-2px);
+}
+
+.artist-card-modal-btn.secondary {
+    background: transparent;
+    border: 1.5px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.artist-card-modal-btn.secondary:hover {
+    border-color: var(--text-primary);
+}
+
+/* ============================================
+   RESPONSIVE STYLES
+   ============================================ */
+
+/* Tablet */
+@media (max-width: 1024px) {
+    body {
+        overflow-y: auto;
+        height: auto;
+        min-height: 100vh;
+    }
+    
+    .App {
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+    }
+    
+    .container {
+        overflow: visible;
+    }
+    
+    .main-content {
+        flex-direction: column;
+        gap: 1.5rem;
+        min-height: auto;
+        flex: none;
+    }
+    
+    .guide-section {
+        max-width: 100%;
+        margin: 0;
+        text-align: center;
+    }
+    
+    .guide-title {
+        
+        font-size: 2.5rem;
+    }
+    
+    .guide-subtitle {
+        /* width: 100%; */
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .guide-arrow {
+        display: block;
+    }
+    
+    .event-section {
+        display: none;
+    }
+    
+    .event-title-mobile {
+        display: block;
+    }
+    
+    .carousel-container {
+        flex-direction: column;
+    }
+    
+    .carousel-side {
+        display: none;
+    }
+    
+    .desktop-only {
+        display: none;
+    }
+    
+    .mobile-only {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    /* Background text visibility on tablet */
+    .artist-bg-text.desktop-only {
+        display: none;
+    }
+    
+    .artist-bg-text.mobile-only {
+        display: block;
+    }
+    
+    .artist-bg-text {
+        font-size: 20vw;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .site-header-content {
+        padding: 0 1rem;
+    }
+    
+    .reach-out-btn {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    .soundwave-icon {
+        display: none;
+    }
+    
+    .container {
+        padding: 1rem;
+    }
+    
+    .guide-title {
+        font-size: 2.5rem;
+    }
+    
+    .guide-subtitle {
+        color: #000000;
+        font-weight: 500;
+        font-size: 0.6rem;
+    }
+    
+    .event-title-mobile {
+        margin-top: 2rem;
+    }
+    
+    .event-title-mobile h2 {
+        font-size: 1.75rem;
+    }
+    
+    .discover-btn-wrapper {
+        margin-top: 1.25rem;
+    }
+    
+    .discover-btn {
+        font-size: 0.8125rem;
+        padding: 0.875rem 1.5rem;
+        height: 46px;
+    }
+    
+    .discover-btn-arrow {
+        width: 46px;
+        height: 46px;
+    }
+    
+    .discover-btn-arrow svg {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .ipod-container {
+        width: 260px;
+    }
+    
+    .artists-container {
+        padding: 0;
+    }
+    
+    .artists-header {
+        padding: 1rem;
+    }
+    
+    .back-to-player {
+        font-size: 0.8125rem;
+        gap: 6px;
+    }
+    
+    .back-to-player svg {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .reach-out-btn-overlay {
+        font-size: 0.75rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    .artists-filters {
+        gap: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        justify-content: flex-start;
+    }
+    
+    .filter-btn {
+        font-size: 0.75rem;
+        padding: 0.375rem 1rem;
+    }
+    
+    .artist-bg-text {
+        font-size: 25vw;
+    }
+    
+    /* Background text visibility on mobile */
+    .artist-bg-text.desktop-only {
+        display: none;
+    }
+    
+    .artist-bg-text.mobile-only {
+        display: block;
+    }
+    
+    .deck-stack {
+        width: 340px;
+        height: 460px;
+    }
+    
+    .cd-case-mobile {
+        width: 320px;
+        height: 420px;
+    }
+    
+    .cd-case-artist-name {
+        font-size: 1.5rem;
+    }
+    
+    .cd-case-arrow img {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .overlay-event-title {
+        font-size: 2rem;
+    }
+    
+    .toast {
+        top: 80px;
+        font-size: 0.8125rem;
+        padding: 10px 20px;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+    .site-header-content {
+        padding: 0 0.75rem;
+    }
+    
+    .logo-bars span {
+        width: 3px;
+    }
+    
+    .reach-out-btn {
+        font-size: 0.80rem;
+        padding: 0.375rem 0.875rem;
+    }
+    
+    .guide-title {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 2rem;
+    }
+    
+    .event-title-mobile {
+        margin-top: 1.5rem;
+    }
+    
+    .event-title-mobile h2 {
+        font-size: 2rem;
+    }
+    
+    .discover-btn-wrapper {
+        margin-top: 1rem;
+    }
+    
+    .ipod-container {
+        width: 240px;
+    }
+    
+    .deck-stack {
+        width: 300px;
+        height: 420px;
+    }
+    
+    .cd-case-mobile {
+        width: 280px;
+        height: 380px;
+    }
+    
+    .cd-case-artist-name {
+        font-size: 1.25rem;
+    }
+    
+    .cd-case-arrow img {
+        width: 44px;
+        height: 44px;
+    }
+    
+    .cd-case-mobile-front .cd-case-info {
+        padding: 0.75rem 1rem;
+    }
+    
+    .overlay-event-title {
+        font-size: 2rem;
+    }
+}
+
+/* YouTube Player Hidden */
+.youtube-player-container {
+    display: none;
+}
+
+/* Album Art Background */
+.album-art-background {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #1A1A1A;
+}
+
+/* View More Button in Deck Cards */
+.artist-deck-view-more {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.artist-deck-view-more:hover {
+    color: var(--text-primary);
+}
+
+/* Tracklist Empty State */
+.tracklist-empty,
+.tracklist-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+}
+
+.tracklist-empty p,
+.tracklist-loading p {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.empty-hint {
+    font-size: 0.75rem !important;
+    color: rgba(255, 255, 255, 0.3) !important;
+    margin-top: 0.5rem;
+}
+
+/* Genre Colors for Menu Items */

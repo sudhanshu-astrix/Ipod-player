@@ -1,18 +1,19 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useApp } from '../context/AppContext';
 import { genres } from '../constants/genres';
-import { playlistData } from '../constants/playlistData';
-import ArtistCardModal from './ArtistCardModal';
+import { playlistData, ArtistData } from '../constants/playlistData';
 
 const ArtistsOverlay = () => {
     const { showArtistsOverlay, setShowArtistsOverlay } = useApp();
     const [selectedGenre, setSelectedGenre] = useState(genres[0]?.id || 'rock');
     const [flippedCards, setFlippedCards] = useState(new Set());
-    const [selectedArtist, setSelectedArtist] = useState(null);
-    const [showModal, setShowModal] = useState(false);
     const [cardOrder, setCardOrder] = useState([]); // Track card order for stack
+    const [currentCardIndex, setCurrentCardIndex] = useState(0); // For carousel navigation
+    const [isStackExpanded, setIsStackExpanded] = useState(false); // For stack fan-out effect
+    const [mobilePopupArtist, setMobilePopupArtist] = useState(null); // For mobile popup
     const deckStackRef = useRef(null);
     const activeCardRef = useRef(null);
+    const carouselRef = useRef(null);
     const dragState = useRef({ 
         isDragging: false, 
         startX: 0, 
@@ -62,7 +63,25 @@ const ArtistsOverlay = () => {
     useEffect(() => {
         setCardOrder(filteredArtists.map((_, i) => i));
         setFlippedCards(new Set());
+        setCurrentCardIndex(0);
+        setIsStackExpanded(false);
     }, [selectedGenre, filteredArtists.length]);
+    
+    // Navigation functions for carousel
+    const goToNextCard = useCallback(() => {
+        if (filteredArtists.length > 0) {
+            setCurrentCardIndex(prev => (prev + 1) % filteredArtists.length);
+        }
+    }, [filteredArtists.length]);
+    
+    const goToPrevCard = useCallback(() => {
+        if (filteredArtists.length > 0) {
+            setCurrentCardIndex(prev => (prev - 1 + filteredArtists.length) % filteredArtists.length);
+        }
+    }, [filteredArtists.length]);
+    
+    // Get current artist for center display (desktop carousel)
+    const currentArtist = filteredArtists[currentCardIndex];
     
     // Get ordered artists based on card order
     const getOrderedArtists = useCallback(() => {
@@ -71,41 +90,59 @@ const ArtistsOverlay = () => {
         }
         return cardOrder.map(index => filteredArtists[index]);
     }, [cardOrder, filteredArtists]);
+    
+    // Get the top card artist for mobile stack (last item in ordered array)
+    const orderedArtists = getOrderedArtists();
+    const topStackArtist = orderedArtists.length > 0 ? orderedArtists[orderedArtists.length - 1] : null;
 
-    // Handle card flip
+    // Handle card click - only for dragging, no flip
     const handleCardClick = (artistName, e) => {
-        // Don't flip if we just dragged
+        // Don't do anything if we just dragged
         if (dragState.current.hasMoved) {
             dragState.current.hasMoved = false;
             return;
         }
-
-        // Check if it's a double click
-        if (e.detail === 2) {
-            const artist = allArtists.find(a => a.name === artistName);
-            if (artist) {
-                setSelectedArtist(artist);
-                setShowModal(true);
-            }
-            return;
-        }
-
-        // Single click - flip card (with slight delay to detect double click)
-        if (clickTimeoutRef.current) {
-            clearTimeout(clickTimeoutRef.current);
-        }
-        
-        clickTimeoutRef.current = setTimeout(() => {
-            setFlippedCards(prev => {
-                const newSet = new Set(prev);
-                if (newSet.has(artistName)) {
-                    newSet.delete(artistName);
-                } else {
-                    newSet.add(artistName);
-                }
-                return newSet;
-            });
-        }, 200);
+    };
+    
+    // Flip card to show back side (triggered by arrow button) - Desktop only
+    const flipCardToBack = (artistName, e) => {
+        e.stopPropagation();
+        setFlippedCards(prev => {
+            const newSet = new Set(prev);
+            newSet.add(artistName);
+            return newSet;
+        });
+    };
+    
+    // Show popup with artist info (triggered by arrow button) - Mobile only
+    const showMobilePopup = (artist, e) => {
+        e.stopPropagation();
+        setMobilePopupArtist(artist);
+    };
+    
+    // Close mobile popup
+    const closeMobilePopup = () => {
+        setMobilePopupArtist(null);
+    };
+    
+    // Flip card back to front (triggered by clicking back side)
+    const flipCardToFront = (artistName, e) => {
+        e.stopPropagation();
+        setFlippedCards(prev => {
+            const newSet = new Set(prev);
+            newSet.delete(artistName);
+            return newSet;
+        });
+    };
+    
+    // Get artist data for back side info
+    const getArtistBackInfo = (artist) => {
+        const artistData = ArtistData[artist.name];
+        return {
+            photo: artistData?.photo || artist.albumArt || 'https://via.placeholder.com/100/333/fff?text=Artist',
+            funFact: artistData?.funFact || getFunFact(artist),
+            youtubeLink: artistData?.youtubeLink || getYouTubeUrl(artist)
+        };
     };
 
     // Move top card to back of stack
@@ -370,19 +407,25 @@ const ArtistsOverlay = () => {
                 }}
             >
                 <div className="artists-container">
+                    {/* Header */}
                     <div className="artists-header">
-                        <h2 className="artists-title">Artists</h2>
                         <button 
-                            className="artists-close" 
+                            className="back-to-player" 
                             onClick={() => setShowArtistsOverlay(false)}
-                            aria-label="Close artists"
+                            aria-label="Back to player"
                         >
-                            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
+                                <line x1="19" y1="12" x2="5" y2="12"></line>
+                                <polyline points="12 19 5 12 12 5"></polyline>
                             </svg>
+                            <span>Back to Player</span>
+                        </button>
+                        <button className="reach-out-btn-overlay">
+                            Reach Out
                         </button>
                     </div>
+
+                    <div className="dashed-separator-overlay"></div>
                     
                     {/* Genre Filters */}
                     <div className="artists-filters">
@@ -392,33 +435,161 @@ const ArtistsOverlay = () => {
                                 className={`filter-btn ${selectedGenre === genre.id ? 'active' : ''}`}
                                 onClick={() => setSelectedGenre(genre.id)}
                                 data-genre={genre.id}
-                                style={{ '--filter-color': genre.color }}
                             >
                                 {genre.name}
                             </button>
                         ))}
                     </div>
                     
-                    {/* Card Deck Container */}
+                    {/* Background Artist Name Text - Desktop */}
+                    {currentArtist && (
+                        <div className="artist-bg-text desktop-only">
+                            {currentArtist.name.toUpperCase()}
+                        </div>
+                    )}
+                    
+                    {/* Background Artist Name Text - Mobile (follows stack top card) */}
+                    {topStackArtist && (
+                        <div className="artist-bg-text mobile-only">
+                            {topStackArtist.name.toUpperCase()}
+                        </div>
+                    )}
+                    
+                    {/* Card Deck Container - CD Case Style */}
                     <div className="deck-wrapper">
-                        <div className="deck-container">
+                        <div className="deck-container" ref={carouselRef}>
                             {filteredArtists.length === 0 ? (
-                                <div style={{ 
-                                    textAlign: 'center', 
-                                    padding: '4rem 2rem',
-                                    color: 'var(--text-secondary)'
-                                }}>
-                                    <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎵</div>
+                                <div className="no-artists">
+                                    <div className="no-artists-icon">🎵</div>
                                     <p>No artists found for this genre.</p>
                                 </div>
                             ) : (
-                                <div className="deck-stack" ref={deckStackRef}>
+                                <>
+                                    {/* Desktop Carousel View */}
+                                    <div className="carousel-container desktop-only">
+                                        {/* Left side cards */}
+                                        <div className="carousel-side carousel-left">
+                                            {filteredArtists.slice(0, currentCardIndex).slice(-2).map((artist, idx) => (
+                                                <div 
+                                                    key={artist.name} 
+                                                    className="carousel-side-card"
+                                                    onClick={() => setCurrentCardIndex(filteredArtists.indexOf(artist))}
+                                                >
+                                                    <img 
+                                                        src={artist.albumArt || 'https://via.placeholder.com/150x150/333/fff?text=Artist'} 
+                                                        alt={artist.name}
+                                                        loading="lazy"
+                                                    />
+                                                    <div className="carousel-side-info">
+                                                        <span className="carousel-side-name">{artist.name}</span>
+                                                        <button className="carousel-side-arrow">
+                                                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
+                                                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                                <polyline points="12 5 19 12 12 19"></polyline>
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        {/* Center CD Case */}
+                                        {currentArtist && (() => {
+                                            const backInfo = getArtistBackInfo(currentArtist);
+                                            return (
+                                            <div className="cd-case-container">
+                                                <div 
+                                                    className={`cd-case ${flippedCards.has(currentArtist.name) ? 'flipped' : ''}`}
+                                                    onMouseDown={(e) => handleDragStart(e, currentArtist.name, true)}
+                                                    onTouchStart={(e) => handleDragStart(e, currentArtist.name, true)}
+                                                    ref={activeCardRef}
+                                                >
+                                                    <div className="cd-case-front">
+                                                        <div className="cd-case-cover">
+                                                            <img 
+                                                                src={currentArtist.albumArt || 'https://via.placeholder.com/320x320/333/fff?text=Artist'} 
+                                                                alt={currentArtist.name}
+                                                                draggable="false"
+                                                            />
+                                                        </div>
+                                                        <div className="cd-case-info">
+                                                            <h2 className="cd-artist-name">{currentArtist.name.toUpperCase()}</h2>
+                                                            <button 
+                                                                className="cd-view-more"
+                                                                onClick={(e) => flipCardToBack(currentArtist.name, e)}
+                                                            >
+                                                                <img src="/artist-overlay-linkbutton.png" alt="View details" />
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div 
+                                                        className="cd-case-back"
+                                                        onClick={(e) => flipCardToFront(currentArtist.name, e)}
+                                                    >
+                                                        <div className="cd-case-back-content">
+                                                            <div className="card-back-photo">
+                                                                <img 
+                                                                    src={backInfo.photo} 
+                                                                    alt={currentArtist.name}
+                                                                />
+                                                            </div>
+                                                            <h3 className="card-back-name">{currentArtist.name}</h3>
+                                                            <p className="card-back-funfact">{backInfo.funFact}</p>
+                                                            <a 
+                                                                className="card-back-youtube"
+                                                                href={backInfo.youtubeLink}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                onClick={(e) => e.stopPropagation()}
+                                                            >
+                                                                Watch on YouTube
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            );
+                                        })()}
+
+                                        {/* Right side cards */}
+                                        <div className="carousel-side carousel-right">
+                                            {filteredArtists.slice(currentCardIndex + 1, currentCardIndex + 3).map((artist, idx) => (
+                                                <div 
+                                                    key={artist.name} 
+                                                    className="carousel-side-card"
+                                                    onClick={() => setCurrentCardIndex(filteredArtists.indexOf(artist))}
+                                                >
+                                                    <img 
+                                                        src={artist.albumArt || 'https://via.placeholder.com/150x150/333/fff?text=Artist'} 
+                                                        alt={artist.name}
+                                                        loading="lazy"
+                                                    />
+                                                    <div className="carousel-side-info">
+                                                        <span className="carousel-side-name">{artist.name}</span>
+                                                        <button className="carousel-side-arrow">
+                                                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
+                                                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                                <polyline points="12 5 19 12 12 19"></polyline>
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Mobile Stack View */}
+                                    <div 
+                                        className={`deck-stack mobile-only ${isStackExpanded ? 'expanded' : ''}`} 
+                                        ref={deckStackRef}
+                                        onClick={() => setIsStackExpanded(!isStackExpanded)}
+                                    >
                                     {getOrderedArtists().map((artist, index, arr) => {
                                         const isTopCard = index === arr.length - 1;
                                         return (
                                             <div
                                                 key={artist.name}
-                                                className={`artist-deck-card ${flippedCards.has(artist.name) ? 'flipped' : ''} ${isTopCard ? 'top-card' : ''}`}
+                                                className={`cd-case-mobile ${isTopCard ? 'top-card' : ''}`}
                                                 style={{ 
                                                     '--card-index': index,
                                                     cursor: isTopCard ? 'grab' : 'default'
@@ -427,85 +598,94 @@ const ArtistsOverlay = () => {
                                                 onMouseDown={(e) => handleDragStart(e, artist.name, isTopCard)}
                                                 onTouchStart={(e) => handleDragStart(e, artist.name, isTopCard)}
                                             >
-                                                {/* Front of card */}
-                                                <div className="artist-deck-card-front">
-                                                    <div className="artist-deck-photo">
+                                                <div className="cd-case-mobile-front">
+                                                    <div className="cd-case-cover">
                                                         <img 
-                                                            src={artist.albumArt || 'https://via.placeholder.com/320x450/333/fff?text=Artist'} 
+                                                            src={artist.albumArt || 'https://via.placeholder.com/320x320/333/fff?text=Artist'} 
                                                             alt={artist.name}
-                                                            loading="lazy"
                                                             draggable="false"
                                                         />
                                                     </div>
-                                                    <div className="artist-deck-info">
-                                                        <div className="artist-deck-name">{artist.name}</div>
-                                                        <div className="artist-deck-genre" style={{ color: artist.genreColor }}>
-                                                            {artist.genreName}
-                                                        </div>
+                                                    <div className="cd-case-info">
+                                                        <h2 className="cd-case-artist-name">{artist.name.toUpperCase()}</h2>
                                                         <button 
-                                                            className="artist-deck-view-more"
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                setSelectedArtist(artist);
-                                                                setShowModal(true);
-                                                            }}
+                                                            className="cd-case-arrow"
+                                                            onClick={(e) => showMobilePopup(artist, e)}
                                                         >
-                                                            Click to View More
+                                                            <img src="/artist-overlay-linkbutton.png" alt="View details" />
                                                         </button>
-                                                    </div>
-                                                </div>
-                                                
-                                                {/* Back of card */}
-                                                <div className="artist-deck-card-back">
-                                                    <div className="artist-deck-back-photo">
-                                                        <img 
-                                                            src={artist.albumArt || 'https://via.placeholder.com/320x450/333/fff?text=Artist'} 
-                                                            alt={artist.name}
-                                                            loading="lazy"
-                                                            draggable="false"
-                                                        />
-                                                    </div>
-                                                    <div className="artist-deck-back-name">{artist.name}</div>
-                                                    <div className="artist-deck-back-funfact">
-                                                        {getFunFact(artist)}
-                                                    </div>
-                                                    <div className="artist-deck-back-youtube">
-                                                        <a 
-                                                            href={getYouTubeUrl(artist)}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            onClick={(e) => e.stopPropagation()}
-                                                        >
-                                                            Watch on YouTube
-                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
                                         );
                                     })}
                                 </div>
+                                </>
                             )}
                         </div>
                         {filteredArtists.length > 0 && (
-                            <div className="deck-hint">Drag to browse • Click to flip • Double-click for details</div>
+                            <div className="deck-hint">Drag to browse · Click arrow for details</div>
                         )}
+                    </div>
+
+                    {/* Footer */}
+                    <div className="overlay-footer">
+                        <h2 className="overlay-event-title">
+                            <span>LOLLAPALOOZA INDIA '26</span>
+                            <span></span>
+                        </h2>
+                        <div className="overlay-powered-by">
+                            <span>Powered by</span>
+                            <img src="/astrix-logo.svg" alt="Astrix" className="astrix-logo-img" />
+                        </div>
                     </div>
                 </div>
             </div>
             
-            {/* Artist Card Modal */}
-            {selectedArtist && (
-                <ArtistCardModal
-                    artist={selectedArtist}
-                    isOpen={showModal}
-                    onClose={() => {
-                        setShowModal(false);
-                        setSelectedArtist(null);
-                    }}
-                    getFunFact={getFunFact}
-                    getYouTubeUrl={getYouTubeUrl}
-                />
-            )}
+            {/* Mobile Artist Info Popup */}
+            {mobilePopupArtist && (() => {
+                const popupInfo = getArtistBackInfo(mobilePopupArtist);
+                return (
+                    <div 
+                        className="mobile-artist-popup-overlay"
+                        onClick={closeMobilePopup}
+                    >
+                        <div 
+                            className="mobile-artist-popup"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <button 
+                                className="mobile-popup-close"
+                                onClick={closeMobilePopup}
+                                aria-label="Close popup"
+                            >
+                                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </button>
+                            <div className="mobile-popup-content">
+                                <div className="card-back-photo">
+                                    <img 
+                                        src={popupInfo.photo} 
+                                        alt={mobilePopupArtist.name}
+                                    />
+                                </div>
+                                <h3 className="card-back-name">{mobilePopupArtist.name}</h3>
+                                <p className="card-back-funfact">{popupInfo.funFact}</p>
+                                <a 
+                                    className="card-back-youtube"
+                                    href={popupInfo.youtubeLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Watch on YouTube
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                );
+            })()}
         </>
     );
 };
