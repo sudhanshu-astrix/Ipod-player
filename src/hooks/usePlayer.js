@@ -28,6 +28,9 @@ export const usePlayer = () => {
     const playTrack = async (index) => {
         if (index < 0 || index >= currentPlaylist.length) return;
         
+        // Dispatch event to pause background music when iPod starts playing
+        window.dispatchEvent(new CustomEvent('ipodPlaybackStarted'));
+        
         // Reset progress bar immediately when changing tracks
         setCurrentTime(0);
         setCurrentTrackIndex(index);
@@ -84,7 +87,12 @@ export const usePlayer = () => {
         if (isPlaying) {
             // Pause the YouTube player
             pauseVideo();
+            // Dispatch event - iPod paused (background music can resume)
+            window.dispatchEvent(new CustomEvent('ipodPlaybackPaused'));
         } else {
+            // Resume playback - pause background music
+            window.dispatchEvent(new CustomEvent('ipodPlaybackStarted'));
+            
             // Resume playback using the playing playlist
             if (playerReady) {
                 const track = playingPlaylist[playingTrackIndex];
@@ -130,6 +138,9 @@ export const usePlayer = () => {
     // Play a track from the currently playing playlist (for next/prev)
     const playTrackFromPlayingList = async (index) => {
         if (index < 0 || index >= playingPlaylist.length) return;
+        
+        // Dispatch event to pause background music
+        window.dispatchEvent(new CustomEvent('ipodPlaybackStarted'));
         
         setCurrentTime(0);
         const track = playingPlaylist[index];

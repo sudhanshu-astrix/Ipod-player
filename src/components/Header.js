@@ -96,6 +96,36 @@ const Header = () => {
         }
     };
 
+    // Listen for iPod playback events to pause/resume background music
+    useEffect(() => {
+        const handleIpodStarted = () => {
+            // Pause background music when iPod starts playing
+            if (audioRef.current && isMusicPlaying) {
+                audioRef.current.pause();
+                setIsMusicPlaying(false);
+            }
+        };
+        
+        const handleIpodPaused = () => {
+            // Resume background music when iPod is paused (only if user hasn't turned it off)
+            if (audioRef.current && !userTurnedOffRef.current) {
+                audioRef.current.play().then(() => {
+                    setIsMusicPlaying(true);
+                }).catch(e => {
+                    console.log('Cannot resume background music:', e);
+                });
+            }
+        };
+        
+        window.addEventListener('ipodPlaybackStarted', handleIpodStarted);
+        window.addEventListener('ipodPlaybackPaused', handleIpodPaused);
+        
+        return () => {
+            window.removeEventListener('ipodPlaybackStarted', handleIpodStarted);
+            window.removeEventListener('ipodPlaybackPaused', handleIpodPaused);
+        };
+    }, [isMusicPlaying]);
+
     // Check Spotify authentication status
     useEffect(() => {
         checkSpotifyAuth();
@@ -165,7 +195,7 @@ const Header = () => {
                 <div className="site-header-left">
                     {/* Logo - Plinth Logo Image */}
                     <a href="/" className="site-logo" aria-label="Home">
-                        <img src="/plinth-logo.png" alt="Plinth" className="logo-image" />
+                        <img src="/plinth-logo.svg" alt="Plinth" className="logo-image" />
                     </a>
                 </div>
 
