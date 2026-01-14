@@ -200,9 +200,15 @@ const Header = () => {
                 </div>
 
                 {/* Center - Reach Out Button */}
-                <button className="reach-out-btn">
+                <a 
+                    style={{ textDecoration: 'none' }}
+                    href="https://www.astrix.live/#contact" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="reach-out-btn"
+                >
                     Reach Out
-                </button>
+                </a>
 
                 <nav className="site-nav">
                     {/* Spotify Connection Status */}

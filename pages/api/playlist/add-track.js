@@ -2,7 +2,7 @@
 import { parse } from 'cookie';
 import querystring from 'querystring';
 
-const PLAYLIST_NAME = 'lollapalooza';
+const BASE_PLAYLIST_NAME = 'lollapalooza';
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
@@ -12,33 +12,54 @@ export default async function handler(req, res) {
     // Get access token from cookie
     const cookies = parse(req.headers.cookie || '');
     const accessToken = cookies.spotify_access_token;
-    const userCookie = cookies.spotify_user;
 
-    if (!accessToken || !userCookie) {
-        return res.status(401).json({ error: 'Not authenticated' });
+    if (!accessToken) {
+        return res.status(401).json({ error: 'Not authenticated - no access token' });
     }
 
-    let user;
-    try {
-        user = JSON.parse(userCookie);
-    } catch (error) {
-        return res.status(401).json({ error: 'Invalid user data' });
-    }
-
-    const { trackName, artistName, spotifyLink } = req.body;
+    const { trackName, artistName, spotifyLink, genreName } = req.body;
 
     if (!trackName || !artistName) {
         return res.status(400).json({ error: 'Track name and artist name are required' });
     }
 
+    // Determine playlist name based on whether genre is provided
+    const PLAYLIST_NAME = genreName 
+        ? `${BASE_PLAYLIST_NAME} - ${genreName}` 
+        : BASE_PLAYLIST_NAME;
+
     try {
-        const userId = user.id;
-        console.log('🔐 Authenticated user:', {
-            userId: userId,
-            userName: user.name,
-            userEmail: user.email
+        // IMPORTANT: Verify the access token and get the ACTUAL user from Spotify API
+        // This ensures we're using the correct user, not relying on potentially stale cookie data
+        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        console.log('🔐 ADD TO PLAYLIST REQUEST');
+        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        
+        const meResponse = await fetch('https://api.spotify.com/v1/me', {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
         });
-        console.log('🎫 Access token present:', !!accessToken);
+        
+        if (!meResponse.ok) {
+            console.error('❌ Access token verification failed:', meResponse.status);
+            return res.status(401).json({ 
+                error: 'Authentication expired',
+                message: 'Please log in again'
+            });
+        }
+        
+        const actualUser = await meResponse.json();
+        const userId = actualUser.id;
+        
+        console.log('✅ VERIFIED user from Spotify API:', {
+            userId: userId,
+            userName: actualUser.display_name,
+            userEmail: actualUser.email
+        });
+        console.log('🎫 Access token is VALID for user:', userId);
+        console.log('🎵 Track:', trackName, 'by', artistName);
+        console.log('📋 Target playlist:', PLAYLIST_NAME);
 
         // Extract track ID from Spotify link or search for the track
         let trackId;
@@ -130,17 +151,27 @@ export default async function handler(req, res) {
         }
 
         const playlistsData = await playlistsResponse.json();
-        console.log('playlistsData', playlistsData);
-        console.log(`Found ${playlistsData.items?.length || 0} playlists`);
+        console.log(`📋 Found ${playlistsData.items?.length || 0} playlists for user ${userId}`);
 
-        // Find Lollapalooza playlist
+        // Find Lollapalooza playlist owned by THIS user (not followed playlists from other users)
         let playlist = playlistsData.items.find(
-            p => p.name.toLowerCase() === PLAYLIST_NAME.toLowerCase()
+            p => p.name.toLowerCase() === PLAYLIST_NAME.toLowerCase() && p.owner.id === userId
         );
+        
+        console.log('🔍 Looking for playlist:', PLAYLIST_NAME, 'owned by:', userId);
+        if (playlist) {
+            console.log('✅ Found user\'s own playlist:', playlist.id, 'owner:', playlist.owner.id);
+        } else {
+            console.log('❌ No playlist found owned by this user, will create new one');
+        }
 
         // Create playlist if it doesn't exist
         if (!playlist) {
-            console.log(`📝 Creating new playlist "${PLAYLIST_NAME}" for user:`, userId);
+            const playlistDescription = genreName 
+                ? `Lollapalooza India 2026 - ${genreName} Tracks`
+                : 'Lollapalooza India 2026 - My Favorite Tracks';
+                
+            console.log(`📝 Creating new playlist "${PLAYLIST_NAME}" for user:`, userId, actualUser.display_name);
             
             const createResponse = await fetch(
                 `https://api.spotify.com/v1/users/${userId}/playlists`,
@@ -152,7 +183,7 @@ export default async function handler(req, res) {
                     },
                     body: JSON.stringify({
                         name: PLAYLIST_NAME,
-                        description: 'Lollapalooza India 2026 - My Favorite Tracks',
+                        description: playlistDescription,
                         public: true
                     })
                 }

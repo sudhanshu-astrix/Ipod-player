@@ -80,6 +80,40 @@ const ArtistsOverlay = () => {
         }
     }, [filteredArtists.length]);
     
+    // Handle mouse wheel horizontal scrolling for carousel
+    const handleCarouselWheel = useCallback((e) => {
+        // Only handle on desktop
+        if (window.innerWidth < 769) return;
+        
+        // Prevent default vertical scrolling
+        e.preventDefault();
+        
+        // Use deltaX for horizontal scroll, or deltaY if shift is held or for vertical scroll wheels
+        const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+        
+        // Determine scroll direction and navigate
+        if (delta > 30) {
+            // Scrolled right/down - go to next
+            goToNextCard();
+        } else if (delta < -30) {
+            // Scrolled left/up - go to previous
+            goToPrevCard();
+        }
+    }, [goToNextCard, goToPrevCard]);
+    
+    // Set up wheel listener for carousel
+    useEffect(() => {
+        const carousel = carouselRef.current;
+        if (!carousel || !showArtistsOverlay) return;
+        
+        // Use passive: false to allow preventDefault
+        carousel.addEventListener('wheel', handleCarouselWheel, { passive: false });
+        
+        return () => {
+            carousel.removeEventListener('wheel', handleCarouselWheel);
+        };
+    }, [showArtistsOverlay, handleCarouselWheel]);
+    
     // Get current artist for center display (desktop carousel)
     const currentArtist = filteredArtists[currentCardIndex];
     
@@ -90,7 +124,7 @@ const ArtistsOverlay = () => {
         }
         return cardOrder.map(index => filteredArtists[index]);
     }, [cardOrder, filteredArtists]);
-    
+
     // Get the top card artist for mobile stack (last item in ordered array)
     const orderedArtists = getOrderedArtists();
     const topStackArtist = orderedArtists.length > 0 ? orderedArtists[orderedArtists.length - 1] : null;
@@ -102,16 +136,6 @@ const ArtistsOverlay = () => {
             dragState.current.hasMoved = false;
             return;
         }
-    };
-    
-    // Flip card to show back side (triggered by arrow button) - Desktop only
-    const flipCardToBack = (artistName, e) => {
-        e.stopPropagation();
-        setFlippedCards(prev => {
-            const newSet = new Set(prev);
-            newSet.add(artistName);
-            return newSet;
-        });
     };
     
     // Show popup with artist info (triggered by arrow button) - Mobile only
@@ -128,11 +152,11 @@ const ArtistsOverlay = () => {
     // Flip card back to front (triggered by clicking back side)
     const flipCardToFront = (artistName, e) => {
         e.stopPropagation();
-        setFlippedCards(prev => {
-            const newSet = new Set(prev);
-            newSet.delete(artistName);
-            return newSet;
-        });
+            setFlippedCards(prev => {
+                const newSet = new Set(prev);
+                    newSet.delete(artistName);
+                return newSet;
+            });
     };
     
     // Get artist data for back side info
@@ -420,9 +444,15 @@ const ArtistsOverlay = () => {
                             </svg>
                             <span>Back to Player</span>
                         </button>
-                        <button className="reach-out-btn-overlay">
+                        <a 
+                            style={{ textDecoration: 'none' }}
+                            href="https://www.astrix.live/#contact" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="reach-out-btn-overlay"
+                        >
                             Reach Out
-                        </button>
+                        </a>
                     </div>
 
                     <div className="dashed-separator-overlay"></div>
@@ -465,117 +495,119 @@ const ArtistsOverlay = () => {
                                 </div>
                             ) : (
                                 <>
-                                    {/* Desktop Carousel View */}
-                                    <div className="carousel-container desktop-only">
-                                        {/* Left side cards */}
-                                        <div className="carousel-side carousel-left">
-                                            {filteredArtists.slice(0, currentCardIndex).slice(-2).map((artist, idx) => (
-                                                <div 
-                                                    key={artist.name} 
-                                                    className="carousel-side-card"
-                                                    onClick={() => setCurrentCardIndex(filteredArtists.indexOf(artist))}
-                                                >
-                                                    <img 
-                                                        src={artist.albumArt || 'https://via.placeholder.com/150x150/333/fff?text=Artist'} 
-                                                        alt={artist.name}
-                                                        loading="lazy"
-                                                    />
-                                                    <div className="carousel-side-info">
-                                                        <span className="carousel-side-name">{artist.name}</span>
-                                                        <button className="carousel-side-arrow">
-                                                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
-                                                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                                                <polyline points="12 5 19 12 12 19"></polyline>
-                                                            </svg>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-
-                                        {/* Center CD Case */}
-                                        {currentArtist && (() => {
-                                            const backInfo = getArtistBackInfo(currentArtist);
-                                            return (
-                                            <div className="cd-case-container">
-                                                <div 
-                                                    className={`cd-case ${flippedCards.has(currentArtist.name) ? 'flipped' : ''}`}
-                                                    onMouseDown={(e) => handleDragStart(e, currentArtist.name, true)}
-                                                    onTouchStart={(e) => handleDragStart(e, currentArtist.name, true)}
-                                                    ref={activeCardRef}
-                                                >
-                                                    <div className="cd-case-front">
-                                                        <div className="cd-case-cover">
-                                                            <img 
-                                                                src={currentArtist.albumArt || 'https://via.placeholder.com/320x320/333/fff?text=Artist'} 
-                                                                alt={currentArtist.name}
-                                                                draggable="false"
-                                                            />
-                                                        </div>
-                                                        <div className="cd-case-info">
-                                                            <h2 className="cd-artist-name">{currentArtist.name.toUpperCase()}</h2>
-                                                            <button 
-                                                                className="cd-view-more"
-                                                                onClick={(e) => flipCardToBack(currentArtist.name, e)}
+                                    {/* Desktop Horizontal Carousel View */}
+                                    <div className="horizontal-carousel desktop-only" ref={carouselRef}>
+                                        {/* Navigation Arrow - Left */}
+                                        <button 
+                                            className="carousel-nav-btn carousel-nav-prev"
+                                            onClick={goToPrevCard}
+                                            disabled={filteredArtists.length <= 1}
+                                            aria-label="Previous artist"
+                                        >
+                                            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                <polyline points="15 18 9 12 15 6"></polyline>
+                                            </svg>
+                                        </button>
+                                        
+                                        {/* Carousel Track */}
+                                        <div className="carousel-track-wrapper">
+                                            <div 
+                                                className="carousel-track"
+                                                style={{
+                                                    transform: `translateX(calc(50% - ${currentCardIndex * 320}px - 160px))`,
+                                                    transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
+                                                }}
+                                            >
+                                                {filteredArtists.map((artist, index) => {
+                                                    const isCenter = index === currentCardIndex;
+                                                    const distance = Math.abs(index - currentCardIndex);
+                                                    const backInfo = getArtistBackInfo(artist);
+                                                    
+                                                    return (
+                                                        <div 
+                                                            key={artist.name}
+                                                            className={`carousel-card ${isCenter ? 'center' : ''} ${distance === 1 ? 'adjacent' : ''} ${distance > 1 ? 'far' : ''}`}
+                                                            onClick={() => !isCenter && setCurrentCardIndex(index)}
+                                                            style={{
+                                                                '--distance': distance
+                                                            }}
+                                                        >
+                                                            <div 
+                                                                className={`carousel-card-inner ${flippedCards.has(artist.name) ? 'flipped' : ''}`}
                                                             >
-                                                                <img src="/artist-overlay-linkbutton.png" alt="View details" />
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div 
-                                                        className="cd-case-back"
-                                                        onClick={(e) => flipCardToFront(currentArtist.name, e)}
-                                                    >
-                                                        <div className="cd-case-back-content">
-                                                            <div className="card-back-photo">
-                                                                <img 
-                                                                    src={backInfo.photo} 
-                                                                    alt={currentArtist.name}
-                                                                />
+                                                                <div className="carousel-card-front">
+                                                                    <div className="carousel-card-cover">
+                                                                        <img 
+                                                                            src={artist.albumArt || 'https://via.placeholder.com/320x320/333/fff?text=Artist'} 
+                                                                            alt={artist.name}
+                                                                            draggable="false"
+                                                                        />
+                                                                    </div>
+                                                                    <div className="carousel-card-info">
+                                                                        <h2 className="carousel-card-name">{artist.name.toUpperCase()}</h2>
+                                                                        <button 
+                                                                            className="carousel-card-arrow"
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                                e.preventDefault();
+                                                                                // Check if this is the center card (compare index directly)
+                                                                                if (index === currentCardIndex) {
+                                                                                    // Flip the card
+                                                                                    setFlippedCards(prev => {
+                                                                                        const newSet = new Set(prev);
+                                                                                        newSet.add(artist.name);
+                                                                                        return newSet;
+                                                                                    });
+                                                                                } else {
+                                                                                    // First navigate to this card
+                                                                                    setCurrentCardIndex(index);
+                                                                                }
+                                                                            }}
+                                                                        >
+                                                                            <img src="/artist-overlay-linkbutton.png" alt="View details" />
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                                <div 
+                                                                    className="carousel-card-back"
+                                                                    onClick={(e) => flipCardToFront(artist.name, e)}
+                                                                >
+                                                                    <div className="card-back-photo">
+                                                                        <img 
+                                                                            src={backInfo.photo} 
+                                                                            alt={artist.name}
+                                                                        />
+                                                                    </div>
+                                                                    <h3 className="card-back-name">{artist.name}</h3>
+                                                                    <p className="card-back-funfact">{backInfo.funFact}</p>
+                                                                    <a 
+                                                                        className="card-back-youtube"
+                                                                        href={backInfo.youtubeLink}
+                                                                        target="_blank"
+                                                                        rel="noopener noreferrer"
+                                                                        onClick={(e) => e.stopPropagation()}
+                                                                    >
+                                                                        Watch on YouTube
+                                                                    </a>
+                                                                </div>
                                                             </div>
-                                                            <h3 className="card-back-name">{currentArtist.name}</h3>
-                                                            <p className="card-back-funfact">{backInfo.funFact}</p>
-                                                            <a 
-                                                                className="card-back-youtube"
-                                                                href={backInfo.youtubeLink}
-                                                                target="_blank"
-                                                                rel="noopener noreferrer"
-                                                                onClick={(e) => e.stopPropagation()}
-                                                            >
-                                                                Watch on YouTube
-                                                            </a>
                                                         </div>
-                                                    </div>
-                                                </div>
+                                                    );
+                                                })}
                                             </div>
-                                            );
-                                        })()}
-
-                                        {/* Right side cards */}
-                                        <div className="carousel-side carousel-right">
-                                            {filteredArtists.slice(currentCardIndex + 1, currentCardIndex + 3).map((artist, idx) => (
-                                                <div 
-                                                    key={artist.name} 
-                                                    className="carousel-side-card"
-                                                    onClick={() => setCurrentCardIndex(filteredArtists.indexOf(artist))}
-                                                >
-                                                    <img 
-                                                        src={artist.albumArt || 'https://via.placeholder.com/150x150/333/fff?text=Artist'} 
-                                                        alt={artist.name}
-                                                        loading="lazy"
-                                                    />
-                                                    <div className="carousel-side-info">
-                                                        <span className="carousel-side-name">{artist.name}</span>
-                                                        <button className="carousel-side-arrow">
-                                                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
-                                                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                                                <polyline points="12 5 19 12 12 19"></polyline>
-                                                            </svg>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            ))}
                                         </div>
+                                        
+                                        {/* Navigation Arrow - Right */}
+                                        <button 
+                                            className="carousel-nav-btn carousel-nav-next"
+                                            onClick={goToNextCard}
+                                            disabled={filteredArtists.length <= 1}
+                                            aria-label="Next artist"
+                                        >
+                                            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
+                                            </svg>
+                                        </button>
                                     </div>
 
                                     {/* Mobile Stack View */}

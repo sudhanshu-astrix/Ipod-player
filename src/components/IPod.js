@@ -43,6 +43,7 @@ const IPod = () => {
     const [spotifyUser, setSpotifyUser] = useState(null);
     const [toast, setToast] = useState(null);
     const [isAddingTrack, setIsAddingTrack] = useState(false);
+    const [isAddingPlaylist, setIsAddingPlaylist] = useState(false);
 
     // Use playingTrack for display in bottom bar and now playing view
     // This persists even when browsing different genres
@@ -238,6 +239,114 @@ const IPod = () => {
         }
     };
 
+    // Add entire playlist to Spotify
+    const handleAddPlaylistToSpotify = async () => {
+        if (!currentPlaylist || currentPlaylist.length === 0) return;
+
+        // Check if authenticated
+        if (!isSpotifyAuthenticated) {
+            // Save current state before redirecting
+            const currentState = {
+                ipodView,
+                currentGenre,
+                playingTrack,
+                playingGenre,
+                nowPlayingExpanded
+            };
+            sessionStorage.setItem('ipodState', JSON.stringify(currentState));
+            
+            // Redirect to Spotify login
+            try {
+                await spotifyAuthService.login();
+            } catch (error) {
+                console.error('Failed to connect to Spotify:', error);
+                setToast({
+                    message: 'Failed to connect to Spotify. Please try again.',
+                    type: 'error'
+                });
+            }
+            return;
+        }
+
+        // Add all tracks to playlist
+        setIsAddingPlaylist(true);
+        let addedCount = 0;
+        let alreadyExistsCount = 0;
+        let failedCount = 0;
+
+        // Get genre name for playlist naming
+        const genreNameForPlaylist = currentGenre?.name || null;
+        
+        try {
+            for (const track of currentPlaylist) {
+                try {
+                    const result = await spotifyAuthService.addTrackToPlaylist(
+                        track.track,
+                        track.artist,
+                        track.spotifyLink,
+                        genreNameForPlaylist // Pass genre name for playlist "lollapalooza - {genre}"
+                    );
+
+                    if (result.alreadyExists) {
+                        alreadyExistsCount++;
+                    } else if (result.success) {
+                        addedCount++;
+                    }
+                } catch (error) {
+                    console.error('Failed to add track:', track.track, error);
+                    failedCount++;
+                    
+                    if (error.message.includes('Authentication expired')) {
+                        setIsSpotifyAuthenticated(false);
+                        setToast({
+                            message: 'Session expired. Please log in again.',
+                            type: 'error'
+                        });
+                        break;
+                    }
+                }
+                
+                // Small delay to avoid rate limiting
+                await new Promise(resolve => setTimeout(resolve, 200));
+            }
+
+            // Show summary toast
+            const playlistName = genreNameForPlaylist ? `lollapalooza - ${genreNameForPlaylist}` : 'lollapalooza';
+            if (addedCount > 0 || alreadyExistsCount > 0) {
+                let message = '';
+                if (addedCount > 0) {
+                    message += `${addedCount} track${addedCount > 1 ? 's' : ''} added to "${playlistName}"`;
+                }
+                if (alreadyExistsCount > 0) {
+                    if (message) message += ', ';
+                    message += `${alreadyExistsCount} already in playlist`;
+                }
+                if (failedCount > 0) {
+                    if (message) message += ', ';
+                    message += `${failedCount} failed`;
+                }
+                
+                setToast({
+                    message: message,
+                    type: addedCount > 0 ? 'success' : 'info'
+                });
+            } else if (failedCount > 0) {
+                setToast({
+                    message: `Failed to add ${failedCount} tracks`,
+                    type: 'error'
+                });
+            }
+        } catch (error) {
+            console.error('Failed to add playlist:', error);
+            setToast({
+                message: error.message || 'Failed to add playlist',
+                type: 'error'
+            });
+        } finally {
+            setIsAddingPlaylist(false);
+        }
+    };
+
     // Handle genre selection
     const handleGenreSelect = (genreId) => {
         const genreInfo = genres.find(g => g.id === genreId);
@@ -410,7 +519,23 @@ const IPod = () => {
                 <h2 className="ipod-view-title" style={{ color: currentGenre?.color }}>
                     {currentGenre?.name || 'Playlist'}
                 </h2>
-                <span className="ipod-track-count">{currentPlaylist.length} tracks</span>
+                <div className="ipod-header-right">
+                    <span className="ipod-track-count">{currentPlaylist.length} tracks</span>
+                    {/* <button 
+                        className="ipod-add-playlist-btn"
+                        onClick={handleAddPlaylistToSpotify}
+                        disabled={isAddingPlaylist}
+                        title={isSpotifyAuthenticated ? "Add all tracks to Spotify" : "Login & Add to Spotify"}
+                    >
+                        {isAddingPlaylist ? (
+                            <span className="ipod-btn-loading"></span>
+                        ) : (
+                            <svg viewBox="0 0 24 24" width="16" height="16">
+                                <path fill="currentColor" d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+                            </svg>
+                        )}
+                    </button> */}
+                </div>
             </div>
             
             <div className="ipod-tracks-list" ref={playlistContainerRef}>
@@ -588,7 +713,7 @@ const IPod = () => {
                             Open in Spotify
                         </a>
                     )}
-                    <button 
+                    {/* <button 
                         className="ipod-np-spotify-link ipod-np-spotify-add"
                         onClick={(e) => {
                             e.stopPropagation();
@@ -612,7 +737,7 @@ const IPod = () => {
                                 {isSpotifyAuthenticated ? 'Add to Spotify Playlist' : 'Login & Add to Spotify'}
                             </>
                         )}
-                    </button>
+                    </button> */}
                 </div>
             </div>
         );

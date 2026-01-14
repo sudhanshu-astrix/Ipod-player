@@ -56,7 +56,7 @@ export const spotifyAuthService = {
     },
 
     // Add track to Lollapalooza playlist
-    async addTrackToPlaylist(trackName, artistName, spotifyLink) {
+    async addTrackToPlaylist(trackName, artistName, spotifyLink, genreName = null) {
         try {
             const response = await fetch(`${API_BASE_URL}/api/playlist/add-track`, {
                 method: 'POST',
@@ -67,7 +67,8 @@ export const spotifyAuthService = {
                 body: JSON.stringify({
                     trackName,
                     artistName,
-                    spotifyLink
+                    spotifyLink,
+                    genreName
                 })
             });
 

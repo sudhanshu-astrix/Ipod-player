@@ -259,7 +259,6 @@ body {
    ============================================ */
 
 .container {
-    max-width: 1400px;
     /* margin: 0 auto; */
     padding: 1.5rem 0.5rem;
     flex: 1;
@@ -278,6 +277,7 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    /* justify-content: center; */
     flex: 1;
     width: 100%;
     gap: 2rem;
@@ -288,7 +288,7 @@ body {
     height: 100%;
     flex: 1;
     width: 100%;
-    max-width: 300px;
+    max-width: 320px;
     margin-left: 1.5rem;
 }
 
@@ -342,6 +342,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    z-index: 10;
 }
 
 /* Event Section - Right */
@@ -351,7 +353,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    max-width: 420px;
+    max-width: 320px;
     text-align: right;
 }
 
@@ -363,10 +365,16 @@ body {
     line-height: 1.1;
     text-transform: uppercase;
     margin-bottom: 1rem;
+    text-align: right;
 }
 
 .event-title span {
     display: block;
+}
+
+.event-title span:nth-child(1){
+    position: relative;
+    right: 5rem;
 }
 
 .event-description {
@@ -778,6 +786,50 @@ body {
     font-family: "JetBrains Mono", monospace;
     font-size: 0.625rem;
     color: rgba(255, 255, 255, 0.4);
+}
+
+.ipod-header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ipod-add-playlist-btn {
+    background: #1DB954;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.ipod-add-playlist-btn:hover:not(:disabled) {
+    transform: scale(1.1);
+    background: #1ed760;
+}
+
+.ipod-add-playlist-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.ipod-add-playlist-btn svg {
+    color: white;
+}
+
+.ipod-add-playlist-btn .ipod-btn-loading {
+    width: 12px;
+    height: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
 }
 
 /* iPod Back Button */
@@ -1753,153 +1805,287 @@ body {
     }
 }
 
-/* Desktop Carousel */
-.carousel-container {
+/* Desktop Horizontal Carousel */
+.horizontal-carousel {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
     width: 100%;
-    max-width: 1200px;
+    max-width: 100%;
+    position: relative;
+    padding: 2rem 0;
 }
 
-.carousel-side {
-    display: flex;
-    gap: 1rem;
-}
-
-.carousel-side-card {
-    width: 180px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    background: #E2E2E2;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 
-        0 4px 16px rgba(0, 0, 0, 0.1),
-        0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.carousel-side-card:hover {
-    transform: translateY(-5px);
-}
-
-.carousel-side-card img {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-}
-
-.carousel-side-info {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.75rem;
-    background: #E2E2E2;
-}
-
-.carousel-side-name {
-    font-family: 'Anton', sans-serif;
-    font-size: 0.75rem;
-    font-weight: 400;
-    color: #883F32;
-    text-transform: uppercase;
-    line-height: 1.1;
-}
-
-.carousel-side-arrow {
-    background: none;
-    border: 1px solid var(--border-color);
+.carousel-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border: none;
+    background: rgba(136, 63, 50, 0.1);
     border-radius: 50%;
-    width: 24px;
-    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: var(--text-secondary);
+    color: #883F32;
+    transition: all 0.3s ease;
+    z-index: 100;
 }
 
-/* CD Case Container */
-.cd-case-container {
+.carousel-nav-btn:hover {
+    background: rgba(136, 63, 50, 0.2);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.carousel-nav-prev {
+    left: 2rem;
+}
+
+.carousel-nav-next {
+    right: 2rem;
+}
+
+.carousel-track-wrapper {
+    width: 100%;
+    overflow: hidden;
+    padding: 2rem 0;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.carousel-track-wrapper:active {
+    cursor: grabbing;
+}
+
+.carousel-track {
     display: flex;
-    flex-direction: column;
+    gap: 2rem;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     align-items: center;
+    will-change: transform;
 }
 
-.cd-case {
+.carousel-track.dragging {
+    transition: none;
+    padding: 1rem 0;
+}
+
+/* Individual Carousel Card */
+.carousel-card {
+    flex-shrink: 0;
+    width: 280px;
+    height: 360px;
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(0.85);
+    opacity: 0.5;
+    filter: blur(1px);
+    perspective: 1000px;
+}
+
+.carousel-card.adjacent {
+    transform: scale(0.9);
+    opacity: 0.7;
+    filter: blur(0.5px);
+}
+
+.carousel-card.center {
     width: 340px;
     height: 440px;
+    transform: scale(1);
+    opacity: 1;
+    filter: blur(0);
+    cursor: default;
+    z-index: 10;
+}
+
+.carousel-card.far {
+    transform: scale(0.75);
+    opacity: 0.4;
+    filter: blur(2px);
+}
+
+/* Card Inner - For Flip Animation */
+.carousel-card-inner {
+    width: 100%;
+    height: 100%;
     position: relative;
-    cursor: grab;
-    perspective: 1000px;
     transform-style: preserve-3d;
     transition: transform 0.6s ease;
 }
 
-.cd-case:active {
-    cursor: grabbing;
-}
-
-.cd-case.flipped {
+.carousel-card-inner.flipped {
     transform: rotateY(180deg);
 }
 
-.cd-case-front {
+/* Card Front */
+.carousel-card-front {
     position: absolute;
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    border-radius: 8px;
-}
-
-.cd-case-front {
+    border-radius: 12px;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     background: #E2E2E2;
-    border-radius: 8px;
-    overflow: hidden;
     box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.15),
-        0 2px 8px rgba(0, 0, 0, 0.1);
+        0 10px 40px rgba(0, 0, 0, 0.15),
+        0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.cd-case-spine {
-    display: none;
-}
-
-.cd-case-cover {
+.carousel-card-cover {
     width: 100%;
     height: 70%;
-    background: #FFFFFF;
     overflow: hidden;
 }
 
-.cd-case-cover img {
+.carousel-card-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.carousel-card.center:hover .carousel-card-cover img {
+    transform: scale(1.05);
+}
+
+.carousel-card-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    background: #E2E2E2;
+    height: 30%;
+}
+
+.carousel-card-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: #883F32;
+    text-transform: uppercase;
+    line-height: 1.1;
+    flex: 1;
+    margin: 0;
+}
+
+.carousel-card.center .carousel-card-name {
+    font-size: 1.5rem;
+}
+
+.carousel-card-arrow {
+    width: 48px;
+    height: 48px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+}
+
+.carousel-card-arrow:hover {
+    transform: scale(1.1);
+}
+
+.carousel-card-arrow img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Card Back */
+.carousel-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    transform: rotateY(180deg);
+    background: #E2E2E2;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.15),
+        0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.carousel-card-back .card-back-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
+}
+
+.carousel-card-back .card-back-photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.cd-case-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    transform: rotateY(180deg);
-    background: #E2E2E2;
-    border-radius: 8px;
-    padding: 1.5rem;
-    box-shadow: var(--shadow-lg);
-    cursor: pointer;
+.carousel-card-back .card-back-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #883F32;
+    margin-bottom: 0.75rem;
+    text-align: center;
 }
 
-.cd-case-back-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100%;
-    overflow: hidden;
+.carousel-card-back .card-back-funfact {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem;
+    color: #555555;
+    line-height: 1.5;
+    text-align: center;
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+}
+
+.carousel-card-back .card-back-youtube {
+    display: inline-block;
+    background: #883F32;
+    color: #fff;
+    padding: 0.6rem 1.2rem;
+    border-radius: 25px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.carousel-card-back .card-back-youtube:hover {
+    background: #6b312a;
+    transform: scale(1.05);
+}
+
+/* Legacy CD Case styles for compatibility */
+.cd-case-container {
+    display: none;
+}
+
+.cd-case {
+    display: none;
 }
 
 .cd-case-back-content .card-back-photo {
