@@ -11,7 +11,7 @@
     font-display: swap;
 }
 
-   :root {
+:root {
     /* Main Colors */
     --bg-primary: #FCFBF7;
     --bg-secondary: #F5F4F0;
@@ -220,7 +220,7 @@ body {
     0%, 100% { 
         transform: scaleY(0.5); 
     }
-    50% { 
+    50% {
         transform: scaleY(1); 
     }
 }
@@ -231,7 +231,7 @@ body {
     width: auto;
     object-fit: contain;
     opacity: 0.5;
-}
+    }
 
 /* Dashed Separator */
 .dashed-separator {
@@ -252,7 +252,7 @@ body {
     background-repeat: repeat-x;
     border: none;
     height: 2px;
-}
+    }
 
 /* ============================================
    MAIN CONTAINER
@@ -459,7 +459,7 @@ body {
 .discover-btn-arrow svg {
     width: 18px;
     height: 18px;
-}
+    }
 
 /* ============================================
    FOOTER
@@ -701,28 +701,28 @@ body {
 
 /* iPod Genre View */
 .ipod-genres-view {
-    display: flex;
-    flex-direction: column;
+        display: flex;
+        flex-direction: column;
     height: 100%;
-}
-
+    }
+    
 .ipod-view-header {
-    display: flex;
-    align-items: center;
+        display: flex;
+        align-items: center;
     gap: 12px;
     padding: 14px 16px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    flex-shrink: 0;
-}
-
+        flex-shrink: 0;
+    }
+    
 .ipod-view-title {
     font-family: "JetBrains Mono", monospace;
     font-size: 0.8125rem;
     font-weight: 600;
     color: #FFFFFF;
     flex: 1;
-}
-
+    }
+    
 .ipod-genres-list {
     flex: 1;
     overflow-y: auto;
@@ -731,8 +731,8 @@ body {
 
 .ipod-genres-list.has-bottom-bar {
     padding-bottom: 60px;
-}
-
+    }
+    
 .ipod-genre-card {
     display: flex;
     align-items: center;
@@ -821,17 +821,17 @@ body {
 
 .ipod-add-playlist-btn svg {
     color: white;
-}
-
+    }
+    
 .ipod-add-playlist-btn .ipod-btn-loading {
     width: 12px;
     height: 12px;
     border: 2px solid rgba(255, 255, 255, 0.3);
     border-top-color: white;
-    border-radius: 50%;
+        border-radius: 50%;
     animation: spin 1s linear infinite;
-}
-
+    }
+    
 /* iPod Back Button */
 .ipod-back-btn {
     background: none;
@@ -1294,20 +1294,20 @@ body {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
-}
-
+    }
+    
 .ipod-np-spotify-add:hover {
     background: rgba(29, 185, 84, 0.25);
-}
-
+    }
+    
 /* iPod Playlist View Wrapper */
-.ipod-playlist-view {
+    .ipod-playlist-view {
     display: flex;
     flex-direction: column;
     height: 100%;
     position: relative;
-}
-
+    }
+    
 /* Volume Toast */
 .ipod-volume-toast {
     position: absolute;
@@ -1322,15 +1322,15 @@ body {
     color: #FFFFFF;
     white-space: nowrap;
     z-index: 20;
-}
-
+    }
+    
 /* Tracklist */
 .tracklist-container {
     flex: 1;
     overflow-y: auto;
     background: rgba(0, 0, 0, 0.3);
-}
-
+    }
+    
 .tracklist-empty,
 .tracklist-loading {
     display: flex;
@@ -1411,13 +1411,13 @@ body {
     align-items: center;
     gap: 12px;
     padding-bottom: 12px;
-}
-
+    }
+    
 .spotify-dropdown-info {
     flex: 1;
     min-width: 0;
-}
-
+    }
+    
 .spotify-dropdown-name {
     font-family: "JetBrains Mono", monospace;
     font-size: 0.875rem;
@@ -1432,13 +1432,13 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-
+    }
+    
 .spotify-dropdown-divider {
     height: 1px;
     background: var(--border-color);
     margin-bottom: 12px;
-}
+    }
 
 .spotify-disconnect-btn {
     display: flex;
@@ -1455,8 +1455,8 @@ body {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
-}
-
+    }
+    
 .spotify-disconnect-btn:hover {
     background: rgba(239, 68, 68, 0.15);
 }
@@ -1475,7 +1475,7 @@ body {
     z-index: 1000;
     display: none;
     opacity: 0;
-    overflow-x: hidden;
+        overflow-x: hidden;
     overflow-y: auto;
     transition: opacity 0.3s ease;
 }
@@ -1483,12 +1483,12 @@ body {
 .artists-overlay.active {
     display: block;
     animation: fadeIn 0.3s ease forwards;
-}
-
+    }
+    
 @keyframes fadeIn {
     to { opacity: 1; }
-}
-
+    }
+    
 .artists-container {
     width: 100vw;
     padding: 0;
@@ -1506,8 +1506,8 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-}
-
+    }
+    
 .back-to-player {
     display: flex;
     align-items: center;
@@ -1537,13 +1537,13 @@ body {
     color: var(--text-primary);
     cursor: pointer;
     transition: all 0.2s ease;
-}
-
+    }
+    
 .reach-out-btn-overlay:hover {
     background: var(--text-primary);
     color: var(--bg-primary);
-}
-
+    }
+    
 .dashed-separator-overlay {
     width: 100%;
     height: 2px;
@@ -1558,8 +1558,8 @@ body {
     background-size: 18px 2px;
     background-repeat: repeat-x;
     margin-bottom: 1rem;
-}
-
+    }
+    
 /* Genre Filters */
 .artists-filters {
     display: flex;
@@ -1661,21 +1661,21 @@ body {
     text-align: center;
     padding: 4rem 2rem;
     color: var(--text-secondary);
-}
-
+    }
+    
 .no-artists-icon {
     font-size: 3rem;
     margin-bottom: 1rem;
-}
-
+    }
+    
 .deck-hint {
     margin-top: 1rem;
     font-family: "JetBrains Mono", monospace;
     font-size: 0.75rem;
     color: #999999;
     text-align: center;
-}
-
+    }
+    
 /* Mobile Artist Info Popup */
 .mobile-artist-popup-overlay {
     position: fixed;
@@ -1778,8 +1778,8 @@ body {
     line-height: 1.6;
     margin-bottom: 1.5rem;
     padding: 0 0.5rem;
-}
-
+    }
+    
 .mobile-popup-content .card-back-youtube {
     display: inline-block;
     background: #883F32;
@@ -1791,8 +1791,8 @@ body {
     font-weight: 500;
     text-decoration: none;
     transition: background 0.2s ease, transform 0.2s ease;
-}
-
+    }
+    
 .mobile-popup-content .card-back-youtube:hover {
     background: #6b312a;
     transform: scale(1.05);
@@ -1814,8 +1814,8 @@ body {
     max-width: 100%;
     position: relative;
     padding: 2rem 0;
-}
-
+    }
+    
 .carousel-nav-btn {
     position: absolute;
     top: 50%;
@@ -1837,12 +1837,12 @@ body {
 .carousel-nav-btn:hover {
     background: rgba(136, 63, 50, 0.2);
     transform: translateY(-50%) scale(1.1);
-}
-
+    }
+    
 .carousel-nav-btn:disabled {
     opacity: 0.3;
     cursor: not-allowed;
-}
+    }
 
 .carousel-nav-prev {
     left: 2rem;
@@ -2022,8 +2022,8 @@ body {
         0 10px 40px rgba(0, 0, 0, 0.15),
         0 4px 12px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-}
-
+    }
+    
 .carousel-card-back .card-back-photo {
     width: 100px;
     height: 100px;
@@ -2038,8 +2038,8 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-}
-
+    }
+    
 .carousel-card-back .card-back-name {
     font-family: 'Anton', sans-serif;
     font-size: 1.5rem;
@@ -2047,8 +2047,8 @@ body {
     color: #883F32;
     margin-bottom: 0.75rem;
     text-align: center;
-}
-
+    }
+    
 .carousel-card-back .card-back-funfact {
     font-family: "JetBrains Mono", monospace;
     font-size: 0.75rem;
@@ -2058,8 +2058,8 @@ body {
     flex: 1;
     overflow-y: auto;
     margin-bottom: 1rem;
-}
-
+    }
+    
 .carousel-card-back .card-back-youtube {
     display: inline-block;
     background: #883F32;
@@ -2072,8 +2072,8 @@ body {
     text-decoration: none;
     transition: background 0.2s ease, transform 0.2s ease;
     flex-shrink: 0;
-}
-
+    }
+    
 .carousel-card-back .card-back-youtube:hover {
     background: #6b312a;
     transform: scale(1.05);
@@ -2082,8 +2082,8 @@ body {
 /* Legacy CD Case styles for compatibility */
 .cd-case-container {
     display: none;
-}
-
+    }
+    
 .cd-case {
     display: none;
 }
@@ -2096,14 +2096,14 @@ body {
     margin-bottom: 1rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     flex-shrink: 0;
-}
-
+    }
+    
 .cd-case-back-content .card-back-photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-}
-
+    }
+    
 .cd-case-back-content .card-back-name {
     font-family: 'Anton', sans-serif;
     font-size: 1.75rem;
@@ -2111,8 +2111,8 @@ body {
     color: #883F32;
     margin-bottom: 0.75rem;
     text-align: center;
-}
-
+    }
+    
 .cd-case-back-content .card-back-funfact {
     font-family: "JetBrains Mono", monospace;
     font-size: 0.8rem;
@@ -2123,8 +2123,8 @@ body {
     overflow-y: auto;
     margin-bottom: 1rem;
     padding: 0 0.5rem;
-}
-
+    }
+    
 .cd-case-back-content .card-back-youtube {
     display: inline-block;
     background: #883F32;
@@ -2137,13 +2137,13 @@ body {
     text-decoration: none;
     transition: background 0.2s ease, transform 0.2s ease;
     flex-shrink: 0;
-}
-
+    }
+    
 .cd-case-back-content .card-back-youtube:hover {
     background: #6b312a;
     transform: scale(1.05);
-}
-
+    }
+    
 .cd-case-info {
     display: flex;
     align-items: center;
@@ -2152,8 +2152,8 @@ body {
     height: 30%;
     padding: 1rem 1.25rem;
     background: #E2E2E2;
-}
-
+    }
+    
 .cd-artist-name {
     font-family: 'Anton', sans-serif;
     font-weight: 400;
@@ -2337,8 +2337,8 @@ body {
     overflow-y: auto;
     margin-bottom: 1rem;
     padding: 0 0.5rem;
-}
-
+    }
+    
 .cd-case-mobile-back .card-back-youtube {
     display: inline-block;
     background: #883F32;
@@ -2350,25 +2350,25 @@ body {
     font-weight: 500;
     text-decoration: none;
     transition: background 0.2s ease, transform 0.2s ease;
-}
-
+    }
+    
 .cd-case-mobile-back .card-back-youtube:hover {
     background: #6b312a;
     transform: scale(1.05);
-}
-
+    }
+    
 /* Stack Effect - Cards behind */
 .cd-case-mobile:not(:last-child) {
     transform: translateX(-10px) translateY(10px) scale(0.96) rotateZ(-3deg);
     opacity: 0.7;
     z-index: calc(var(--card-index, 0));
-}
-
+    }
+    
 .cd-case-mobile:nth-last-child(2) {
     transform: translateX(-6px) translateY(6px) scale(0.98) rotateZ(-2deg);
     opacity: 0.85;
-}
-
+    }
+    
 .cd-case-mobile:last-child {
     transform: none;
     opacity: 1;
@@ -2392,8 +2392,8 @@ body {
     border-radius: 0 0 8px 8px;
     position: relative;
     z-index: 90;
-}
-
+    }
+    
 .mobile-artist-name {
     font-family: "JetBrains Mono", monospace;
     font-size: 1.25rem;
@@ -2421,15 +2421,15 @@ body {
 .mobile-view-more:hover {
     background: #1a1a1a;
     color: #ffffff;
-}
-
+    }
+    
 /* Overlay Footer */
 .overlay-footer {
     text-align: center;
     padding: 2rem 0;
     margin-top: auto;
-}
-
+    }
+    
 .overlay-event-title {
     font-family: "JetBrains Mono", monospace;
     font-size: 3rem;
@@ -2439,8 +2439,8 @@ body {
     text-transform: uppercase;
     line-height: 1.1;
     margin-bottom: 1.5rem;
-}
-
+    }
+    
 .overlay-event-title span {
     display: block;
 }
@@ -2464,8 +2464,8 @@ body {
 /* Desktop/Mobile visibility */
 .desktop-only {
     display: flex;
-}
-
+    }
+    
 .mobile-only {
     display: none;
 }
@@ -2513,8 +2513,8 @@ body {
 
 .toast.success {
     background: #1DB954;
-}
-
+    }
+    
 .toast.error {
     background: #ef4444;
 }
@@ -2682,8 +2682,8 @@ body {
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-bottom: 1rem;
-}
-
+    }
+    
 .artist-card-modal-fact {
     font-family: "JetBrains Mono", monospace;
     font-size: 0.875rem;
@@ -2693,8 +2693,8 @@ body {
     background: var(--surface);
     border-radius: 8px;
     margin-bottom: 1.5rem;
-}
-
+    }
+    
 .artist-card-modal-actions {
     display: flex;
     gap: 1rem;
@@ -2721,7 +2721,7 @@ body {
 
 .artist-card-modal-btn.primary:hover {
     transform: translateY(-2px);
-}
+    }
 
 .artist-card-modal-btn.secondary {
     background: transparent;
@@ -2782,8 +2782,8 @@ body {
     
     .guide-arrow {
         display: block;
-    }
-    
+}
+
     .event-section {
         display: none;
     }
@@ -2793,13 +2793,13 @@ body {
     }
     
     .carousel-container {
-        flex-direction: column;
-    }
-    
+    flex-direction: column;
+}
+
     .carousel-side {
         display: none;
-    }
-    
+}
+
     .desktop-only {
         display: none;
     }
@@ -2822,8 +2822,8 @@ body {
     .artist-bg-text {
         font-size: 20vw;
     }
-}
-
+    }
+    
 /* Mobile */
 @media (max-width: 768px) {
     .site-header-content {
@@ -2851,6 +2851,11 @@ body {
         color: #000000;
         font-weight: 500;
         font-size: 0.6rem;
+    }
+
+    .ipod-section {
+        scale: 0.95;
+        margin-top: -1.5rem;
     }
     
     .event-title-mobile {
@@ -2926,17 +2931,17 @@ body {
     /* Background text visibility on mobile */
     .artist-bg-text.desktop-only {
         display: none;
-    }
-    
+}
+
     .artist-bg-text.mobile-only {
         display: block;
-    }
-    
+}
+
     .deck-stack {
         width: 340px;
         height: 460px;
-    }
-    
+}
+
     .cd-case-mobile {
         width: 320px;
         height: 420px;
@@ -2980,12 +2985,12 @@ body {
     .guide-title {
         font-family: "JetBrains Mono", monospace;
         font-size: 2rem;
-    }
-    
+}
+
     .event-title-mobile {
         margin-top: 1.5rem;
-    }
-    
+}
+
     .event-title-mobile h2 {
         font-size: 2rem;
     }
@@ -3006,8 +3011,8 @@ body {
     .cd-case-mobile {
         width: 280px;
         height: 380px;
-    }
-    
+}
+
     .cd-case-artist-name {
         font-size: 1.25rem;
     }
@@ -3015,8 +3020,8 @@ body {
     .cd-case-arrow img {
         width: 44px;
         height: 44px;
-    }
-    
+}
+
     .cd-case-mobile-front .cd-case-info {
         padding: 0.75rem 1rem;
     }
