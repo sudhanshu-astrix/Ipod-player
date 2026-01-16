@@ -336,6 +336,17 @@ body {
 .guide-arrow {
     display: none;
     margin-top: 1rem;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.guide-arrow:hover {
+    transform: translateY(3px);
+    opacity: 0.8;
+}
+
+.guide-arrow:active {
+    transform: translateY(5px);
+    opacity: 0.6;
 }
 
 .guide-arrow img {
@@ -477,6 +488,7 @@ body {
     font-family: "Host Grotesk", sans-serif;
     padding: 1.5rem 2rem;
     text-align: center;
+    border: none;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -2909,7 +2921,7 @@ body {
         left: 0;
         right: 0;
         background: var(--bg-primary);
-        border-top: 1px solid var(--border-color);
+        /* border-top: 1px solid var(--border-color); */
         padding: 1rem;
         font-size: 0.75rem;
         z-index: 100;

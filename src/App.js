@@ -41,7 +41,7 @@ const AppContent = () => {
         <div className="App">
             <Header />
             <div className="dashed-separator"></div>
-            
+
             <div className="container ipod-only">
                 <main className="main-content">
                     {/* Left Section - YOUR GUIDE TO */}
@@ -56,7 +56,23 @@ const AppContent = () => {
                         <p className="guide-subtitle mobile-only">
                             25+ artists, 2 days, 1 perfect playlist. Pick a genre and discover the artists taking the stage at Lolla '26.
                         </p>
-                        <div className="guide-arrow">
+                        <div
+                            className="guide-arrow"
+                            onClick={() => {
+                                // Check if there's scrollable content
+                                const scrollHeight = document.documentElement.scrollHeight;
+                                const clientHeight = document.documentElement.clientHeight;
+
+                                if (scrollHeight > clientHeight) {
+                                    // Scroll to bottom smoothly
+                                    window.scrollTo({
+                                        top: scrollHeight,
+                                        behavior: 'smooth'
+                                    });
+                                }
+                            }}
+                            style={{ cursor: 'pointer' }}
+                        >
                             <img src="/down-arrows.svg" alt="Scroll down" />
                         </div>
                     </div>
@@ -88,13 +104,13 @@ const AppContent = () => {
 
                 {/* Discover All Artists Button */}
                 <div className="discover-btn-wrapper">
-                    <button 
+                    <button
                         className="discover-btn"
                         onClick={() => setShowArtistsOverlay(true)}
                     >
                         <span>Discover All Artists</span>
                     </button>
-                    <button 
+                    <button
                         className="discover-btn-arrow"
                         onClick={() => setShowArtistsOverlay(true)}
                         aria-label="Discover Artists"
