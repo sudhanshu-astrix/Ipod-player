@@ -658,9 +658,9 @@ const IPod = () => {
                 <div className="ipod-np-track-info">
                     <h3 className="ipod-np-track-name">{playingTrack.track}</h3>
                     <p className="ipod-np-artist-name">{playingTrack.artist}</p>
-                    {artistInfo?.funFact && (
+                    {/* {artistInfo?.funFact && (
                         <p className="ipod-np-funfact">{artistInfo.funFact}</p>
-                    )}
+                    )} */}
                 </div>
 
                 <div className="ipod-np-progress">

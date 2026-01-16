@@ -6,9 +6,28 @@ const Header = () => {
     const [spotifyUser, setSpotifyUser] = useState(null);
     const [showSpotifyMenu, setShowSpotifyMenu] = useState(false);
     const [isMusicPlaying, setIsMusicPlaying] = useState(true); // Default: ON
+    const [showMusicTooltip, setShowMusicTooltip] = useState(false); // FTUE tooltip
     const spotifyMenuRef = useRef(null);
     const audioRef = useRef(null);
     const userTurnedOffRef = useRef(false); // Track if user manually turned off
+
+    // Show FTUE tooltip for first-time users (per session)
+    useEffect(() => {
+        const hasSeenMusicTooltip = sessionStorage.getItem('hasSeenMusicTooltip');
+        if (!hasSeenMusicTooltip) {
+            // Show tooltip after a short delay
+            const timer = setTimeout(() => {
+                setShowMusicTooltip(true);
+            }, 2000);
+            return () => clearTimeout(timer);
+        }
+    }, []);
+
+    // Hide tooltip when user clicks the music button
+    const handleMusicTooltipDismiss = () => {
+        setShowMusicTooltip(false);
+        sessionStorage.setItem('hasSeenMusicTooltip', 'true');
+    };
 
     // Initialize and play background music on mount - plays by default
     useEffect(() => {
@@ -214,7 +233,7 @@ const Header = () => {
                     {/* Spotify Connection Status */}
                     {isSpotifyAuthenticated && (
                         <div className="spotify-menu-container">
-                            <button 
+                    <button 
                                 id="spotifyButton"
                                 className="spotify-status-btn"
                                 onClick={() => setShowSpotifyMenu(!showSpotifyMenu)}
@@ -222,12 +241,12 @@ const Header = () => {
                             >
                                 <svg viewBox="0 0 24 24" width="18" height="18">
                                     <path fill="currentColor" d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
-                                </svg>
+                        </svg>
                                 <span className="spotify-user-name">{spotifyUser?.name || 'Spotify'}</span>
                                 <svg className="dropdown-arrow" viewBox="0 0 24 24" width="16" height="16">
                                     <path fill="currentColor" d="M7 10l5 5 5-5z"/>
-                                </svg>
-                            </button>
+                        </svg>
+                    </button>
                             
                             {showSpotifyMenu && (
                                 <div className="spotify-dropdown" ref={spotifyMenuRef}>
@@ -241,7 +260,7 @@ const Header = () => {
                                         </div>
                                     </div>
                                     <div className="spotify-dropdown-divider"></div>
-                                    <button 
+                    <button 
                                         className="spotify-disconnect-btn"
                                         onClick={handleSpotifyDisconnect}
                                     >
@@ -249,24 +268,35 @@ const Header = () => {
                                             <path fill="currentColor" d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
                                         </svg>
                                         Disconnect Spotify
-                                    </button>
+                    </button>
                                 </div>
                             )}
                         </div>
                     )}
 
                     {/* Music Waves Toggle - Background Music Control */}
-                    <button 
-                        className="music-toggle-btn"
-                        onClick={toggleBackgroundMusic}
-                        aria-label={isMusicPlaying ? "Mute background music" : "Play background music"}
-                    >
-                        {isMusicPlaying ? (
-                            <img src="/music-waves.svg" alt="Music On" className="music-waves-off" />
-                        ) : (
-                            <img src="/music-waves-off.svg" alt="Music Off" className="music-waves-off" />
+                    <div className="music-toggle-wrapper">
+                        {showMusicTooltip && isMusicPlaying && (
+                            <div className="music-ftue-tooltip">
+                                <span>Click to turn off background music</span>
+                                <div className="ftue-tooltip-arrow"></div>
+                            </div>
                         )}
-                    </button>
+                        <button 
+                            className="music-toggle-btn"
+                            onClick={() => {
+                                handleMusicTooltipDismiss();
+                                toggleBackgroundMusic();
+                            }}
+                            aria-label={isMusicPlaying ? "Mute background music" : "Play background music"}
+                        >
+                            {isMusicPlaying ? (
+                                <img src="/music-waves.svg" alt="Music On" className="music-waves-off" />
+                            ) : (
+                                <img src="/music-waves-off.svg" alt="Music Off" className="music-waves-off" />
+                            )}
+                        </button>
+                    </div>
                 </nav>
             </div>
         </header>
