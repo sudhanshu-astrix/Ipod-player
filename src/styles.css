@@ -485,6 +485,8 @@ body {
     font-weight: 400;
     color: #1a1a1a;
     flex-shrink: 0;
+    background: var(--bg-primary);
+    z-index: 50;
 }
 
 .astrix-logo-img {
@@ -2882,15 +2884,40 @@ body {
         color: #000000;
         font-weight: 500;
         font-size: 0.6rem;
+        margin-bottom: 1rem;
     }
 
+    /* Optimize iPod size on mobile to fit in view */
     .ipod-section {
-        scale: 0.95;
-        margin-top: -1.5rem;
+        transform: scale(0.88);
+        margin-top: -2rem;
+        margin-bottom: -2rem;
+    }
+
+    .ipod-container {
+        width: 320px;
+    }
+
+    .ipod {
+        width: 320px;
+    }
+
+    /* Make footer sticky on mobile */
+    .site-footer {
+        position: sticky;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--bg-primary);
+        border-top: 1px solid var(--border-color);
+        padding: 1rem;
+        font-size: 0.75rem;
+        z-index: 100;
     }
 
     .event-title-mobile {
-        margin-top: 2rem;
+        margin-top: 1.5rem;
+        padding-top: 0.5rem;
     }
 
     .event-title-mobile h2 {
@@ -3015,7 +3042,11 @@ body {
 
     .guide-title {
         font-family: "JetBrains Mono", "SF Mono", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace;
-        font-size: 2rem;
+        font-size: 1.75rem;
+    }
+
+    .guide-subtitle {
+        font-size: 0.55rem;
     }
 
     .event-title-mobile {
@@ -3030,8 +3061,28 @@ body {
         margin-top: 1rem;
     }
 
+    /* Optimize iPod size on very small screens */
+    .ipod-section {
+        transform: scale(0.78);
+        margin-top: -4rem;
+        margin-bottom: -3rem;
+    }
+
     .ipod-container {
-        width: 240px;
+        width: 320px;
+    }
+
+    .ipod {
+        width: 320px;
+    }
+
+    .site-footer {
+        padding: 0.75rem;
+        font-size: 0.7rem;
+    }
+
+    .astrix-logo-img {
+        height: 14px;
     }
 
     .deck-stack {
