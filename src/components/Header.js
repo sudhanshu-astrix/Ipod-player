@@ -253,7 +253,7 @@ const Header = () => {
                 <div className="site-header-left">
                     {/* Logo - Plinth Logo Image */}
                     <a href="/" className="site-logo" aria-label="Home">
-                        <img src="/plinth-logo.svg" alt="Plinth" className="logo-image" />
+                        <img src="/astrix-logo.svg" alt="Plinth" className="logo-image" />
                     </a>
                 </div>
 
