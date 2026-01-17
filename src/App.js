@@ -124,10 +124,10 @@ const AppContent = () => {
             </div>
 
             {/* Footer */}
-            <footer className="site-footer">
+            {/* <footer className="site-footer">
                 <span>Powered by</span>
                 <img src="/astrix-logo.svg" alt="Astrix" className="astrix-logo-img" />
-            </footer>
+            </footer> */}
 
             <ArtistsOverlay />
         </div>

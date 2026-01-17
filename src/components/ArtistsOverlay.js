@@ -681,10 +681,10 @@ const ArtistsOverlay = () => {
                             <span>LOLLAPALOOZA INDIA '26</span>
                             <span></span>
                         </h2>
-                        <div className="overlay-powered-by">
+                        {/* <div className="overlay-powered-by">
                             <span>Powered by</span>
                             <img src="/astrix-logo.svg" alt="Astrix" className="astrix-logo-img" />
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
