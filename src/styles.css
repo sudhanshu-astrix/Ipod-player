@@ -1888,13 +1888,14 @@ body {
 .mobile-artist-popup {
     background: #E2E2E2;
     border-radius: 16px;
-    padding: 2rem 1.5rem;
     width: 100%;
     max-width: 340px;
     max-height: 80vh;
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
     position: relative;
     animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
 }
 
 @keyframes slideUp {
@@ -1909,32 +1910,84 @@ body {
     }
 }
 
-.mobile-popup-close {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    width: 36px;
-    height: 36px;
-    border: none;
-    background: rgba(136, 63, 50, 0.1);
+/* macOS Window Tab for Mobile Popup */
+.mobile-popup-window-tab {
+    width: 100%;
+    height: 32px;
+    background: #E8E8E8;
+    border-radius: 16px 16px 0 0;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    flex-shrink: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.mobile-popup-window-tab .window-close-btn {
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
+    background: #FF5F57;
+    border: none;
+    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background 0.2s ease;
-    color: #883F32;
+    transition: background 0.2s ease, transform 0.1s ease;
+    flex-shrink: 0;
 }
 
-.mobile-popup-close:hover {
-    background: rgba(136, 63, 50, 0.2);
+.mobile-popup-window-tab .window-close-btn:hover {
+    background: #E0443E;
+    transform: scale(1.1);
+}
+
+.mobile-popup-window-tab .window-close-btn:active {
+    transform: scale(0.95);
+}
+
+.mobile-popup-window-tab .window-close-icon {
+    width: 7px;
+    height: 7px;
+    display: block;
+    position: relative;
+    opacity: 0.4;
+    transition: opacity 0.2s ease;
+}
+
+.mobile-popup-window-tab .window-close-btn:hover .window-close-icon {
+    opacity: 1;
+}
+
+.mobile-popup-window-tab .window-close-icon::before,
+.mobile-popup-window-tab .window-close-icon::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.8);
+    top: 50%;
+    left: 50%;
+    border-radius: 1px;
+}
+
+.mobile-popup-window-tab .window-close-icon::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.mobile-popup-window-tab .window-close-icon::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
 }
 
 .mobile-popup-content {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    padding: 2rem 1.5rem;
+    overflow-y: auto;
 }
 
 .mobile-popup-content .card-back-photo {
@@ -2202,18 +2255,96 @@ body {
     transform: rotateY(180deg);
     background: #E2E2E2;
     border-radius: 12px;
-    padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    cursor: pointer;
+    cursor: default;
     box-shadow:
         0 10px 40px rgba(0, 0, 0, 0.15),
         0 4px 12px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
 
-.carousel-card-back .card-back-photo {
+/* macOS Window Tab */
+.card-back-window-tab {
+    width: 100%;
+    height: 28px;
+    background: #E8E8E8;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    flex-shrink: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.window-close-btn {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #FF5F57;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+    flex-shrink: 0;
+}
+
+.window-close-btn:hover {
+    background: #E0443E;
+    transform: scale(1.1);
+}
+
+.window-close-btn:active {
+    transform: scale(0.95);
+}
+
+.window-close-icon {
+    width: 6px;
+    height: 6px;
+    display: block;
+    position: relative;
+    opacity: 0.4;
+    transition: opacity 0.2s ease;
+}
+
+.window-close-btn:hover .window-close-icon {
+    opacity: 1;
+}
+
+.window-close-icon::before,
+.window-close-icon::after {
+    content: '';
+    position: absolute;
+    width: 5px;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.8);
+    top: 50%;
+    left: 50%;
+    border-radius: 1px;
+}
+
+.window-close-icon::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.window-close-icon::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* Card Back Content */
+.card-back-content {
+    flex: 1;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+}
+
+.card-back-content .card-back-photo {
     width: 100px;
     height: 100px;
     border-radius: 50%;
@@ -2223,13 +2354,13 @@ body {
     flex-shrink: 0;
 }
 
-.carousel-card-back .card-back-photo img {
+.card-back-content .card-back-photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.carousel-card-back .card-back-name {
+.card-back-content .card-back-name {
     font-family: 'Anton', sans-serif;
     font-size: 1.5rem;
     font-weight: 400;
@@ -2238,7 +2369,7 @@ body {
     text-align: center;
 }
 
-.carousel-card-back .card-back-funfact {
+.card-back-content .card-back-funfact {
     font-family: "JetBrains Mono", "SF Mono", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace;
     font-size: 0.75rem;
     color: #555555;
@@ -2249,7 +2380,7 @@ body {
     margin-bottom: 1rem;
 }
 
-.carousel-card-back .card-back-youtube {
+.card-back-content .card-back-youtube {
     display: inline-block;
     background: #883F32;
     color: #fff;
@@ -2263,7 +2394,7 @@ body {
     flex-shrink: 0;
 }
 
-.carousel-card-back .card-back-youtube:hover {
+.card-back-content .card-back-youtube:hover {
     background: #6b312a;
     transform: scale(1.05);
 }

@@ -570,25 +570,39 @@ const ArtistsOverlay = () => {
                                                                 </div>
                                                                 <div 
                                                                     className="carousel-card-back"
-                                                                    onClick={(e) => flipCardToFront(artist.name, e)}
                                                                 >
-                                                                    <div className="card-back-photo">
-                                                                        <img 
-                                                                            src={backInfo.photo} 
-                                                                            alt={artist.name}
-                                                                        />
+                                                                    {/* macOS Window Tab */}
+                                                                    <div className="card-back-window-tab">
+                                                                        <button 
+                                                                            className="window-close-btn"
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                                flipCardToFront(artist.name, e);
+                                                                            }}
+                                                                            aria-label="Close"
+                                                                        >
+                                                                            <span className="window-close-icon"></span>
+                                                                        </button>
                                                                     </div>
-                                                                    <h3 className="card-back-name">{artist.name}</h3>
-                                                                    <p className="card-back-funfact">{backInfo.funFact}</p>
-                                                                    <a 
-                                                                        className="card-back-youtube"
-                                                                        href={backInfo.youtubeLink}
-                                                                        target="_blank"
-                                                                        rel="noopener noreferrer"
-                                                                        onClick={(e) => e.stopPropagation()}
-                                                                    >
-                                                                        Watch on YouTube
-                                                                    </a>
+                                                                    <div className="card-back-content">
+                                                                        <div className="card-back-photo">
+                                                                            <img 
+                                                                                src={backInfo.photo} 
+                                                                                alt={artist.name}
+                                                                            />
+                                                                        </div>
+                                                                        <h3 className="card-back-name">{artist.name}</h3>
+                                                                        <p className="card-back-funfact">{backInfo.funFact}</p>
+                                                                        <a 
+                                                                            className="card-back-youtube"
+                                                                            href={backInfo.youtubeLink}
+                                                                            target="_blank"
+                                                                            rel="noopener noreferrer"
+                                                                            onClick={(e) => e.stopPropagation()}
+                                                                        >
+                                                                            Watch on YouTube
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -687,16 +701,16 @@ const ArtistsOverlay = () => {
                             className="mobile-artist-popup"
                             onClick={(e) => e.stopPropagation()}
                         >
-                            <button 
-                                className="mobile-popup-close"
-                                onClick={closeMobilePopup}
-                                aria-label="Close popup"
-                            >
-                                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                                </svg>
-                            </button>
+                            {/* macOS Window Tab */}
+                            <div className="mobile-popup-window-tab">
+                                <button 
+                                    className="window-close-btn"
+                                    onClick={closeMobilePopup}
+                                    aria-label="Close popup"
+                                >
+                                    <span className="window-close-icon"></span>
+                                </button>
+                            </div>
                             <div className="mobile-popup-content">
                                 <div className="card-back-photo">
                                     <img 

@@ -3049,7 +3049,7 @@ export const ArtistData = {
     },
     "Gauley Bhai": {
         "name": "Gauley Bhai",
-        "photo": "https://i.scdn.co/image/ab6761610000e5eb451c970e565f74dc714e0113",
+        "photo": "https://i.scdn.co/image/ab6761670000ecd4887db489624e1d20dd33c285",
         "funFact": "Sing in Nepali and Kannada while based in Bangalore, centering migrant and multilingual city life.",
         "youtubeLink": "https://www.youtube.com/results?search_query=Gauley%20Bhai"
     },
@@ -3067,13 +3067,13 @@ export const ArtistData = {
     },
     "EXCISE DEPT": {
         "name": "EXCISE DEPT",
-        "photo": "https://i.scdn.co/image/ab6761610000e5eb0054d4db06378d972b137da1",
+        "photo": "https://i.scdn.co/image/ab6761670000ecd464780b901bf3e865bc549d64",
         "funFact": "New Delhi-Mumbai collective whose songs move between hip‑hop, trap and folk‑pop; their track Billo grew out of a lockdown project and mixes Punjabi folk‑pop with a DIY, multimedia art vibe.",
         "youtubeLink": "https://www.youtube.com/results?search_query=EXCISE%20DEPT"
     },
     "Still in Therapy": {
         "name": "Still in Therapy",
-        "photo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzV135PwEwpoInG8wnOvPGdiKR4KYqRlql1Q&s",
+        "photo": "https://astrix.blob.core.windows.net/astrix/anonymous_7541/collectibles/dbf9db42c964a28004fc/collectibleCount1.jpeg",
         "funFact": "Goa‑based four‑piece led by Suyasha Sengupta, they describe their sound as loud, cathartic rock that channels 80s–90s feminist subcultures and challenges norms around anger.",
         "youtubeLink": "https://www.youtube.com/results?search_query=Still%20in%20Therapy"
     },
