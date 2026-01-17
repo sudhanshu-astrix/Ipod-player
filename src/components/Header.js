@@ -11,6 +11,10 @@ const Header = () => {
     const audioRef = useRef(null);
     const userTurnedOffRef = useRef(false); // Track if user manually turned off
 
+
+    useEffect(() => {
+        console.log('isMusicPlaying', isMusicPlaying);
+    }, [isMusicPlaying]);
     // Show FTUE tooltip for first-time users (per session)
     useEffect(() => {
         const hasSeenMusicTooltip = sessionStorage.getItem('hasSeenMusicTooltip');
@@ -37,56 +41,90 @@ const Header = () => {
         audioRef.current.volume = 0.3;
         audioRef.current.preload = 'auto';
         
-        let hasStarted = false;
+        let hasStartedPlaying = false;
         
         // Function to start music
         const startMusic = async () => {
-            // Don't start if user manually turned it off or already started
-            if (hasStarted || !audioRef.current || userTurnedOffRef.current) return;
+            if (hasStartedPlaying || !audioRef.current || userTurnedOffRef.current) return;
             
             try {
+                audioRef.current.volume = 0.3;
                 await audioRef.current.play();
-                hasStarted = true;
+                hasStartedPlaying = true;
                 setIsMusicPlaying(true);
-                removeAllListeners();
+                removeListeners();
+                console.log('Background music started');
             } catch (e) {
-                // Still blocked, keep listeners active
+                // Keep trying
             }
         };
         
         // Remove all event listeners
-        const removeAllListeners = () => {
-            document.removeEventListener('click', startMusic);
-            document.removeEventListener('touchstart', startMusic);
-            document.removeEventListener('keydown', startMusic);
-            document.removeEventListener('scroll', startMusic);
-            document.removeEventListener('mousemove', startMusic);
+        const removeListeners = () => {
+            document.removeEventListener('click', startMusic, true);
+            document.removeEventListener('touchstart', startMusic, true);
+            document.removeEventListener('touchend', startMusic, true);
+            document.removeEventListener('keydown', startMusic, true);
+            document.removeEventListener('mousemove', startMusic, true);
+            document.removeEventListener('mouseenter', startMusic, true);
+            document.removeEventListener('scroll', startMusic, true);
+            document.removeEventListener('wheel', startMusic, true);
+            document.removeEventListener('pointerdown', startMusic, true);
+            document.removeEventListener('pointermove', startMusic, true);
+            document.removeEventListener('focus', startMusic, true);
+            window.removeEventListener('focus', startMusic, true);
         };
         
-        // Try to play immediately
-        const playMusic = async () => {
+        // Add ALL possible interaction listeners
+        const addListeners = () => {
+            document.addEventListener('click', startMusic, true);
+            document.addEventListener('touchstart', startMusic, true);
+            document.addEventListener('touchend', startMusic, true);
+            document.addEventListener('keydown', startMusic, true);
+            document.addEventListener('mousemove', startMusic, true);
+            document.addEventListener('mouseenter', startMusic, true);
+            document.addEventListener('scroll', startMusic, true);
+            document.addEventListener('wheel', startMusic, true);
+            document.addEventListener('pointerdown', startMusic, true);
+            document.addEventListener('pointermove', startMusic, true);
+            document.addEventListener('focus', startMusic, true);
+            window.addEventListener('focus', startMusic, true);
+        };
+        
+        // Aggressive autoplay attempts
+        const attemptAutoplay = async () => {
+            // Attempt 1: Direct play
             try {
                 await audioRef.current.play();
-                hasStarted = true;
+                hasStartedPlaying = true;
                 setIsMusicPlaying(true);
-            } catch (error) {
-                // Autoplay was blocked by browser - keep icon as ON, will play on interaction
-                console.log('Autoplay blocked, will play on first interaction');
-                // Keep isMusicPlaying as true (icon shows ON) - music WILL play on interaction
-                
-                // Add multiple event listeners to catch first interaction
-                document.addEventListener('click', startMusic);
-                document.addEventListener('touchstart', startMusic);
-                document.addEventListener('keydown', startMusic);
-                document.addEventListener('scroll', startMusic, { once: true });
-                document.addEventListener('mousemove', startMusic, { once: true });
+                console.log('Autoplay successful!');
+                return;
+            } catch (e) {
+                console.log('e', e);
+                console.log('Direct autoplay blocked');
             }
+            
+            // Attempt 2: Play after small delay
+            setTimeout(async () => {
+                if (hasStartedPlaying) return;
+                try {
+                    await audioRef.current.play();
+                    hasStartedPlaying = true;
+                    setIsMusicPlaying(true);
+                    console.log('Delayed autoplay successful!');
+                    return;
+                } catch (e) {
+                    console.log('Delayed autoplay also blocked - waiting for interaction');
+                    addListeners();
+                }
+            }, 500);
         };
         
-        playMusic();
+        attemptAutoplay();
         
         return () => {
-            removeAllListeners();
+            removeListeners();
             if (audioRef.current) {
                 audioRef.current.pause();
                 audioRef.current = null;
@@ -105,6 +143,7 @@ const Header = () => {
             } else {
                 // User is turning ON the music
                 try {
+                    audioRef.current.volume = 0.3;
                     await audioRef.current.play();
                     setIsMusicPlaying(true);
                     userTurnedOffRef.current = false; // Allow auto-play again

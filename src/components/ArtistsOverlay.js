@@ -522,7 +522,7 @@ const ArtistsOverlay = () => {
                                                     const isCenter = index === currentCardIndex;
                                                     const distance = Math.abs(index - currentCardIndex);
                                                     const backInfo = getArtistBackInfo(artist);
-                                                    
+                                                    const artistPhoto = ArtistData[artist.name]?.photo || artist.photo || 'https://via.placeholder.com/320x320/333/fff?text=Artist';
                                                     return (
                                                         <div 
                                                             key={artist.name}
@@ -538,7 +538,7 @@ const ArtistsOverlay = () => {
                                                                 <div className="carousel-card-front">
                                                                     <div className="carousel-card-cover">
                                                                         <img 
-                                                                            src={artist.albumArt || 'https://via.placeholder.com/320x320/333/fff?text=Artist'} 
+                                                                            src={artistPhoto || 'https://via.placeholder.com/320x320/333/fff?text=Artist'} 
                                                                             alt={artist.name}
                                                                             draggable="false"
                                                                         />
@@ -633,7 +633,7 @@ const ArtistsOverlay = () => {
                                                 <div className="cd-case-mobile-front">
                                                     <div className="cd-case-cover">
                                                         <img 
-                                                            src={artist.albumArt || 'https://via.placeholder.com/320x320/333/fff?text=Artist'} 
+                                                            src={artist.photo || 'https://via.placeholder.com/320x320/333/fff?text=Artist'} 
                                                             alt={artist.name}
                                                             draggable="false"
                                                         />
