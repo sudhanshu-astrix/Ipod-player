@@ -618,6 +618,7 @@ const ArtistsOverlay = () => {
                                     >
                                     {getOrderedArtists().map((artist, index, arr) => {
                                         const isTopCard = index === arr.length - 1;
+                                        const artistPhoto = ArtistData[artist.name]?.photo || artist.photo || 'https://via.placeholder.com/320x320/333/fff?text=Artist';
                                         return (
                                             <div
                                                 key={artist.name}
@@ -633,7 +634,7 @@ const ArtistsOverlay = () => {
                                                 <div className="cd-case-mobile-front">
                                                     <div className="cd-case-cover">
                                                         <img 
-                                                            src={artist.photo || 'https://via.placeholder.com/320x320/333/fff?text=Artist'} 
+                                                            src={artistPhoto} 
                                                             alt={artist.name}
                                                             draggable="false"
                                                         />
