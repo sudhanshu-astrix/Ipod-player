@@ -50,8 +50,8 @@ export const AppProvider = ({ children }) => {
     // Update theme and save to localStorage
     useEffect(() => {
         if (isClient) {
-            document.body.classList.toggle('light-theme', theme === 'light');
-            localStorage.setItem('theme', theme);
+        document.body.classList.toggle('light-theme', theme === 'light');
+        localStorage.setItem('theme', theme);
         }
     }, [theme, isClient]);
 

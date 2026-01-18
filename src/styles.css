@@ -1754,6 +1754,9 @@ body {
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    position: relative;
+    z-index: 2;
+    background: var(--bg-primary);
 }
 
 .artists-filters::-webkit-scrollbar {
@@ -1818,6 +1821,23 @@ body {
     line-height: 0.9;
 }
 
+/* Mobile Background Text - positioned between genre filters and cards */
+.artist-bg-text.mobile-only {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: 100%;
+    padding: 0 0.5rem;
+    z-index: 0;
+    min-height: 60px;
+    font-size: 15vw;
+    /* border: 1px solid blue; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 /* Deck Wrapper */
 .deck-wrapper {
     position: relative;
@@ -1829,6 +1849,7 @@ body {
     min-height: 450px;
     z-index: 1;
     padding: 0 1rem;
+    background: transparent;
 }
 
 .deck-container {
@@ -3129,7 +3150,7 @@ body {
     .mobile-only {
         display: flex;
         flex-direction: column;
-        align-items: center;
+    align-items: center;
     }
 
     /* Background text visibility on tablet */
@@ -3281,7 +3302,16 @@ body {
     }
 
     .artist-bg-text.mobile-only {
-        display: block;
+        display: flex;
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        margin: 1rem 0 0.5rem 0;
+        padding: 0 1rem;
+        z-index: 0;
+        min-height: 100px;
+        max-height: 150px;
     }
 
     .deck-stack {

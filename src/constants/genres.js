@@ -1,12 +1,12 @@
 export const genres = [
     { 
-        id: 'rock', 
-        name: 'ROCK', 
-        color: '#ef4444',
-        gradient: 'radial-gradient(circle, rgba(239, 68, 68, 0.65) 0%, rgba(239, 68, 68, 0) 75%)',
-        angle: 0,
+        id: 'rb', 
+        name: 'R&B/POP', 
+        color: '#3b82f6',
+        gradient: 'radial-gradient(circle, rgba(59, 130, 246, 0.65) 0%, rgba(59, 130, 246, 0) 75%)',
+        angle: 90,
         size: 102,
-        description: 'Powerful guitars and energetic beats'
+        description: 'Smooth melodies and soulful sounds'
     },
     { 
         id: 'hiphop', 
@@ -16,15 +16,6 @@ export const genres = [
         angle: 45,
         size: 106,
         description: 'Bold rhythms and urban vibes'
-    },
-    { 
-        id: 'rb', 
-        name: 'R&B/POP', 
-        color: '#3b82f6',
-        gradient: 'radial-gradient(circle, rgba(59, 130, 246, 0.65) 0%, rgba(59, 130, 246, 0) 75%)',
-        angle: 90,
-        size: 102,
-        description: 'Smooth melodies and soulful sounds'
     },
     { 
         id: 'electronic', 
@@ -70,5 +61,14 @@ export const genres = [
         angle: 315,
         size: 97,
         description: 'Upbeat rhythms to move your body'
+    },
+    { 
+        id: 'rock', 
+        name: 'ROCK', 
+        color: '#ef4444',
+        gradient: 'radial-gradient(circle, rgba(239, 68, 68, 0.65) 0%, rgba(239, 68, 68, 0) 75%)',
+        angle: 0,
+        size: 102,
+        description: 'Powerful guitars and energetic beats'
     }
 ];
