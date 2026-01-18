@@ -3381,7 +3381,7 @@ body {
     }
 
     .event-title-mobile {
-        margin-top: 1.5rem;
+        margin-top: 3rem;
     }
 
     .event-title-mobile h2 {
@@ -3394,8 +3394,8 @@ body {
 
     /* Optimize iPod size on very small screens */
     .ipod-section {
-        transform: scale(0.82);
-        margin-top: -3.8rem;
+        transform: scale(0.90);
+        margin-top: -2.5rem;
         margin-bottom: -3rem;
     }
 
