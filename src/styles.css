@@ -1756,7 +1756,7 @@ body {
     -ms-overflow-style: none;
     position: relative;
     z-index: 2;
-    background: var(--bg-primary);
+    /* background: var(--bg-primary); */
 }
 
 .artists-filters::-webkit-scrollbar {

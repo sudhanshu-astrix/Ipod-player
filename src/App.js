@@ -10,6 +10,17 @@ const AppContent = () => {
     const { playingTrack, setShowMiniPlayer, setShowArtistsOverlay } = useApp();
     const { togglePlayback, nextTrack, prevTrack } = usePlayer();
 
+    // Track "astrix-player view" event on component mount
+    useEffect(() => {
+        // Check if gtag is available (Google Analytics loaded)
+        if (typeof window !== 'undefined' && window.gtag) {
+            window.gtag('event', 'astrix-player view', {
+                event_category: 'Player',
+                event_label: 'Player Initial View'
+            });
+        }
+    }, []);
+
     useEffect(() => {
         // Show mini player when a track is playing
         if (playingTrack) {
