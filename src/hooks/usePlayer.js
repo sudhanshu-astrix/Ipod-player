@@ -1,5 +1,6 @@
 import { useApp } from '../context/AppContext';
 import { useYouTubePlayer } from './useYouTubePlayer';
+import { trackEvent } from '../utils/mixpanel';
 
 export const usePlayer = () => {
     const {
@@ -35,6 +36,15 @@ export const usePlayer = () => {
         setCurrentTime(0);
         setCurrentTrackIndex(index);
         const track = currentPlaylist[index];
+        
+        // Track track play event
+        trackEvent('Track Played', {
+            track_name: track.track,
+            artist_name: track.artist,
+            genre: currentGenre?.name || 'Unknown',
+            track_index: index,
+            playlist_length: currentPlaylist.length
+        });
         
         // Update playing state - this persists across genre changes
         setPlayingTrack(track);
@@ -85,11 +95,29 @@ export const usePlayer = () => {
         if (playingPlaylist.length === 0) return;
         
         if (isPlaying) {
+            // Track pause event
+            const track = playingPlaylist[playingTrackIndex];
+            trackEvent('Playback Paused', {
+                track_name: track?.track || 'Unknown',
+                artist_name: track?.artist || 'Unknown',
+                current_time: currentTime,
+                genre: currentGenre?.name || 'Unknown'
+            });
+            
             // Pause the YouTube player
             pauseVideo();
             // Dispatch event - iPod paused (background music can resume)
             window.dispatchEvent(new CustomEvent('ipodPlaybackPaused'));
         } else {
+            // Track play event
+            const track = playingPlaylist[playingTrackIndex];
+            trackEvent('Playback Resumed', {
+                track_name: track?.track || 'Unknown',
+                artist_name: track?.artist || 'Unknown',
+                current_time: currentTime,
+                genre: currentGenre?.name || 'Unknown'
+            });
+            
             // Resume playback - pause background music
             window.dispatchEvent(new CustomEvent('ipodPlaybackStarted'));
             
@@ -118,6 +146,19 @@ export const usePlayer = () => {
         // Use playing playlist for next/prev navigation
         if (playingPlaylist.length === 0) return;
         const nextIndex = (playingTrackIndex + 1) % playingPlaylist.length;
+        
+        // Track next track event
+        const currentTrack = playingPlaylist[playingTrackIndex];
+        const nextTrack = playingPlaylist[nextIndex];
+        trackEvent('Next Track', {
+            from_track: currentTrack?.track || 'Unknown',
+            to_track: nextTrack?.track || 'Unknown',
+            from_artist: currentTrack?.artist || 'Unknown',
+            to_artist: nextTrack?.artist || 'Unknown',
+            current_time: currentTime,
+            genre: currentGenre?.name || 'Unknown'
+        });
+        
         playTrackFromPlayingList(nextIndex);
     };
 
@@ -125,12 +166,33 @@ export const usePlayer = () => {
         // Use playing playlist for next/prev navigation
         if (playingPlaylist.length === 0) return;
         
+        const currentTrack = playingPlaylist[playingTrackIndex];
+        
         if (currentTime > 3) {
+            // Track restart track event
+            trackEvent('Track Restarted', {
+                track_name: currentTrack?.track || 'Unknown',
+                artist_name: currentTrack?.artist || 'Unknown',
+                current_time: currentTime,
+                genre: currentGenre?.name || 'Unknown'
+            });
             playTrackFromPlayingList(playingTrackIndex);
         } else {
             const prevIndex = playingTrackIndex <= 0 
                 ? playingPlaylist.length - 1 
                 : playingTrackIndex - 1;
+            const prevTrack = playingPlaylist[prevIndex];
+            
+            // Track previous track event
+            trackEvent('Previous Track', {
+                from_track: currentTrack?.track || 'Unknown',
+                to_track: prevTrack?.track || 'Unknown',
+                from_artist: currentTrack?.artist || 'Unknown',
+                to_artist: prevTrack?.artist || 'Unknown',
+                current_time: currentTime,
+                genre: currentGenre?.name || 'Unknown'
+            });
+            
             playTrackFromPlayingList(prevIndex);
         }
     };
@@ -182,11 +244,21 @@ export const usePlayer = () => {
     const volumeUp = () => {
         const newVolume = Math.min(100, volume + 10);
         setVolume(newVolume);
+        trackEvent('Volume Changed', {
+            action: 'volume_up',
+            old_volume: volume,
+            new_volume: newVolume
+        });
     };
 
     const volumeDown = () => {
         const newVolume = Math.max(0, volume - 10);
         setVolume(newVolume);
+        trackEvent('Volume Changed', {
+            action: 'volume_down',
+            old_volume: volume,
+            new_volume: newVolume
+        });
     };
 
     return {

@@ -7,6 +7,7 @@ import { playlistData, ArtistData } from '../constants/playlistData';
 import { spotifyAuthService } from '../utils/spotifyAuth';
 import { shufflePlaylistWithVariety } from '../utils/playlistShuffle';
 import Toast from './Toast';
+import { trackEvent } from '../utils/mixpanel';
 
 const IPod = () => {
     const {
@@ -123,11 +124,19 @@ const IPod = () => {
                 if (status.authenticated) {
                     setIsSpotifyAuthenticated(true);
                     setSpotifyUser(status.user);
+                    trackEvent('Spotify Login Success', {
+                        user_id: status.user?.id || 'Unknown',
+                        display_name: status.user?.display_name || 'Unknown'
+                    });
                     setToast({
                         message: 'Successfully connected to Spotify!',
                         type: 'success'
                     });
                 } else {
+                    trackEvent('Spotify Login Failed', {
+                        source: 'auth_callback',
+                        error: 'Authentication check failed'
+                    });
                     setToast({
                         message: 'Failed to connect. Please try again.',
                         type: 'error'
@@ -138,6 +147,10 @@ const IPod = () => {
             // Clean up URL
             window.history.replaceState({}, document.title, window.location.pathname);
         } else if (params.get('error') === 'auth_failed') {
+            trackEvent('Spotify Login Failed', {
+                source: 'auth_callback',
+                error: 'auth_failed'
+            });
             setToast({
                 message: 'Failed to connect to Spotify. Please try again.',
                 type: 'error'
@@ -147,6 +160,9 @@ const IPod = () => {
 
         // Listen for disconnect events from Header
         const handleDisconnect = (event) => {
+            trackEvent('Spotify Disconnected', {
+                source: 'user_action'
+            });
             setIsSpotifyAuthenticated(false);
             setSpotifyUser(null);
             setToast({
@@ -177,6 +193,13 @@ const IPod = () => {
 
         // Check if authenticated
         if (!isSpotifyAuthenticated) {
+            // Track Spotify login attempt
+            trackEvent('Spotify Login Initiated', {
+                source: 'add_track',
+                track_name: playingTrack?.track || 'Unknown',
+                artist_name: playingTrack?.artist || 'Unknown'
+            });
+            
             // Save current state before redirecting
             const currentState = {
                 ipodView,
@@ -192,6 +215,10 @@ const IPod = () => {
                 await spotifyAuthService.login();
             } catch (error) {
                 console.error('Failed to connect to Spotify:', error);
+                trackEvent('Spotify Login Failed', {
+                    source: 'add_track',
+                    error: error.message || 'Unknown error'
+                });
                 setToast({
                     message: 'Failed to connect to Spotify. Please try again.',
                     type: 'error'
@@ -210,11 +237,23 @@ const IPod = () => {
             );
 
             if (result.alreadyExists) {
+                trackEvent('Track Added to Spotify', {
+                    track_name: playingTrack.track,
+                    artist_name: playingTrack.artist,
+                    status: 'already_exists',
+                    genre: currentGenre?.name || 'Unknown'
+                });
                 setToast({
                     message: result.message,
                     type: 'info'
                 });
             } else if (result.success) {
+                trackEvent('Track Added to Spotify', {
+                    track_name: playingTrack.track,
+                    artist_name: playingTrack.artist,
+                    status: 'success',
+                    genre: currentGenre?.name || 'Unknown'
+                });
                 setToast({
                     message: result.message,
                     type: 'success'
@@ -222,6 +261,13 @@ const IPod = () => {
             }
         } catch (error) {
             console.error('Failed to add track:', error);
+            
+            trackEvent('Track Add to Spotify Failed', {
+                track_name: playingTrack.track,
+                artist_name: playingTrack.artist,
+                error: error.message || 'Unknown error',
+                genre: currentGenre?.name || 'Unknown'
+            });
 
             if (error.message.includes('Authentication expired')) {
                 setIsSpotifyAuthenticated(false);
@@ -246,6 +292,13 @@ const IPod = () => {
 
         // Check if authenticated
         if (!isSpotifyAuthenticated) {
+            // Track Spotify login attempt
+            trackEvent('Spotify Login Initiated', {
+                source: 'add_playlist',
+                genre: currentGenre?.name || 'Unknown',
+                playlist_length: currentPlaylist.length
+            });
+            
             // Save current state before redirecting
             const currentState = {
                 ipodView,
@@ -261,6 +314,10 @@ const IPod = () => {
                 await spotifyAuthService.login();
             } catch (error) {
                 console.error('Failed to connect to Spotify:', error);
+                trackEvent('Spotify Login Failed', {
+                    source: 'add_playlist',
+                    error: error.message || 'Unknown error'
+                });
                 setToast({
                     message: 'Failed to connect to Spotify. Please try again.',
                     type: 'error'
@@ -311,6 +368,16 @@ const IPod = () => {
                 await new Promise(resolve => setTimeout(resolve, 200));
             }
 
+            // Track playlist add result
+            trackEvent('Playlist Added to Spotify', {
+                genre: genreNameForPlaylist || 'Unknown',
+                playlist_length: currentPlaylist.length,
+                added_count: addedCount,
+                already_exists_count: alreadyExistsCount,
+                failed_count: failedCount,
+                success: addedCount > 0 || alreadyExistsCount > 0
+            });
+
             // Show summary toast
             const playlistName = genreNameForPlaylist ? `lollapalooza - ${genreNameForPlaylist}` : 'lollapalooza';
             if (addedCount > 0 || alreadyExistsCount > 0) {
@@ -339,6 +406,11 @@ const IPod = () => {
             }
         } catch (error) {
             console.error('Failed to add playlist:', error);
+            trackEvent('Playlist Add to Spotify Failed', {
+                genre: genreNameForPlaylist || 'Unknown',
+                playlist_length: currentPlaylist.length,
+                error: error.message || 'Unknown error'
+            });
             setToast({
                 message: error.message || 'Failed to add playlist',
                 type: 'error'
@@ -359,10 +431,25 @@ const IPod = () => {
         setCurrentPlaylist(shuffledTracks);
         setIpodView('playlist');
         setShowMiniPlayer(true);
+        
+        // Track genre selection
+        trackEvent('Genre Selected', {
+            genre_id: genreId,
+            genre_name: genreInfo?.name || 'Unknown',
+            track_count: shuffledTracks.length
+        });
     };
 
     // Handle track selection
     const handleTrackSelect = (index) => {
+        const track = currentPlaylist[index];
+        trackEvent('Track Selected', {
+            track_name: track?.track || 'Unknown',
+            artist_name: track?.artist || 'Unknown',
+            track_index: index,
+            genre: currentGenre?.name || 'Unknown',
+            playlist_length: currentPlaylist.length
+        });
         playTrack(index);
         setNowPlayingExpanded(true);
     };

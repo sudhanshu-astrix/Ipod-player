@@ -4,6 +4,7 @@ import Header from './components/Header';
 import IPod from './components/IPod';
 import ArtistsOverlay from './components/ArtistsOverlay';
 import { usePlayer } from './hooks/usePlayer';
+import { trackEvent } from './utils/mixpanel';
 
 const AppContent = () => {
     // Use playingTrack to determine if mini player should show
@@ -12,13 +13,18 @@ const AppContent = () => {
 
     // Track "astrix-player view" event on component mount
     useEffect(() => {
-        // Check if gtag is available (Google Analytics loaded)
+        // Track with Google Analytics
         if (typeof window !== 'undefined' && window.gtag) {
             window.gtag('event', 'astrix-player view', {
                 event_category: 'Player',
                 event_label: 'Player Initial View'
             });
         }
+        // Track with Mixpanel
+        trackEvent('Player View', {
+            event_category: 'Player',
+            event_label: 'Player Initial View'
+        });
     }, []);
 
     useEffect(() => {
@@ -34,12 +40,24 @@ const AppContent = () => {
         const handleKeyDown = (e) => {
             if (e.code === 'Space') {
                 e.preventDefault();
+                trackEvent('Keyboard Playback Toggle', {
+                    key: 'Space',
+                    action: 'toggle'
+                });
                 togglePlayback();
             } else if (e.code === 'ArrowRight') {
                 e.preventDefault();
+                trackEvent('Keyboard Next Track', {
+                    key: 'ArrowRight',
+                    action: 'next'
+                });
                 nextTrack();
             } else if (e.code === 'ArrowLeft') {
                 e.preventDefault();
+                trackEvent('Keyboard Previous Track', {
+                    key: 'ArrowLeft',
+                    action: 'previous'
+                });
                 prevTrack();
             }
         };
@@ -117,13 +135,23 @@ const AppContent = () => {
                 <div className="discover-btn-wrapper">
                     <button
                         className="discover-btn"
-                        onClick={() => setShowArtistsOverlay(true)}
+                        onClick={() => {
+                            trackEvent('Discover All Artists Clicked', {
+                                source: 'button'
+                            });
+                            setShowArtistsOverlay(true);
+                        }}
                     >
                         <span>Discover All Artists</span>
                     </button>
                     <button
                         className="discover-btn-arrow"
-                        onClick={() => setShowArtistsOverlay(true)}
+                        onClick={() => {
+                            trackEvent('Discover All Artists Clicked', {
+                                source: 'arrow_button'
+                            });
+                            setShowArtistsOverlay(true);
+                        }}
                         aria-label="Discover Artists"
                     >
                         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5">
